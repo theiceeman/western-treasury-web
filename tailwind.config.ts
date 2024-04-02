@@ -51,6 +51,9 @@ const config = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
+        },
+        grad: {
+          'card-1': 'linear-gradient(124.07deg, #BFD6FA 27.54%, #E3EDFC 78.6%, #F6FAFF 86.46%)'
         }
       },
       fontFamily: {
