@@ -74,3 +74,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  ._card-1  {
+    background: linear-gradient(124.07deg, #BFD6FA 27.54%, #E3EDFC 78.6%, #F6FAFF 86.46%);
+  }
+  ._card-2 {
+    background: linear-gradient(155.78deg, #F5D1B4 27%, #FEF2E7 78%, rgba(246, 250, 255, 0) 86%);
+  }
+  ._card-3 {
+    background: linear-gradient(292.2deg, rgba(233, 216, 253, 0.9) 6.85%, rgba(210, 166, 217, 0.9) 97.17%);
+  }
+  .bg-exchange {
+    background-image: url("/exchange.svg");
+  }
+  .bg-hero {
+    background-image: url("/hero-section-img.svg");
+  }
+}
