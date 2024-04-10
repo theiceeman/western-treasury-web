@@ -1,18 +1,27 @@
-import HeroSection from '@/components/hero-section';
-import { HowItWorks } from '@/components/how-it-works';
-import { MarketRate } from '@/components/market-rate';
+import HeroSection from '@/components/landing-page/hero-section';
+import { HowItWorks } from '@/components/landing-page/how-it-works';
+import { MarketRate } from '@/components/landing-page/market-rate';
+import { SiteFooter } from '@/components/landing-page/site-footer';
+import { SiteHeader } from '@/components/landing-page/site-header';
 
 export default function Page() {
   return (
     <>
-      <HeroSection />
-      <div className="my-[100px] grid items-center justify-center gap-[100px] px-[88px] pb-[80x] pt-[150px]">
-        <div className="flex  items-center justify-center">
-          <h3 className="text-[55px]/[60px]">Exchange globally, no limit always</h3>
+      <div className="relative w-full">
+        <SiteHeader />
+        <HeroSection />
+        <div className="absolute top-0 z-0 h-full w-full bg-[url('/hero-bg.svg')] bg-cover"></div>
+      </div>
+      <div className="mx-auto mb-[100px] flex max-w-[80rem] flex-col items-center justify-center gap-[100px] px-[95px] pb-[80x]">
+        <div className="flex  justify-center text-center">
+          <h3 className="text-4xl font-bold">
+            Exchange globally, no limit <br /> <span className="text-primary">always</span>
+          </h3>
         </div>
         <HowItWorks />
       </div>
       <MarketRate />
+      <SiteFooter />
     </>
   );
 }
