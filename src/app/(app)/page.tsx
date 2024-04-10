@@ -3,6 +3,7 @@ import { HowItWorks } from '@/components/landing-page/how-it-works';
 import { MarketRate } from '@/components/landing-page/market-rate';
 import { SiteFooter } from '@/components/landing-page/site-footer';
 import { SiteHeader } from '@/components/landing-page/site-header';
+import Testimonials from '@/components/landing-page/testimonials';
 
 export default function Page() {
   return (
@@ -21,6 +22,7 @@ export default function Page() {
         <HowItWorks />
       </div>
       <MarketRate />
+        <Testimonials />
       <SiteFooter />
     </>
   );
