@@ -21,7 +21,7 @@ export default function HeroSection() {
           </div>
         </div>
         <div className="flex w-1/4 mt-[-200px]">
-          <Image src={'/app-demo.svg'} alt="demo" width={327} height={640} />
+          <Image src={'/hero/app-demo.svg'} alt="demo" width={327} height={640} />
         </div>
       </div>
     </section>

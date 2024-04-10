@@ -1,6 +1,7 @@
 import HeroSection from '@/components/landing-page/hero-section';
 import { HowItWorks } from '@/components/landing-page/how-it-works';
 import { MarketRate } from '@/components/landing-page/market-rate';
+import PreFooter from '@/components/landing-page/pre-footer';
 import { SiteFooter } from '@/components/landing-page/site-footer';
 import { SiteHeader } from '@/components/landing-page/site-header';
 import Testimonials from '@/components/landing-page/testimonials';
@@ -11,7 +12,7 @@ export default function Page() {
       <div className="relative w-full">
         <SiteHeader />
         <HeroSection />
-        <div className="absolute top-0 z-0 h-full w-full bg-[url('/hero-bg.svg')] bg-cover"></div>
+        <div className="absolute top-0 z-0 h-full w-full bg-[url('/hero/hero-bg.svg')] bg-cover"></div>
       </div>
       <div className="mx-auto mb-[100px] flex max-w-[80rem] flex-col items-center justify-center gap-[100px] px-[95px] pb-[80x]">
         <div className="flex  justify-center text-center">
@@ -22,7 +23,8 @@ export default function Page() {
         <HowItWorks />
       </div>
       <MarketRate />
-        <Testimonials />
+      <Testimonials />
+      <PreFooter />
       <SiteFooter />
     </>
   );
