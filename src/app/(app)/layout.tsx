@@ -1,5 +1,5 @@
-import { SiteFooter } from '@/components/site-footer';
-import { SiteHeader } from '@/components/site-header';
+import { SiteFooter } from '@/components/landing-page/site-footer';
+import { SiteHeader } from '@/components/landing-page/site-header';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -8,9 +8,9 @@ interface AppLayoutProps {
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <>
-      <SiteHeader />
-      <main className="flex-1">{children}</main>
-      <SiteFooter />
+      {/* <SiteHeader /> */}
+      <main className="flex flex-col w-full">{children}</main>
+      {/* <SiteFooter /> */}
     </>
   );
 }

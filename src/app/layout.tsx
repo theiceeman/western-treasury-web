@@ -1,10 +1,7 @@
 import type { Metadata } from 'next';
-import { GeistSans } from 'geist/font/sans';
-// import { Inter } from 'next/font/google';
 import './globals.css';
-import { cn } from '@/lib/utils';
+import { mulish } from './fonts';
 
-// const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,9 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn('min-h-screen bg-background font-sans antialiased', GeistSans.variable)}
-      >
+      <body className={`min-h-screen bg-background antialiased ${mulish.className}`}>
         <div className="relative flex min-h-screen flex-col bg-background">{children}</div>
       </body>
     </html>
