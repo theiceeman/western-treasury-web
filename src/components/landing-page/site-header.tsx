@@ -10,7 +10,7 @@ export function SiteHeader() {
           <Image src={'/offramp-logo.svg'} alt="logo" width={151} height={42} priority />
         </Link>
 
-        <div className="hidden w-full  md:flex">
+        <div className="hidden w-full  lg:flex">
           <div className="flex w-full items-center justify-center gap-11 text-sm">
             <Link
               href={'#'}
