@@ -31,15 +31,15 @@ export function HowItWorks() {
       </div>
 
 
-      <div className="hidden w-full items-start gap-5 lg:flex">
-        <div className="_card-2 bg-exchange relative h-[560px] w-[868px] rounded-[25px] bg-contain bg-center">
-          <div className="relative mx-14 my-[100px] flex max-w-[642px] flex-col items-start justify-center gap-4 px-[10px]">
+      <div className="hidden w-full items-start gap-5  lg:flex">
+        <div className="_card-2 bg-exchange relative flex py-5  h-[400px] w-[868px] rounded-[25px] bg-contain bg-center">
+          <div className="relative mx-14  flex max-w-[642px] h-full flex-col items-start justify-center gap-4 px-[10px]">
             <p className="w-full text-center text-3xl md:text-[32px]/[60px] font-bold text-primary lg:text-left">
             EXCHANGE
           </p>
 
           <p className="w-full text-center text-2xl md:text-[48px]/[60px] font-bold text-[#74645E] lg:text-left">
-            convert to crypto
+            Convert to crypto
           </p>
 
           <p className=" text-lg md:text-[20px]/[30px] w-full font-medium text-[#74645E]">
@@ -47,14 +47,21 @@ export function HowItWorks() {
           </p>
           </div>
         </div>
-        <div className="_card-2 relative h-[560px] w-[400px] rounded-[25px] bg-contain bg-center"></div>
+        <div className="_card-2 bg-exchange relative py-5  h-[400px] w-[400px] rounded-[25px] bg-contain bg-center"><Image
+            src={'/features/exchange.svg'}
+            alt=""
+            fill={true}
+            objectFit="cover"
+            className=""
+            priority
+          /></div>
       </div>
 
 
       <div className="_card-2 relative flex h-[400px] w-full rounded-[25px] shadow-xl lg:hidden">
         <div className=" absolute right-0 top-0 hidden h-full w-3/4 pb-5 lg:block">
           <Image
-            src={'/globe.svg'}
+            src={'/features/exchange.svg'}
             alt=""
             fill={true}
             objectFit="cover"
@@ -80,12 +87,11 @@ export function HowItWorks() {
 
 
       <div className="_card-3 relative flex py-5 h-[400px] w-full rounded-[25px] shadow-xl">
-        <div className=" absolute right-0 top-0 hidden h-full w-3/4 pb-5 lg:block">
+        <div className=" absolute right-0 top-0 hidden h-full w-1/3 pb-5 lg:block">
           <Image
-            src={'/globe.svg'}
+            src={'/features/globe.svg'}
             alt=""
             fill={true}
-            objectFit="cover"
             className=""
             priority
           />
