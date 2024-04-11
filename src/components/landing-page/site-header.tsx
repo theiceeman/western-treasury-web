@@ -4,7 +4,7 @@ import Button from '../Button';
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 flex w-full bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60 z-[1]">
+    <header className="sticky top-0 flex w-full bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60 z-[20]">
       <div className="container w-full flex flex-row h-14 max-w-screen-2xl  items-center justify-between mx-36">
         <Link href="">
           <Image src={'/offramp-logo.svg'} alt="logo" width={151} height={42} priority />

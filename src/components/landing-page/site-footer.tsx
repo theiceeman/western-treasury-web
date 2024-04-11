@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export function SiteFooter() {
   return (
-    <footer className="w-full bg-[#C8CCF7] px-[170px] py-[88px] pb-5 pt-[65px]">
+    <footer className="w-full bg-[#C8CCF7] px-[150px] py-[88px] pb-5 pt-[50px]">
       <div className="flex items-start justify-between">
         <div className="space-y-3">
           <Image src={'/offramp-logo.svg'} alt="logo" width={200} height={86} priority />
@@ -33,8 +33,8 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
-      <div className="mt-5 flex items-center justify-end">
-        <p>©2024 OffRamp.</p>
+      <div className="mt-7 flex items-center justify-end">
+        <p className='text-sm'>©2024 OffRamp.</p>
       </div>
     </footer>
   );

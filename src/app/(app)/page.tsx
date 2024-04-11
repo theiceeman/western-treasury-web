@@ -12,7 +12,7 @@ export default function Page() {
       <div className="relative w-full">
         <SiteHeader />
         <HeroSection />
-        <div className="absolute top-0 z-0 h-full w-full bg-[url('/hero/hero-bg.svg')] bg-cover"></div>
+        <div className="absolute top-0 z-0 h-full w-full bg-[url('/hero/hero-bgx.svg')] bg-cover"></div>
       </div>
       <div className="mx-auto mb-[100px] flex max-w-[80rem] flex-col items-center justify-center gap-[100px] px-[95px] pb-[80x]">
         <div className="flex  justify-center text-center">
