@@ -1,14 +1,15 @@
 import Image from 'next/image';
 import Button from '../Button';
+import Link from 'next/link';
 
 export default function HeroSection() {
   return (
-    <section className="relative z-10 flex pb-32 lg:h-screen w-full">
-      <div className=" md:mx-20 flex w-full flex-row pt-16 lg:mx-44">
-        <div className="lg:mt-16 flex w-full flex-col text-center lg:mr-14 lg:w-3/4 lg:text-left">
+    <section className="relative z-10 flex w-full pb-32 lg:h-screen">
+      <div className=" flex w-full flex-row pt-16 md:mx-20 lg:mx-44">
+        <div className="flex w-full flex-col text-center lg:mr-14 lg:mt-16 lg:w-3/4 lg:text-left">
           <div className="flex w-full flex-col gap-10 lg:gap-8">
-          {/* text-6xl */}
-            <h1 className=" text-4xl font-bold">
+            {/* text-6xl */}
+            <h1 className=" text-4xl font-bold md:text-6xl">
               Lorem ipsum dolor, sit consectetur
               <span className="text-primary "> OffRamp</span>
             </h1>
@@ -16,8 +17,13 @@ export default function HeroSection() {
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio delectus
               consequatur porro reprehenderit.
             </p>
-            <div className="flex justify-center lg:justify-start">
-              <Button>get started</Button>
+            <div className="flex flex-row justify-center gap-3 lg:justify-start">
+              <Link href="/auth/register">
+                <Button variant="primary">get started</Button>
+              </Link>
+              <Link href="/auth/login">
+              <Button variant="secondary">sign in</Button>
+              </Link>
             </div>
           </div>
         </div>

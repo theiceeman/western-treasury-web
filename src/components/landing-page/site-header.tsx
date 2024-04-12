@@ -34,7 +34,7 @@ export function SiteHeader() {
             </Link>
           </div>
           <div className="flex justify-start">
-            <Button>get started</Button>
+            <Link href="/auth/register"><Button variant='primary'>get started</Button></Link>
           </div>
         </div>
 

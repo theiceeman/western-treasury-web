@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Button from '../Button';
+import Link from 'next/link';
 
 const PreFooter = () => {
   return (
@@ -12,7 +13,7 @@ const PreFooter = () => {
                 Join our 300,000+ users exchanging and setting long term goals!
               </div>
               <div className="flex justify-center lg:justify-start">
-                <Button>sign up now</Button>
+                <Link href="/auth/register"><Button variant='primary'>sign up now</Button></Link>
               </div>
             </div>
             <div className="  flex w-full justify-center lg:hidden ">
