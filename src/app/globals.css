@@ -91,4 +91,14 @@
   .bg-hero {
     background-image: url("/hero-section-img.svg");
   }
+  .sidebar svg path{
+    stroke: #8C8C8C;
+  }
+  .sidebar-active {
+    color: hsla(234, 33%, 43%, var(--tw-bg-opacity));
+    background-color: #f6f6f8;
+  }
+  .sidebar-active svg path{
+    stroke: hsla(234, 33%, 43%, var(--tw-bg-opacity));
+  }
 }
