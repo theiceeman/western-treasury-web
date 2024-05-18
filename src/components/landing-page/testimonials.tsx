@@ -4,6 +4,8 @@ const Testimonials = () => {
   return (
     <>
       <section className="flex flex-col px-3 py-10 md:px-[60px] md:py-[88px] lg:px-[170px] lg:py-[88px]">
+        <div className="max-w-[70rem] mx-auto">
+
         <h3 className="ml-5 text-4xl font-bold">Hear from our users.</h3>
         <div className="mt-12 flex w-full flex-col-reverse rounded-sm bg-[#D3D0D0] bg-opacity-20 px-5 py-16 md:flex-row md:px-16">
           <div className="flex w-full flex-col gap-12 pt-8 text-center md:w-1/2 md:text-left lg:pr-28">
@@ -57,6 +59,8 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
+        </div>
+
       </section>
     </>
   );

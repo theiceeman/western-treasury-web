@@ -14,10 +14,10 @@ export default function Page() {
         <HeroSection />
         <div className="absolute top-0 z-0 h-full w-full bg-[url('/hero/hero-bg.svg')] bg-cover"></div>
       </div>
-      <div className="mx-auto mb-[100px] flex max-w-[80rem] w-full flex-col items-center justify-center gap-[100px] px-3 md:px-[95px] md:pb-[80x]">
+      <div className="mx-auto mb-[100px] flex w-full max-w-[80rem] flex-col items-center justify-center gap-[100px] px-3 md:px-[95px] md:pb-[80x]">
         <div className="flex  justify-center text-center">
           <h3 className="text-4xl font-bold">
-            Exchange globally, no limit  <span className="text-primary">always</span>
+            Exchange globally, no limit <span className="text-primary">always</span>
           </h3>
         </div>
         <HowItWorks />

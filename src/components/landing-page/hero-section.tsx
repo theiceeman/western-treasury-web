@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 export default function HeroSection() {
   return (
-    <section className="relative z-10 flex w-full pb-32 lg:h-screen">
-      <div className=" flex w-full flex-row pt-16 md:mx-20 lg:mx-44">
+    <section className="relative z-10 flex w-full pb-32 lg:h-screen mx-auto justify-center">
+      <div className=" flex w-full flex-row pt-16 md:mx-20 lg:mx-44 max-w-[70rem]">
         <div className="flex w-full flex-col text-center lg:mr-14 lg:mt-16 lg:w-3/4 lg:text-left">
           <div className="flex w-full flex-col gap-10 lg:gap-8">
             {/* text-6xl */}

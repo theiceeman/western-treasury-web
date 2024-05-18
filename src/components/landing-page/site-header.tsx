@@ -6,10 +6,10 @@ import MenuBar from '../MenuBar';
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-[20] flex w-full bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 w-full max-w-screen-2xl flex-row  items-center justify-between md:mx-36">
+    <header className="sticky top-0 z-[20] flex w-full bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60 justify-center">
+      <div className="container flex h-14 w-full flex-row  items-center justify-between md:mx-36  max-w-[70rem] mx-auto">
         <Link href="">
-          <Image src={'/offramp-logo.svg'} alt="logo" width={151} height={42} priority />
+          <Image src={'/wt-logo.svg'} alt="logo" width={130} height={60} priority />
         </Link>
 
         <div className="hidden w-full  lg:flex">
