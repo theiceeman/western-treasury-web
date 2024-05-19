@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react';
 import PhantomIcon from '@/public/icons/us.svg';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LucideCreditCard, LucidePiggyBank, LucideSmartphone } from 'lucide-react';
+import { LucideCreditCard, LucidePiggyBank, LucideSmartphone, LucideTabletSmartphone } from 'lucide-react';
 // import { connectToBrowserWalletAfresh } from "@/app/utils/web3-solana";
 
 export default function PaymentMethodModal({
@@ -73,7 +73,7 @@ export default function PaymentMethodModal({
                   </Link>
                   <div className="flex w-full cursor-pointer flex-row gap-5 rounded-sm border-b px-[10px] py-[15px] hover:bg-white">
                     <div className="flex rounded-full bg-blue-100 px-2 py-2">
-                      <LucideSmartphone className="text-blue-500" />
+                      <LucideTabletSmartphone className="text-blue-500" />
                     </div>
                     <p className="my-auto text-sm">Bank Transfer</p>
                   </div>

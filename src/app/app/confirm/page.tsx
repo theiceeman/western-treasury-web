@@ -76,7 +76,7 @@ const Page = () => {
                 </div>
               </div>
               <div className="mt-7 flex">
-                <Link className="w-full" href="/app/confirm">
+                <Link className="w-full" href="/app/processing">
                   <Button variant="primary" className=" w-full text-[#5860A4]">
                     confirm
                   </Button>
