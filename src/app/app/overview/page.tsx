@@ -3,12 +3,40 @@ import Image from 'next/image';
 import SideBar from '../components/SideBar';
 import Link from 'next/link';
 import MobileSideBar from '../components/MobileSideBar';
+import { useState } from 'react';
+import PaymentMethodModal from '../components/modals/PaymentMethodModal';
 
 const Page = () => {
+  let [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
   return (
     <>
+      <PaymentMethodModal isOpen={isOpen} setIsOpen={setIsOpen} closeModal={closeModal} />
+
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
         <div className="flex w-full gap-5 overflow-y-auto rounded-sm bg-white px-5 py-5">
+          <div className="flex min-w-[260px] flex-grow flex-col gap-2 rounded-sm border px-5 py-5 hover:border-secondary">
+            <div className="flex w-full">
+              <Image src={'/icons/usdt-logo.svg'} alt="logo" width={32} height={32} priority />
+            </div>
+            <div className="flex w-full flex-col">
+              <p className="text-nowrap text-sm font-semibold capitalize text-[#8592AD]">
+                Tether Usd
+              </p>
+              <p className="font-semibold text-black">
+                <span className="text-[#8592AD]">$</span>
+                1.60
+              </p>
+            </div>
+          </div>
           <div className="flex min-w-[260px] flex-grow flex-col gap-2 rounded-sm border px-5 py-5 hover:border-secondary">
             <div className="flex w-full">
               <Image src={'/icons/us.svg'} alt="logo" width={32} height={32} priority />
@@ -53,7 +81,7 @@ const Page = () => {
           </div>
         </div>
         <div className="flex  gap-5 rounded-sm bg-white px-5 py-5">
-          <div className="flex w-1/2 cursor-pointer flex-row justify-center gap-2 rounded-sm border px-5 py-5 hover:border-secondary">
+          <div onClick={openModal} className="flex w-1/2 cursor-pointer flex-row justify-center gap-2 rounded-sm border px-5 py-5 hover:border-secondary">
             <div className="flex gap-3">
               <div className="mx-auto flex w-full justify-end">
                 <Image
@@ -92,21 +120,21 @@ const Page = () => {
             <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
               <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Product name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Color
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Category
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Price
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Action
-                  </th>
+                <th scope="col" className="px-6 py-3">
+                  Txn ID
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  type
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  status
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  amount ($)
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  time
+                </th>
                 </tr>
               </thead>
               <tbody>

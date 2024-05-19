@@ -2,9 +2,9 @@
 import Link from 'next/link';
 import { HomeIcon } from './icons/HomeIcon';
 import Image from 'next/image';
-import Button from '@/components/Button';
+import Button from '@/src/components/Button';
 import { SettingsIcon } from './icons/SettingsIcon';
-import { UserIcon } from 'lucide-react';
+import { LucideCurrency, LucideDollarSign, UserIcon } from 'lucide-react';
 // import { SettingsIcon } from 'lucide-react';
 
 const SideBar = () => {
@@ -18,7 +18,7 @@ const SideBar = () => {
   };
   return (
     <>
-      <div className="hidden h-screen w-1/5 flex-col gap-10 bg-[#E0E0F7] py-5 pl-3 lg:flex">
+      <div className="hidden h-screen w-1/5 flex-col gap-10 bg-[#F1F2FD] py-5 pl-3 lg:flex">
         <div className="flex pl-5">
           <Link href="">
             <Image src={'/wt-logo-2.png'} alt="logo" width={151} height={42} priority />
@@ -39,17 +39,17 @@ const SideBar = () => {
             </div>
           </Link>
           <Link href="/app/transactions">
-          <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className=" flex cursor-pointer flex-row  justify-between pl-1"
-          >
-            <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
-              <HomeIcon />
-              <div className="text-base font-black">Transactions</div>
+            <div
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              className=" flex cursor-pointer flex-row  justify-between pl-1"
+            >
+              <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
+                <LucideDollarSign />
+                <div className="text-base font-black">Transactions</div>
+              </div>
+              <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
             </div>
-            <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
-          </div>
           </Link>
           <div
             onMouseEnter={handleMouseEnter}
