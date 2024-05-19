@@ -18,10 +18,10 @@ const SideBar = () => {
   };
   return (
     <>
-      <div className="hidden h-screen w-1/5 flex-col gap-10 bg-[#F1F2FD] py-5 pl-3 lg:flex">
+      <div className="hidden h-screen w-1/5 flex-col gap-10 bg-[#F1F2FD] py-2 pl-3 lg:flex">
         <div className="flex pl-5">
-          <Link href="">
-            <Image src={'/wt-logo-2.png'} alt="logo" width={151} height={42} priority />
+          <Link href="/app/overview">
+            <Image src={'/wt-logo-2.png'} alt="logo" width={120} height={42} priority />
           </Link>
         </div>
         <div className="sidebar flex w-full flex-col gap-2">
