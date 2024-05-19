@@ -4,6 +4,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import PhantomIcon from '@/public/icons/us.svg';
 import Image from 'next/image';
+import Link from 'next/link';
+import { LucideCreditCard, LucidePiggyBank, LucideSmartphone } from 'lucide-react';
 // import { connectToBrowserWalletAfresh } from "@/app/utils/web3-solana";
 
 export default function PaymentMethodModal({
@@ -42,7 +44,10 @@ export default function PaymentMethodModal({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full transform overflow-hidden rounded-md  border bg-[#F1F2FD] px-8 pb-10 pt-3 text-left align-middle shadow-xl transition-all md:w-1/3">
-                <div onClick={closeModal} className="mb-7 flex w-full justify-end cursor-pointer">
+                <div
+                  onClick={closeModal}
+                  className="mb-7 flex w-full cursor-pointer justify-end"
+                >
                   <Image
                     src={'/icons/blue-close-icon.svg'}
                     alt="logo"
@@ -58,24 +63,18 @@ export default function PaymentMethodModal({
                   select a payment method
                 </Dialog.Title>
                 <div className="my-7 flex w-full flex-col">
-                  <div className="flex w-full cursor-pointer flex-row gap-5 rounded-sm border-b px-[10px] py-[20px] hover:bg-white">
-                    <Image
-                      src={PhantomIcon}
-                      width={30}
-                      height={30}
-                      className="block"
-                      alt="Screenshots of the dashboard project showing desktop version"
-                    />
-                    <p className="my-auto text-sm">Debit Card</p>
-                  </div>
-                  <div className="flex w-full cursor-pointer flex-row gap-5 rounded-sm border-b px-[10px] py-[20px] hover:bg-white">
-                    <Image
-                      src={PhantomIcon}
-                      width={30}
-                      height={30}
-                      className="block"
-                      alt="Screenshots of the dashboard project showing desktop version"
-                    />
+                  <Link href="/app/sell">
+                    <div className="flex w-full cursor-pointer flex-row gap-5 rounded-sm border-b px-[10px] py-[15px] hover:bg-white">
+                      <div className="flex rounded-full bg-red-100 px-2 py-2">
+                        <LucideCreditCard className="text-red-500" />
+                      </div>
+                      <p className="my-auto text-sm">Debit Card</p>
+                    </div>
+                  </Link>
+                  <div className="flex w-full cursor-pointer flex-row gap-5 rounded-sm border-b px-[10px] py-[15px] hover:bg-white">
+                    <div className="flex rounded-full bg-blue-100 px-2 py-2">
+                      <LucideSmartphone className="text-blue-500" />
+                    </div>
                     <p className="my-auto text-sm">Bank Transfer</p>
                   </div>
                 </div>
