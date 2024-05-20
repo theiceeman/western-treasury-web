@@ -21,7 +21,7 @@ const Page = () => {
     <>
       <PaymentMethodModal isOpen={isOpen} setIsOpen={setIsOpen} closeModal={closeModal} />
 
-      <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
+      <div className="flex w-full flex-col  gap-10 px-5 pb-5 xl:w-[85%] ">
         <div className="flex w-full gap-5 overflow-y-auto rounded-sm bg-white px-5 py-5">
           <div className="flex min-w-[260px] flex-grow flex-col gap-2 rounded-sm border px-5 py-5 hover:border-secondary">
             <div className="flex w-full">

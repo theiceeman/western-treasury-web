@@ -5,12 +5,12 @@ const Page = () => {
   return (
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
-        <div className="flex flex-col gap-5 rounded-sm bg-white px-5 py-5">
-          <div className="flex pl-1 text-sm font-semibold uppercase text-black">
-            {' '}
+        <div className="flex flex-col gap-5 rounded-sm bg-white px-0 md:px-5 py-5">
+          <div className="hidden pl-1 text-sm font-semibold uppercase text-black lg:flex">
             Confirmation
           </div>
-          <div className="flex w-full flex-col justify-center px-48 text-center">
+          {/* <div className="flex w-full flex-col justify-center px-48 text-center"> */}
+          <div className="flex w-full flex-col justify-center  text-center md:px-32 xl:px-48">
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-black">Review your Transaction.</h2>
               <p className="text-sm">You will send 50 USDT to us & recieve 49,900 NGN</p>
@@ -32,11 +32,19 @@ const Page = () => {
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
-                <div className="flex w-full justify-between">
-                  <p>Wallet</p>
-                  <div className="flex gap-2">
-                    <p>0x377123Ed74fBE8ddb47E30aEbCf267c55EFa7b33</p>
-                    <img src={'/icons/copy-icon.svg'} className='cursor-pointer' alt="logo" width={13} height={13} />
+              <div className="flex flex-row gap-2 w-full justify-between">
+                  <div className='flex'>Wallet</div>
+                  <div className="flex flex-row gap-2 w-full text-right justify-end">
+                    <div className="break-words whitespace-normal w-[120px] md:w-[200px]">0x377123Ed74fBE8ddb47E30aEbCf267c55EFa7b33</div>
+                    <div className="flex">
+                    <img
+                      src={'/icons/copy-icon.svg'}
+                      className="cursor-pointer"
+                      alt="logo"
+                      width={13}
+                      height={13}
+                    />
+                    </div>
                   </div>
                 </div>
                 <div className="flex w-full justify-between">
@@ -53,11 +61,11 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Your Bank Name</p>
-                  <p> Zenith Bank plc</p>
+                  <p className='text-right'> Zenith Bank plc</p>
                 </div>
-                <div className="flex w-full justify-between">
-                  <p>Your Bank Account No.</p>
-                  <p>235889485</p>
+                <div className="flex w-full justify-between gap-7">
+                  <p>Your Bank Acct. No.</p>
+                  <p className='text-right'>235889485</p>
                 </div>
               </div>
               <div className="flex flex-col gap-1">

@@ -7,8 +7,8 @@ const Page = () => {
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
         <div className="flex flex-col gap-5 rounded-sm bg-white px-5 py-5">
-          <div className="flex pl-1 font-bold"> Sell</div>
-          <div className="flex w-full flex-col justify-center px-64 text-center">
+          <div className="hidden lg:flex pl-1 font-bold"> Sell</div>
+          <div className="flex w-full flex-col justify-center  md:px-32 xl:px-64 text-center">
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-black">
                 Send us crypto, recieve Naira in your bank.

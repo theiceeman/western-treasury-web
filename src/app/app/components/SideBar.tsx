@@ -18,7 +18,7 @@ const SideBar = () => {
   };
   return (
     <>
-      <div className="hidden h-screen w-1/5 flex-col gap-10 bg-[#F1F2FD] py-2 pl-3 lg:flex">
+      <div className="hidden h-screen w-1/5 flex-col gap-10 bg-[#F1F2FD] py-2 pl-3 lg:flex max-w-[230px]">
         <div className="flex pl-5">
           <Link href="/app/overview">
             <Image src={'/wt-logo-2.png'} alt="logo" width={120} height={42} priority />
