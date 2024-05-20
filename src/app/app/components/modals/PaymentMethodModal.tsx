@@ -5,7 +5,13 @@ import { Fragment, useState } from 'react';
 import PhantomIcon from '@/public/icons/us.svg';
 import Image from 'next/image';
 import Link from 'next/link';
-import { LucideCreditCard, LucidePiggyBank, LucideSmartphone, LucideTabletSmartphone } from 'lucide-react';
+import {
+  LucideCreditCard,
+  LucidePiggyBank,
+  LucideSmartphone,
+  LucideTabletSmartphone
+} from 'lucide-react';
+import CreditCardIcon from '../icons/CreditCardIcon';
 // import { connectToBrowserWalletAfresh } from "@/app/utils/web3-solana";
 
 export default function PaymentMethodModal({
@@ -65,8 +71,8 @@ export default function PaymentMethodModal({
                 <div className="my-7 flex w-full flex-col">
                   <Link href="/app/sell">
                     <div className="flex w-full cursor-pointer flex-row gap-5 rounded-sm border-b px-[10px] py-[15px] hover:bg-white">
-                      <div className="flex rounded-full bg-red-100 px-2 py-2">
-                        <LucideCreditCard className="text-red-500" />
+                      <div className="flex rounded-full bg-red-100 px-2 py-2 text-red-500">
+                        <CreditCardIcon />
                       </div>
                       <p className="my-auto text-sm">Debit Card</p>
                     </div>
@@ -80,8 +86,7 @@ export default function PaymentMethodModal({
                 </div>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Currently, we only support Phantom browser wallet. <br /> Ensure you have
-                    Phantom installed before proceeding, please.
+                    More payment options are currently being integrated.
                   </p>
                 </div>
               </Dialog.Panel>

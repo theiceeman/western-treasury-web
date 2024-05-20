@@ -4,7 +4,7 @@ import { HomeIcon } from './icons/HomeIcon';
 import Image from 'next/image';
 import Button from '@/src/components/Button';
 import { SettingsIcon } from './icons/SettingsIcon';
-import { LucideCurrency, LucideDollarSign, UserIcon } from 'lucide-react';
+import { LucideCurrency, LucideDollarSign, LucideLogOut, UserIcon } from 'lucide-react';
 // import { SettingsIcon } from 'lucide-react';
 
 const SideBar = () => {
@@ -70,6 +70,17 @@ const SideBar = () => {
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
               <SettingsIcon />
               <div className="text-base font-black">Settings</div>
+            </div>
+            <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
+          </div>
+          <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className=" flex cursor-pointer flex-row  justify-between pl-1"
+          >
+            <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
+              <LucideLogOut />
+              <div className="text-base font-black">Sign out</div>
             </div>
             <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
           </div>
