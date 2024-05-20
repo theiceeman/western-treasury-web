@@ -1,10 +1,10 @@
-import HeroSection from '@/components/landing-page/hero-section';
-import { HowItWorks } from '@/components/landing-page/how-it-works';
-import { MarketRate } from '@/components/landing-page/market-rate';
-import PreFooter from '@/components/landing-page/pre-footer';
-import { SiteFooter } from '@/components/landing-page/site-footer';
-import { SiteHeader } from '@/components/landing-page/site-header';
-import Testimonials from '@/components/landing-page/testimonials';
+import HeroSection from '@/src/components/landing-page/hero-section';
+import { HowItWorks } from '@/src/components/landing-page/how-it-works';
+import { MarketRate } from '@/src/components/landing-page/market-rate';
+import PreFooter from '@/src/components/landing-page/pre-footer';
+import { SiteFooter } from '@/src/components/landing-page/site-footer';
+import { SiteHeader } from '@/src/components/landing-page/site-header';
+import Testimonials from '@/src/components/landing-page/testimonials';
 
 export default function Page() {
   return (
