@@ -7,30 +7,30 @@ const MobileSideBar = () => {
   return (
     <>
       <div className="flex justify-between gap-3 bg-white px-5 lg:hidden">
-        <div className="flex w-full text-center flex-col justify-center px-5 py-5 text-[#8C8C8C]">
-          <div className="flex w-full justify-center">
-            <Link href="/app/overview">
-            <HomeIcon />
-            </Link>
+        <Link href="/app/overview">
+          <div className="flex w-full flex-col justify-center px-5 py-5 text-center text-[#8C8C8C]">
+            <div className="flex w-full justify-center">
+              <HomeIcon />
+            </div>
+            <p className="font-bold">Home</p>
           </div>
-          <p className="font-bold">Home</p>
-        </div>
-        <div className="flex w-full text-center flex-col justify-center px-5 py-5 text-[#8C8C8C]">
-          <div className="flex w-full justify-center">
-            <Link href="">
-              <UserIcon/>
-            </Link>
+        </Link>
+        <Link href="">
+          <div className="flex w-full flex-col justify-center px-5 py-5 text-center text-[#8C8C8C]">
+            <div className="flex w-full justify-center">
+              <UserIcon />
+            </div>
+            <p className="font-bold">Account</p>
           </div>
-          <p className="font-bold">Account</p>
-        </div>
-        <div className="flex w-full text-center flex-col justify-center px-5 py-5 text-[#8C8C8C]">
-          <div className="flex w-full justify-center">
-            <Link href="">
+        </Link>
+        <Link href="">
+          <div className="flex w-full flex-col justify-center px-5 py-5 text-center text-[#8C8C8C]">
+            <div className="flex w-full justify-center">
               <LucideMoreHorizontal />
-            </Link>
+            </div>
+            <p className="font-bold">More</p>
           </div>
-          <p className="font-bold">More</p>
-        </div>
+        </Link>
       </div>
     </>
   );
