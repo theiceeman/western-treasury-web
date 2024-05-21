@@ -18,40 +18,39 @@ const SideBar = () => {
   };
   return (
     <>
-      <div className="hidden h-screen w-1/5 flex-col gap-10 bg-[#F1F2FD] py-2 pl-3 lg:flex max-w-[230px]">
+      <div className="hidden h-screen w-1/5 max-w-[230px] flex-col gap-10 bg-[#F1F2FD] py-2 pl-3 lg:flex">
         <div className="flex pl-5">
           <Link href="/app/overview">
             <Image src={'/wt-logo-2.png'} alt="logo" width={120} height={42} priority />
           </Link>
         </div>
         <div className="sidebar flex w-full flex-col gap-2">
-          <Link href="/app/overview">
-            <div
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              className=" flex cursor-pointer  flex-row justify-between pl-1"
-            >
-              <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
-                <HomeIcon />
-                <div className="text-base font-black">Home</div>
-              </div>
-              <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
+          <Link
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className=" flex cursor-pointer  flex-row justify-between pl-1"
+            href="/app/overview"
+          >
+            <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
+              <HomeIcon />
+              <div className="text-base font-black">Home</div>
             </div>
+            <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
           </Link>
-          <Link href="/app/transactions">
-            <div
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              className=" flex cursor-pointer flex-row  justify-between pl-1"
-            >
-              <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
-                <LucideDollarSign />
-                <div className="text-base font-black">Transactions</div>
-              </div>
-              <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
+          <Link
+            href="/app/transactions"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className=" flex cursor-pointer flex-row  justify-between pl-1"
+          >
+            <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
+              <LucideDollarSign />
+              <div className="text-base font-black">Transactions</div>
             </div>
+            <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
           </Link>
-          <div
+          <Link
+            href="/app/"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className=" flex cursor-pointer flex-row  justify-between pl-1"
@@ -61,8 +60,9 @@ const SideBar = () => {
               <div className="text-base font-black">Account</div>
             </div>
             <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
-          </div>
-          <div
+          </Link>
+          <Link
+            href="/app/"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className=" flex cursor-pointer flex-row  justify-between pl-1"
@@ -72,8 +72,9 @@ const SideBar = () => {
               <div className="text-base font-black">Settings</div>
             </div>
             <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
-          </div>
-          <div
+          </Link>
+          <Link
+            href="/"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className=" flex cursor-pointer flex-row  justify-between pl-1"
@@ -83,7 +84,7 @@ const SideBar = () => {
               <div className="text-base font-black">Sign out</div>
             </div>
             <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
-          </div>
+          </Link>
         </div>
         <div className="flex w-full justify-start">
           <div className="ml-2 mr-7 flex flex-col justify-center gap-4 rounded-md bg-[#5860A4] px-3 py-3 text-center text-white">
