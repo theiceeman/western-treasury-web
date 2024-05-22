@@ -1,0 +1,23 @@
+import { Request } from "../utils/https";
+import { showToast } from "../utils/toaster";
+import { ILoginUser, ISignupUser } from "./account.types";
+
+export const signupUser = async (payload: ISignupUser) => {
+    const response = Request.post({ url: 'user/account/signup', payload });
+    response
+        .then((res: any) => showToast(res?.data, 'success'))
+        .catch((error) => showToast(error.data, 'failed'));
+    return response;
+};
+
+export const loginUser = async (payload: ILoginUser) => {
+    const response = Request.post({ url: 'user/account/login', payload });
+    
+    response
+        .then((res: any) => {
+            // console.log({response});return;
+            // showToast(res?.data, 'success')
+        })
+        .catch((error) => showToast(error.data, 'failed'));
+    return response;
+};

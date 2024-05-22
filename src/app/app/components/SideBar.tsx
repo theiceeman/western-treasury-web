@@ -5,9 +5,11 @@ import Image from 'next/image';
 import Button from '@/src/components/Button';
 import { SettingsIcon } from './icons/SettingsIcon';
 import { LucideCurrency, LucideDollarSign, LucideLogOut, UserIcon } from 'lucide-react';
-// import { SettingsIcon } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const SideBar = () => {
+  const pathname = usePathname();
+
   const handleMouseEnter = (event: any) => {
     const hoveredDiv = event.currentTarget;
     hoveredDiv.classList.add('sidebar-active');
@@ -28,7 +30,7 @@ const SideBar = () => {
           <Link
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className=" flex cursor-pointer  flex-row justify-between pl-1"
+            className={`${pathname === '/app/overview' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
             href="/app/overview"
           >
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
@@ -41,7 +43,7 @@ const SideBar = () => {
             href="/app/transactions"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className=" flex cursor-pointer flex-row  justify-between pl-1"
+            className={`${pathname === '/app/transactions' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
           >
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
               <LucideDollarSign />
@@ -53,7 +55,7 @@ const SideBar = () => {
             href="/app/"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className=" flex cursor-pointer flex-row  justify-between pl-1"
+            className={`${pathname === '/app/' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
           >
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
               <UserIcon />
@@ -65,7 +67,7 @@ const SideBar = () => {
             href="/app/"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className=" flex cursor-pointer flex-row  justify-between pl-1"
+            className={`${pathname === '/app/' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
           >
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
               <SettingsIcon />
@@ -77,7 +79,7 @@ const SideBar = () => {
             href="/"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className=" flex cursor-pointer flex-row  justify-between pl-1"
+            className={`${pathname === '/' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
           >
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
               <LucideLogOut />

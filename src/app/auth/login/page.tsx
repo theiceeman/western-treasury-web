@@ -1,7 +1,41 @@
+'use client';
 import Button from '@/src/components/Button';
+import { loginUser } from '@/src/requests/account.requests';
+import { saveToken } from '@/src/utils/auth-tokens';
+import { showToast } from '@/src/utils/toaster';
+import { useFormik } from 'formik';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useMutation } from 'react-query';
 
 const Page = () => {
+  const router = useRouter();
+
+  const { mutate, isLoading } = useMutation(loginUser, {
+    onSuccess: async (res: any) => {
+      // Save token used for requests
+      saveToken({
+        token: res?.data?.token
+      });
+
+      showToast('Authentication Successfull.', 'success');
+      setTimeout(() => {
+        router.push('/app/overview');
+      }, 1000);
+    }
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    onSubmit: values => {
+      mutate({ ...values });
+      // formik.resetForm()
+    }
+  });
+
   return (
     <>
       <div className="flex h-screen flex-col">
@@ -22,17 +56,30 @@ const Page = () => {
               </div>
               <div className="flex flex-col gap-5">
                 <input
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
                   type="text"
                   placeholder="Email"
-                  className="h-[45px] rounded-sm px-[10px] py-[3px] text-sm outline-none focus:outline outline-offset-0 outline-1 focus:outline-[#495192] focus:border"
+                  className="h-[45px] rounded-sm px-[10px] py-[3px] text-sm outline-none outline-1 outline-offset-0 focus:border focus:outline focus:outline-[#495192]"
                 />
                 <input
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
                   type="password"
                   placeholder="Password"
-                  className="h-[45px] rounded-sm px-[10px] py-[3px] text-sm outline-none focus:outline outline-offset-0 outline-1 focus:outline-[#495192] focus:border"
+                  className="h-[45px] rounded-sm px-[10px] py-[3px] text-sm outline-none outline-1 outline-offset-0 focus:border focus:outline focus:outline-[#495192]"
                 />
               </div>
-              <Button variant='primary'>Sign In</Button>
+              <Button
+                onClick={() => formik.handleSubmit()}
+                isLoading={isLoading}
+                disabled={isLoading}
+                variant="primary"
+              >
+                Sign In
+              </Button>
               <div className="flex flex-col gap-3 font-semibold">
                 <Link href="/auth/forgot-password">
                   <p className="text-primary">I forgot my password</p>

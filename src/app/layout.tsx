@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { mulish } from './fonts';
-
+import Providers from '../lib/query-provider';
+import { Toaster } from "react-hot-toast"
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`min-h-screen bg-background antialiased ${mulish.className}`}>
-        <div className=" flex min-h-screen w-full flex-col bg-background">{children}</div>
+        <Providers>
+          <Toaster position="top-right" />
+          <div className=" flex min-h-screen w-full flex-col bg-background">{children}</div>
+        </Providers>
       </body>
     </html>
   );
