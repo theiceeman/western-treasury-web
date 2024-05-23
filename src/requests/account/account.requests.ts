@@ -1,5 +1,5 @@
-import { Request } from "../utils/https";
-import { showToast } from "../utils/toaster";
+import { Request } from "../../utils/https";
+import { showToast } from "../../utils/toaster";
 import { ILoginUser, ISignupUser } from "./account.types";
 
 export const signupUser = async (payload: ISignupUser) => {

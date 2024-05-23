@@ -1,6 +1,6 @@
 'use client';
 import Button from '@/src/components/Button';
-import { signupUser } from '@/src/requests/account.requests';
+import { signupUser } from '@/src/requests/account/account.requests';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

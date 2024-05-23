@@ -1,6 +1,6 @@
 'use client';
 import Button from '@/src/components/Button';
-import { loginUser } from '@/src/requests/account.requests';
+import { loginUser } from '@/src/requests/account/account.requests';
 import { saveToken } from '@/src/utils/auth-tokens';
 import { showToast } from '@/src/utils/toaster';
 import { useFormik } from 'formik';

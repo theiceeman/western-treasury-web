@@ -1,17 +1,14 @@
-'use client';
 import Button from '@/src/components/Button';
-import { useAppDispatch } from '@/src/stores/hooks';
 import { setTransaction } from '@/src/stores/transactionSlice';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import CurrencyDropdown from '../components/CurrencyDropdown';
 
 const Page = () => {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -23,9 +20,10 @@ const Page = () => {
     },
     onSubmit: values => {
       dispatch(setTransaction({ ...values }));
-      router.push('/app/sell/confirm');
+      router.push('/app/buy/confirm');
     }
   });
+
   return (
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
@@ -34,7 +32,7 @@ const Page = () => {
           <div className="flex w-full flex-col justify-center  text-center md:px-32 xl:px-64">
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-black">
-                Send us crypto, recieve Naira in your bank.
+                Send us Naira, recieve crypto in your desired wallet address.
               </h2>
               <p className="text-md">Please enter an amount to proceed</p>
             </div>
@@ -49,7 +47,11 @@ const Page = () => {
                     type="text"
                     className="h-full w-full rounded-lg bg-white bg-opacity-30  text-sm text-black outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
                   />
-                  <CurrencyDropdown/>
+                  <div className="flex justify-center gap-2 rounded-lg bg-[#f6f6f8] px-4 py-2 text-center">
+                    <img src={'/icons/usdt-logo.svg'} alt="logo" width={20} height={20} />
+                    <p className="whitespace-nowrap">BTC</p>
+                    <img src={'/icons/carat-down.svg'} alt="logo" width={10} height={10} />
+                  </div>
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">

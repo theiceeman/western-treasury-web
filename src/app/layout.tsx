@@ -1,8 +1,12 @@
+// 'use client'
 import type { Metadata } from 'next';
 import './globals.css';
 import { mulish } from './fonts';
 import Providers from '../lib/query-provider';
 import { Toaster } from "react-hot-toast"
+import { Provider } from 'react-redux';
+// import { store } from '../stores/store';
+import StoreProvider from '../lib/store-provider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`min-h-screen bg-background antialiased ${mulish.className}`}>
+      <StoreProvider>
         <Providers>
           <Toaster position="top-right" />
           <div className=" flex min-h-screen w-full flex-col bg-background">{children}</div>
         </Providers>
+      </StoreProvider>
       </body>
     </html>
   );
