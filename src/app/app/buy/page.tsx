@@ -1,5 +1,6 @@
+'use client'
 import Button from '@/src/components/Button';
-import { setTransaction } from '@/src/stores/transactionSlice';
+import { setTransaction } from '@/src/stores/slices/transactionSlice';
 import { useFormik } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';

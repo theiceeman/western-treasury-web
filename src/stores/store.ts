@@ -1,12 +1,16 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import transactionReducer from "./transactionSlice";
+import transactionReducer from "./slices/transactionSlice";
+import globalConfigReducer from "./slices/globalConfigSlice";
+import appSettingsReducer from "./slices/appSettingsSlice";
 
 export const makeStore = () => {
-return configureStore({
-  reducer: {
-    transaction: transactionReducer,
-  },
-});
+  return configureStore({
+    reducer: {
+      transaction: transactionReducer,
+      globalConfig: globalConfigReducer,
+      appSettings: appSettingsReducer,
+    },
+  });
 }
 
 // Infer the type of makeStore

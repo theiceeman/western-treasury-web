@@ -1,6 +1,6 @@
 import { Request } from "../../utils/https";
 import { showToast } from "../../utils/toaster";
-import { ICreateOfframp } from "./transaction.types";
+import { ICreateOfframp, IValidateOfframp } from "./transaction.types";
 
 export const viewUserTransactions = () => {
     const response = Request.get('user/transaction/view');
@@ -15,5 +15,13 @@ export const createOfframp = async (payload: ICreateOfframp) => {
     response
         .then((res: any) => showToast(res?.data, 'success'))
         .catch((error) => showToast(error.data, 'failed'));
+    return response;
+};
+
+export const validateOfframpRate = async (payload: IValidateOfframp) => {
+    const response = Request.post({ url: 'user/transaction/offramp-crypto/validate', payload });
+    // response
+        // .then((res: any) => showToast(res?.data, 'success'))
+        // .catch((error) => showToast(error.data, 'failed'));
     return response;
 };

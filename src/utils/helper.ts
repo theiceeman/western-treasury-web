@@ -252,6 +252,20 @@ function truncateAddress(address: string, length = 6) {
   return `${prefix}...${suffix}`;
 }
 
+const debounce = (func: any, delay: any) => {
+  let timeoutId: any;
+  // @ts-ignore
+  return (...args) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
+
+
 export {
   cutText,
   formatDate,
@@ -271,5 +285,6 @@ export {
   validateMutateVars,
   formatDateTime,
   toIntNumberFormat,
-  truncateAddress
+  truncateAddress,
+  debounce
 };

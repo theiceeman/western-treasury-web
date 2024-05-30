@@ -1,21 +1,23 @@
 // transactionSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { RootState } from '../store';
 
 interface TransactionState {
     type: string
+    inProgress: boolean
     sendAmount: number
     recieveAmount: number
-    senderCurrencyId: string
-    recieverCurrencyId: string
+    sendCurrency: any
+    recieveCurrency: any
 }
 
 const initialState: TransactionState = {
     type: "",
+    inProgress: false,
     sendAmount: 0,
     recieveAmount: 0,
-    senderCurrencyId: "",
-    recieverCurrencyId: ""
+    sendCurrency: null,
+    recieveCurrency: null
 };
 
 export const transactionSlice = createSlice({
