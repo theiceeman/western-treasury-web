@@ -7,7 +7,7 @@ import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
 import { convertToUsd } from '@/src/lib/utils';
 import {
-  createOfframp,
+  createSell,
   validateOfframpRate
 } from '@/src/requests/transaction/transaction.request';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
@@ -22,7 +22,7 @@ const Page = () => {
   const transaction = useAppSelector(state => state.transaction);
   const [details, setDetails] = useState<any>(null);
 
-  const { mutate: mutateSell, isLoading: isLoadingSell } = useMutation(createOfframp, {
+  const { mutate: mutateSell, isLoading: isLoadingSell } = useMutation(createSell, {
     onSuccess: () => {
       // mutateCurrencies();
       // formik.resetForm();

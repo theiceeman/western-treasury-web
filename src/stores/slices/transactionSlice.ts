@@ -24,6 +24,7 @@ export const transactionSlice = createSlice({
     name: 'transaction',
     initialState,
     reducers: {
+        resetTransaction: () => initialState,
         setTransaction: (state, action: PayloadAction<TransactionState>) => {
             return { ...state, ...action.payload };
         },
@@ -31,7 +32,7 @@ export const transactionSlice = createSlice({
 });
 
 // selector - allows app to update slice
-export const { setTransaction } = transactionSlice.actions;
+export const { setTransaction,resetTransaction } = transactionSlice.actions;
 
 // selector - allows app to get slice
 export const selectTransaction = (state: RootState) => state.transaction;

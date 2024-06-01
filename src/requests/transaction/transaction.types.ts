@@ -1,9 +1,9 @@
-export interface ICreateOfframp {
+export interface ICreateTransaction {
     amountInUsd: number
     senderCurrencyId: string
     recieverCurrencyId: string
 }
-export interface IValidateOfframp {
+export interface IValidateRate {
     amountInUsd: number
     senderCurrencyId: string
     recieverCurrencyId: string

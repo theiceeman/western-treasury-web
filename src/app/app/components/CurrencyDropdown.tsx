@@ -14,7 +14,6 @@ const CurrencyDropdown = ({
   onValueChange?: Dispatch<any>;
 }) => {
   const [selectedCurrency, setSelectedCurrency] = useState<any>(null);
-  console.log({defaultSymbol})
 
   const {
     data: currencies,
@@ -29,7 +28,7 @@ const CurrencyDropdown = ({
 
     if (!defaultSymbol) {
       setSelectedCurrency(currencies?.data[0]);
-      onValueChange && onValueChange(currencies?.data[0]);
+      onValueChange !== undefined && onValueChange(currencies?.data[0]);
     }
 
     if (defaultSymbol) {
@@ -37,14 +36,14 @@ const CurrencyDropdown = ({
         (item: any) => item.symbol === defaultSymbol
       );
       setSelectedCurrency(defaultCurrency[0]);
-      onValueChange && onValueChange(defaultCurrency[0]);
+      onValueChange !== undefined && onValueChange(defaultCurrency[0]);
     }
-    console.log({selectedCurrency})
   }, [defaultSymbol, currencies]);
 
   useEffect(() => {
-    if (!selectedCurrency) return;
-    onValueChange && onValueChange(selectedCurrency);
+    if (selectedCurrency && onValueChange !== undefined) {
+      onValueChange(selectedCurrency);
+    }
   }, [selectedCurrency]);
 
   useEffect(() => mutateCurrencies(), []);

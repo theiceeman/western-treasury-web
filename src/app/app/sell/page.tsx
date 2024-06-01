@@ -1,26 +1,25 @@
 'use client';
 import Button from '@/src/components/Button';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
-import { setTransaction } from '@/src/stores/slices/transactionSlice';
+import { resetTransaction, setTransaction } from '@/src/stores/slices/transactionSlice';
 import { useFormik } from 'formik';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import CurrencyDropdown from '../components/CurrencyDropdown';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { convertToUsd } from '@/src/lib/utils';
 import { getAppSettings } from '@/src/requests/setting/setting.requests';
 import { toIntNumberFormat } from '@/src/utils/helper';
 import { validateOfframpRate } from '@/src/requests/transaction/transaction.request';
 import { useMutation } from 'react-query';
 import { viewCurrencies } from '@/src/requests/currency/currency.requests';
-import { debounce } from 'lodash';
 
 const Page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [sendingCurrency, setSendingCurrency] = useState<any>(null);
   const [recievingCurrency, setRecievingCurrency] = useState<any>(null);
 
@@ -45,104 +44,68 @@ const Page = () => {
     }
   });
 
-  const fetchSendRate = async (value: number) => {
-    if (!sendingCurrency || !recievingCurrency) return;
-    let sendingAmountInUsd = convertToUsd(value, sendingCurrency.market_usd_rate);
+  const convertToRecieveCurrency = async (value: number) => {
+    if (value === 0) return;
 
+    let amountInUsd = convertToUsd(value, sendingCurrency?.market_usd_rate);
     let result = await validateOfframpRate({
-      amountInUsd: sendingAmountInUsd,
+      amountInUsd,
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
-
     formik.setFieldValue('recieveAmount', result?.data[0].actual_amount_user_receives);
-    return result?.data[0].actual_amount_user_receives;
   };
 
-  const fetchReceiveRate = async (value: number) => {
-    if (!recievingCurrency || !sendingCurrency) return;
+  const convertToSendCurrency = async (value: number) => {
+    if (value === 0) return;
 
-    let receiveAmountInUsd = convertToUsd(value, recievingCurrency.market_usd_rate);
-
+    let amountInUsd = convertToUsd(value, recievingCurrency?.market_usd_rate);
     let result = await validateOfframpRate({
-      amountInUsd: receiveAmountInUsd,
+      amountInUsd,
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
-
     formik.setFieldValue('sendAmount', result?.data[0].actual_amount_user_sends);
-    return result?.data[0].actual_amount_user_sends;
   };
 
-  const debouncedFetchSend = debounce(fetchSendRate, 500);
-  const debouncedReceiveSend = debounce(fetchReceiveRate, 500);
-
-  // fetch & update details of the recieving currency
-  useEffect(() => {
-    if (!currencies || currencies?.data?.length < 1) return;
-
-    let ngn = currencies?.data.filter((e: any) => e.symbol === 'NGN');
-    setRecievingCurrency(ngn[0]);
-  }, [currencies]);
-
-  // update recieve input amounts if recieve currency is updated.
-  // useEffect(() => {
-  //   if (recievingCurrency && sendingCurrency) {
-  //     let receiveAmountUsd = convertToUsd(
-  //       formik.values.recieveAmount,
-  //       recievingCurrency?.market_usd_rate
-  //     );
-
-  //     fetchReceiveRate(receiveAmountUsd).then((amtUserSends: number) => {
-  //       formik.setFieldValue('sendAmount', amtUserSends);
-  //       formik.setFieldValue('sendCurrency', sendingCurrency.symbol);
-  //     });
-  //   }
-  // }, [recievingCurrency]);
-
-  // update send input amount if send currency is updated.
-  useEffect(() => {
-    if (sendingCurrency && recievingCurrency) {
-      formik.setFieldValue('sendCurrency', sendingCurrency);
-
-      let sendAmountUsd = convertToUsd(
-        formik.values.sendAmount,
-        sendingCurrency.market_usd_rate
-      );
-      fetchSendRate(sendAmountUsd).then((amtUserReceives: number) => {
-        formik.setFieldValue('recieveAmount', amtUserReceives);
-        formik.setFieldValue('recieveCurrency', recievingCurrency);
-      });
+  const delayConvertToRecieve = (value: number) => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
     }
-    if (formik.values.sendAmount) debouncedFetchSend(formik.values.sendAmount);
+
+    intervalRef.current = setTimeout(() => {
+      convertToRecieveCurrency(value);
+    }, 500);
+  };
+
+  const delayConvertToSend = (value: number) => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setTimeout(() => {
+      convertToSendCurrency(value);
+    }, 500);
+  };
+
+  // update sendCurrency, recieveAmount when sending currency changes
+  useEffect(() => {
+    formik.setFieldValue('sendCurrency', sendingCurrency);
+    convertToRecieveCurrency(formik.values.sendAmount);
   }, [sendingCurrency]);
 
-  // useEffect(() => {
-  //   if (formik.values.sendAmount) debouncedFetchSend(formik.values.sendAmount);
-  // }, [sendingCurrency]);
-
-  // useEffect(() => {
-  //   console.log('zxzx', transaction);
-  //   if (recievingCurrency) formik.setFieldValue('recieveCurrency', recievingCurrency);
-  //   if (formik.values.recieveAmount) debouncedReceiveSend(formik.values.recieveAmount);
-  // }, [recievingCurrency]);
-
-  // set form input values, if a sell transaction is already in progress.
+  // update recieveCurrency, sendAmount when recieving currency changes
   useEffect(() => {
-    if (transaction?.inProgress && transaction?.type == 'sell') {
-      formik.setFieldValue('sendAmount', transaction?.sendAmount);
-      formik.setFieldValue('recieveAmount', transaction?.recieveAmount);
-      formik.setFieldValue('sendCurrency', transaction?.sendCurrency);
-      formik.setFieldValue('recieveCurrency', transaction?.recieveCurrency);
-
-      setSendingCurrency(transaction?.sendCurrency);
-    }
-  }, [transaction]);
+    formik.setFieldValue('recieveCurrency', recievingCurrency);
+    convertToSendCurrency(formik.values.recieveAmount);
+  }, [recievingCurrency]);
 
   // get global data, currrencies and app settings.
   useEffect(() => {
     dispatch(getGlobalConfig());
     dispatch(getAppSettings());
+    dispatch(resetTransaction());
+    formik.resetForm();
     mutateCurrencies();
   }, []);
 
@@ -167,24 +130,26 @@ const Page = () => {
                     value={formik.values.sendAmount}
                     onChange={(e: any) => {
                       formik.handleChange(e);
-                      debouncedFetchSend(e.target.value);
+                      delayConvertToRecieve(e.target.value);
                     }}
                     type="number"
                     className="h-full w-full rounded-lg bg-white bg-opacity-30  text-sm text-black outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
                   />
                   <CurrencyDropdown
                     isDisabled={false}
-                    defaultSymbol={transaction?.sendCurrency?.symbol ?? currencies?.data[0].symbol}
+                    defaultSymbol={
+                      transaction?.inProgress === true
+                        ? transaction?.recieveCurrency?.symbol
+                        : currencies?.data[0]?.symbol
+                    }
                     onValueChange={setSendingCurrency}
                   />
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full justify-between">
-                </div>
-                <div className="flex w-full justify-between">
                   <p> Rate</p>
-                  <p>$1 ~ N {toIntNumberFormat(config.USD_NGN_BUY_RATE)} </p>
+                  <p>$1 = N{toIntNumberFormat(config.USD_NGN_BUY_RATE)} </p>
                 </div>
               </div>
               <div className="flex flex-col gap-1">
@@ -195,30 +160,30 @@ const Page = () => {
                     value={formik.values.recieveAmount}
                     onChange={(e: any) => {
                       formik.handleChange(e);
-                      debouncedReceiveSend(e.target.value);
+                      delayConvertToSend(e.target.value);
                     }}
                     type="number"
                     className="h-full w-full rounded-lg bg-white bg-opacity-30  text-sm text-black outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
                   />
-                  {recievingCurrency && (
-                    <CurrencyDropdown
-                      isDisabled={true}
-                      defaultSymbol={recievingCurrency?.symbol}
-                      onValueChange={setRecievingCurrency}
-                    />
-                  )}
+                  <CurrencyDropdown
+                    isDisabled={true}
+                    defaultSymbol={
+                      transaction?.inProgress === true
+                        ? transaction?.recieveCurrency?.symbol
+                        : currencies?.data.filter((e: any) => e.symbol == 'NGN')[0]?.symbol
+                    }
+                    onValueChange={setRecievingCurrency}
+                  />
                 </div>
               </div>
               <div className="mt-7 flex">
-                <Link className="w-full" href="/app/confirm">
-                  <Button
-                    onClick={() => formik.handleSubmit()}
-                    variant="primary"
-                    className=" w-full text-[#5860A4]"
-                  >
-                    proceed
-                  </Button>
-                </Link>
+                <Button
+                  onClick={() => formik.handleSubmit()}
+                  variant="primary"
+                  className=" w-full text-[#5860A4]"
+                >
+                  proceed
+                </Button>
               </div>
             </div>
           </div>

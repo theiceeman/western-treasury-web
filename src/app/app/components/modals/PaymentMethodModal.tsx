@@ -2,18 +2,11 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import PhantomIcon from '@/public/icons/us.svg';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  LucideCreditCard,
-  LucidePiggyBank,
-  LucideSmartphone,
-  LucideTabletSmartphone
-} from 'lucide-react';
+import { LucideTabletSmartphone } from 'lucide-react';
 import CreditCardIcon from '../icons/CreditCardIcon';
 import { useRouter } from 'next/navigation';
-// import { connectToBrowserWalletAfresh } from "@/app/utils/web3-solana";
 
 export default function PaymentMethodModal({
   isOpen,
@@ -33,13 +26,10 @@ export default function PaymentMethodModal({
     switch (type) {
       case 'buy':
         router.push('/app/buy');
-
         break;
       case 'sell':
         router.push('/app/sell');
-
         break;
-
       default:
         break;
     }

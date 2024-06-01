@@ -13,11 +13,6 @@ export function cn(...inputs: ClassValue[]) {
  * @param usdNgn Rate for usd to ngn
  */
 export function convertToUsd(amount: number, usdRate: number) {
-  console.log({ amount, usdRate })
   let amountInUsd = amount / Number(usdRate);
-  console.log({ amountInUsd })
   return amountInUsd;
-  // let recievingCurrencyAmount = usdNgn * sendingAmountInUsd;
-  // console.log({ recievingCurrencyAmount })
-  // return recievingCurrencyAmount;
 }
