@@ -64,10 +64,10 @@ const SideBar = () => {
             <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
           </Link>
           <Link
-            href="/app/"
+            href="/app/settings"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`${pathname === '/app/' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
+            className={`${pathname === '/app/settings' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
           >
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
               <SettingsIcon />
