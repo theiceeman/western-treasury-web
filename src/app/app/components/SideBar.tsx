@@ -4,7 +4,7 @@ import { HomeIcon } from './icons/HomeIcon';
 import Image from 'next/image';
 import Button from '@/src/components/Button';
 import { SettingsIcon } from './icons/SettingsIcon';
-import { LucideCurrency, LucideDollarSign, LucideLogOut, UserIcon } from 'lucide-react';
+import { LucideDollarSign, LucideLogOut, UserIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 const SideBar = () => {
@@ -16,14 +16,17 @@ const SideBar = () => {
   };
   const handleMouseLeave = (event: any) => {
     const hoveredDiv = event.currentTarget;
-    hoveredDiv.classList.remove('sidebar-active');
+
+    if (hoveredDiv.getAttribute('href') !== pathname) {
+      hoveredDiv.classList.remove('sidebar-active');
+    }
   };
   return (
     <>
-      <div className="hidden h-screen w-1/5 max-w-[230px] flex-col gap-10 bg-[#F1F2FD] py-2 pl-3 lg:flex">
-        <div className="flex pl-5">
+      <div className="hidden h-screen w-1/5 max-w-[230px] flex-col gap-10 border-r border-white bg-[#F1F2FD] py-2 pl-3 lg:flex">
+        <div className="flex border-b border-white pl-5">
           <Link href="/app/overview">
-            <Image src={'/wt-logo-2.png'} alt="logo" width={120} height={42} priority />
+            <Image src={'/wt-logo-2.svg'} alt="logo" width={120} height={42} priority />
           </Link>
         </div>
         <div className="sidebar flex w-full flex-col gap-2">
@@ -52,10 +55,10 @@ const SideBar = () => {
             <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
           </Link>
           <Link
-            href="/app/"
+            href="/app/settings/user"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`${pathname === '/app/' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
+            className={`${pathname === '/app/settings/user' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
           >
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
               <UserIcon />
@@ -64,10 +67,10 @@ const SideBar = () => {
             <div className="sidebar-active-flag hidden  h-full w-1 rounded-sm bg-primary"></div>
           </Link>
           <Link
-            href="/app/settings"
+            href="/app/settings/user"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`${pathname === '/app/settings' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
+            className={`${pathname === '/app/settings/user' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}
           >
             <div className="sidebar-active-bg flex h-full w-3/4 flex-row gap-2 rounded-md  px-3 py-3 text-[#8C8C8C]">
               <SettingsIcon />
