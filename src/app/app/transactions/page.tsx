@@ -1,4 +1,5 @@
 'use client';
+import StatusIndicator from '@/src/components/StatusIndicator';
 import { viewUserTransactions } from '@/src/requests/transaction/transaction.request';
 import { formatDateTime } from '@/src/utils/helper';
 import { useEffect } from 'react';
@@ -56,7 +57,15 @@ const Page = () => {
                       <td className="px-6 py-4">
                         {e.type === 'CRYPTO_OFFRAMP' ? 'Sell' : 'Buy'}
                       </td>
-                      <td className="px-6 py-4">{e.status}</td>
+                      <td className="px-6 py-4">
+                        <StatusIndicator
+                          type={
+                            e.status === ('TRANSACTION_CREATED' || 'TRANSFER_CONFIRMED')
+                              ? 'PROCESSING'
+                              : e.status
+                          }
+                        />
+                      </td>
                       <td className="px-6 py-4">{e.amount_in_usd}</td>
                       <td className="text-nowrap px-6 py-4">{formatDateTime(e.created_at)}</td>
                     </tr>
