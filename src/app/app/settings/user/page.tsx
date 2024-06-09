@@ -51,9 +51,9 @@ const UserSettings = () => {
               </div>
             </div>
           </div>
-          <div className="ml-auto flex cursor-pointer rounded-sm bg-blue-100 px-3 py-1 text-xs text-primary hover:bg-blue-200">
+          <Link href="/app/settings/user/edit" className="ml-auto flex cursor-pointer rounded-sm bg-blue-100 px-3 py-1 text-xs text-primary hover:bg-blue-200">
             Edit Profile
-          </div>
+          </Link>
         </div>
       </div>
     </>

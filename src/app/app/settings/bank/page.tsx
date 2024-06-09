@@ -21,9 +21,9 @@ const BankSettings = () => {
           </div>
         </div>
         <div className="flex justify-end gap-2">
-          <div className=" flex cursor-pointer rounded-sm bg-blue-100 px-3 py-1 text-xs text-primary hover:bg-blue-200">
+          <Link href="/app/settings/bank/edit" className=" flex cursor-pointer rounded-sm bg-blue-100 px-3 py-1 text-xs text-primary hover:bg-blue-200">
             Edit Bank
-          </div>
+          </Link>
           <div className="flex cursor-pointer rounded-sm bg-red-100 px-3 py-1 text-xs text-red-500 hover:bg-red-200">
             Delete Bank
           </div>

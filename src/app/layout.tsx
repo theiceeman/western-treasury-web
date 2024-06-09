@@ -20,6 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="icon" href="/wt-favicon.svg" sizes="any" />
       <body className={`min-h-screen bg-background antialiased ${mulish.className}`}>
       <StoreProvider>
         <Providers>
