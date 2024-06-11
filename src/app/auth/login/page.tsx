@@ -4,6 +4,7 @@ import { loginUser } from '@/src/requests/account/account.requests';
 import { saveToken } from '@/src/utils/auth-tokens';
 import { showToast } from '@/src/utils/toaster';
 import { useFormik } from 'formik';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
@@ -44,7 +45,11 @@ const Page = () => {
         </div>
         <div className="flex h-screen w-full">
           <div className="relative hidden h-full w-1/3 lg:flex">
-            <div className="absolute top-0 z-0 h-full w-full bg-[url('/auth/login-bg.svg')] bg-cover"></div>
+            <div className="absolute top-0 z-0 h-full w-full bg-[url('/auth/login-bg.svg')] bg-cover">
+              {/* <div className="flex w-full ml-4 mt-32">
+                <Image src="/wt-white-logo.svg" alt="logo" width={220} height={100} priority />
+              </div> */}
+            </div>
           </div>
           <div className="flex h-full w-full px-5 pb-20 pt-32  md:w-2/3 md:px-16 lg:px-40">
             <div className="flex max-w-[26rem] flex-col gap-8">

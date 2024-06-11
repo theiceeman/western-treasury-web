@@ -68,10 +68,8 @@ const CurrencyDropdown = ({
             </div>
           </Listbox.Button>
           <Listbox.Options>
-            {isDisabled ? (
-              <></>
-            ) : (
-              <div className="absolute mt-1 flex flex-col justify-center gap-2 rounded-lg border bg-white py-2 text-center">
+            {!isDisabled && (
+              <div className="absolute z-10 mt-1 flex flex-col justify-center gap-2 rounded-lg border bg-white py-2 text-center">
                 {currencies?.data?.length > 0 &&
                   currencies?.data?.map((e: any, key: any) => (
                     <Listbox.Option key={key} value={e}>
