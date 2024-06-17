@@ -12,33 +12,26 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import { toIntNumberFormat } from '@/src/utils/helper';
+import CountryCode from '@/src/utils/iso-country-code';
+import { updateUser } from '@/src/requests/account/account.requests';
 
 const Page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const {
-    data: currencies,
-    mutate: mutateCurrencies,
-    isLoading: isLoadingCurrencies
-  } = useMutation(viewCurrencies);
+  const { mutate, isLoading } = useMutation(updateUser);
 
   const formik = useFormik({
     initialValues: {
-      type: 'buy',
-      inProgress: true,
-      sendAmount: 0,
-      recieveAmount: 0,
-      sendCurrency: '',
-      recieveCurrency: ''
+      firstName: '',
+      lastName: '',
+      country: ''
     },
     onSubmit: values => {
-      dispatch(setTransaction({ ...values }));
-      router.push('/app/buy/confirm');
+      mutate({ ...values, first_name: values.firstName, last_name: values.lastName });
+      router.push('/app/settings/user');
     }
   });
-
-  useEffect(() => {}, []);
 
   return (
     <>
@@ -54,8 +47,8 @@ const Page = () => {
                 <p>First Name</p>
                 <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
                   <input
-                    name="sendAmount"
-                    value={formik.values.sendAmount}
+                    name="firstName"
+                    value={formik.values.firstName}
                     onChange={(e: any) => {
                       formik.handleChange(e);
                     }}
@@ -68,14 +61,38 @@ const Page = () => {
                 <p>Last Name</p>
                 <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
                   <input
-                    name="recieveAmount"
-                    value={formik.values.recieveAmount}
+                    name="lastName"
+                    value={formik.values.lastName}
                     onChange={(e: any) => {
                       formik.handleChange(e);
                     }}
                     type="text"
                     className="h-full w-full rounded-lg bg-white bg-opacity-30 py-2  text-sm text-slate-600 outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
                   />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <p>Country</p>
+                <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
+
+                  <select
+                    name="country"
+                    value={formik.values.country}
+                    onChange={formik.handleChange}
+                    required={true}
+                    disabled={false}
+                    className="h-full w-full rounded-lg bg-white bg-opacity-30 py-2  text-sm text-slate-600 outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
+                  >
+                    <option value="" disabled>
+                      Country of origin
+                    </option>
+                    {CountryCode.filter(e => e.name === 'Nigeria').map(e => (
+                      <option key={e.code} value={e.name}>
+                        {e.name}
+                        {' ' + e.flag}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="mt-7 flex">

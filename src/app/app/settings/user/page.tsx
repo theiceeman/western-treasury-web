@@ -7,14 +7,11 @@ import { useEffect } from 'react';
 import { getFirstLetters } from '@/src/utils/helper';
 
 const UserSettings = () => {
-  // viewLoggedInUser
   const {
     data: user,
     mutate: mutateLoggedInUser,
     isLoading: isLoadingUserAcct
   } = useMutation(viewLoggedInUser);
-
-  // console.log(user?.user);
 
   useEffect(() => {
     mutateLoggedInUser();
@@ -28,13 +25,13 @@ const UserSettings = () => {
             <div className="flex flex-row gap-3 px-3 py-3">
               <div className="mb-auto flex rounded-full bg-violet-100 px-3 py-3 text-xs font-bold uppercase text-violet-500 md:my-auto">
                 {getFirstLetters(
-                  user?.data?.firstName ?? user?.data?.email,
-                  user?.data?.lastName ?? user?.data?.email
+                  user?.data?.first_name ?? user?.data?.email,
+                  user?.data?.last_name ?? user?.data?.email
                 )}
               </div>
               <div className="flex flex-col">
-                <p className="font-bold">
-                  {user?.data?.firstName ?? '-'}&nbsp;{user?.data?.lastName}
+                <p className="font-bold capitalize">
+                  {user?.data?.first_name ?? '-'}&nbsp;{user?.data?.last_name}
                 </p>{' '}
                 <div className="flex flex-col gap-3 md:flex-row">
                   <p className="text-sm text-violet-500">{user?.data?.email}</p>
@@ -48,7 +45,7 @@ const UserSettings = () => {
           <div className="flex flex-col gap-5 rounded-md bg-white px-8 py-3">
             <div className="flex flex-col gap-3 px-3 py-3">
               <h2 className="font-bold">Personal information</h2>
-              <div className="mt-4 flex w-full text-xs">
+              <div className="mt-4 flex w-full text-xs capitalize">
                 <div className="flex w-1/2 flex-col gap-4 lg:w-1/3">
                   <div className="flex flex-col gap-2">
                     <p className="uppercase tracking-wide text-slate-500">First Name</p>
