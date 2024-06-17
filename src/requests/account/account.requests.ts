@@ -21,3 +21,11 @@ export const loginUser = async (payload: ILoginUser) => {
         .catch((error) => showToast(error.data, 'failed'));
     return response;
 };
+
+export const viewLoggedInUser = () => {
+    const response = Request.get('user/account/view');
+    response
+        // .then((res: any) => showToast(res?.data, 'success'))
+        .catch((error) => showToast(error.data, 'failed'));
+    return response;
+};

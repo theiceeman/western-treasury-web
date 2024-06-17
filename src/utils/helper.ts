@@ -264,6 +264,28 @@ const debounce = (func: any, delay: any) => {
     }, delay);
   };
 };
+function getFirstLetters(word1: string, word2: string) {
+  // Helper function to get the first letter of a word
+  const getFirstLetter = (word: string) => {
+    return typeof word === 'string' && word.length > 0 ? word.charAt(0) : '';
+  };
+
+  // Get the first letters of both words
+  const firstLetter1 = getFirstLetter(word1);
+  const firstLetter2 = getFirstLetter(word2);
+
+  // Return the result based on the validity of the inputs
+  if (firstLetter1 && firstLetter2) {
+    return firstLetter1 + firstLetter2;
+  } else if (firstLetter1) {
+    return firstLetter1;
+  } else if (firstLetter2) {
+    return firstLetter2;
+  } else {
+    return '';
+  }
+}
+
 
 
 export {
@@ -286,5 +308,6 @@ export {
   formatDateTime,
   toIntNumberFormat,
   truncateAddress,
-  debounce
+  debounce,
+  getFirstLetters
 };
