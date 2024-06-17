@@ -8,6 +8,7 @@ import { useMutation } from 'react-query';
 import { viewCurrencies } from '@/src/requests/currency/currency.requests';
 import { formatDateTime, toIntNumberFormat } from '@/src/utils/helper';
 import { viewUserTransactions } from '@/src/requests/transaction/transaction.request';
+import SkeletonCurrencyCard from '../components/skeletons/SkeletonCurrencyCard';
 
 const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +58,14 @@ const Page = () => {
             ref={scrollableDivRef}
             className="flex w-full gap-3 overflow-x-auto rounded-sm px-3 py-3 lg:gap-5  lg:px-5 lg:py-5"
           >
-            {currencies?.data?.length > 0 &&
+            {isLoadingCurrencies ? (
+              <>
+                <SkeletonCurrencyCard />
+                <SkeletonCurrencyCard />
+                <SkeletonCurrencyCard />
+                <SkeletonCurrencyCard />
+              </>
+            ) : (
               currencies?.data?.map((e: any, key: any) => (
                 <div
                   key={key}
@@ -76,7 +84,8 @@ const Page = () => {
                     </p>
                   </div>
                 </div>
-              ))}
+              ))
+            )}
           </div>
           <div onClick={scrollDiv} className="flex cursor-pointer px-6">
             <Image src={'/icons/carat-right.svg'} alt="logo" width={17} height={16} priority />

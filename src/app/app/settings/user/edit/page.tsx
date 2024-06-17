@@ -1,17 +1,9 @@
 'use client';
 import Button from '@/src/components/Button';
-import { convertToUsd } from '@/src/lib/utils';
-import { getGlobalConfig } from '@/src/requests/config/config.requests';
-import { viewCurrencies } from '@/src/requests/currency/currency.requests';
-import { getAppSettings } from '@/src/requests/setting/setting.requests';
-import { validateOfframpRate } from '@/src/requests/transaction/transaction.request';
-import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
-import { resetTransaction, setTransaction } from '@/src/stores/slices/transactionSlice';
+import { useAppDispatch } from '@/src/stores/hooks';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
-import { toIntNumberFormat } from '@/src/utils/helper';
 import CountryCode from '@/src/utils/iso-country-code';
 import { updateUser } from '@/src/requests/account/account.requests';
 
@@ -74,7 +66,6 @@ const Page = () => {
               <div className="flex flex-col gap-1">
                 <p>Country</p>
                 <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
-
                   <select
                     name="country"
                     value={formik.values.country}
@@ -101,7 +92,7 @@ const Page = () => {
                   variant="primary"
                   className=" w-full text-[#5860A4]"
                 >
-                  Save
+                  {isLoading ? 'Processing' : 'Save'}
                 </Button>
               </div>
             </div>
