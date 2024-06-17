@@ -22,6 +22,7 @@ const Page = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [sendingCurrency, setSendingCurrency] = useState<any>(null);
   const [recievingCurrency, setRecievingCurrency] = useState<any>(null);
+  const [showReceiveWalletInput, setShowReceiveWalletInput] = useState<boolean>(false);
 
   const {
     data: currencies,
@@ -36,7 +37,8 @@ const Page = () => {
       sendAmount: 0,
       recieveAmount: 0,
       sendCurrency: '',
-      recieveCurrency: ''
+      recieveCurrency: '',
+      recievingWalletAddress: ''
     },
     onSubmit: values => {
       dispatch(setTransaction({ ...values }));
@@ -176,9 +178,32 @@ const Page = () => {
                   />
                 </div>
               </div>
+              {showReceiveWalletInput && (
+                <div className="flex flex-col gap-1">
+                  <p>Your BSC wallet Address</p>
+                  <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
+                    <input
+                      name="recievingWalletAddress"
+                      value={formik.values.recievingWalletAddress}
+                      onChange={(e: any) => {
+                        formik.handleChange(e);
+                      }}
+                      type="text"
+                      className="h-full w-full rounded-lg bg-white bg-opacity-30 py-2  text-sm text-slate-600 outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className="mt-7 flex">
                 <Button
-                  onClick={() => formik.handleSubmit()}
+                  onClick={() => {
+                    if (!showReceiveWalletInput) {
+                      setShowReceiveWalletInput(true);
+                    } else {
+                      formik.handleSubmit();
+                    }
+                  }}
                   variant="primary"
                   className=" w-full text-[#5860A4]"
                 >

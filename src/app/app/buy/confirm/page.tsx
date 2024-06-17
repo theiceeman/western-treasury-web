@@ -1,20 +1,15 @@
 'use client';
 import Button from '@/src/components/Button';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
-import Link from 'next/link';
 import CurrencyDropdown from '../../components/CurrencyDropdown';
 import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
-import { convertToUsd } from '@/src/lib/utils';
-import {
-  createBuy,
-  createSell,
-  validateOfframpRate
-} from '@/src/requests/transaction/transaction.request';
+import { createBuy } from '@/src/requests/transaction/transaction.request';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import { useFormik } from 'formik';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
+import { viewUserAcct } from '@/src/requests/fiat-account/fiat-account.requests';
 
 const Page = () => {
   const router = useRouter();
@@ -22,48 +17,42 @@ const Page = () => {
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
   const [details, setDetails] = useState<any>(null);
-
+  console.log({ transaction });
   const { mutate, isLoading } = useMutation(createBuy, {
     onSuccess: () => {
       router.push('/app/processing');
     }
   });
 
+  const {
+    data: userAcct,
+    mutate: mutateUserAcct,
+    isLoading: isLoadingUserAcct
+  } = useMutation(viewUserAcct);
+
   const formik = useFormik({
     initialValues: {
       amountInUsd: 0,
       senderCurrencyId: '',
-      recieverCurrencyId: ''
+      recievingCurrencyId: '',
+      recievingWalletAddress: ''
     },
     onSubmit: values => {
       mutate({ ...values });
     }
   });
 
-  // const fetchSendRate = async () => {
-  //   if (!transaction?.sendCurrency || !transaction?.recieveCurrency) return;
-  //   let sendAmountInUsd = convertToUsd(
-  //     transaction?.sendAmount,
-  //     transaction?.sendCurrency?.market_usd_rate
-  //   );
-
-  //   let result = await validateOfframpRate({
-  //     amountInUsd: sendAmountInUsd,
-  //     senderCurrencyId: transaction?.sendCurrency.unique_id,
-  //     recieverCurrencyId: transaction?.recieveCurrency?.unique_id
-  //   });
-
-  //   setDetails(result?.data[0]);
-  //   formik.setFieldValue('amountInUsd', result?.data[0].amountInUsd);
-  // };
+  useEffect(() => {
+    mutateUserAcct();
+  }, []);
 
   useEffect(() => {
     dispatch(getGlobalConfig());
-    console.log({ transaction });
+
     if (transaction) {
-      // fetchSendRate();
       formik.setFieldValue('senderCurrencyId', transaction.sendCurrency?.unique_id);
-      formik.setFieldValue('recieverCurrencyId', transaction.recieveCurrency?.unique_id);
+      formik.setFieldValue('recievingCurrencyId', transaction.recieveCurrency?.unique_id);
+      formik.setFieldValue('recievingWalletAddress', transaction.recievingWalletAddress);
     } else {
       router.push('/app/buy');
     }
@@ -75,13 +64,13 @@ const Page = () => {
           <div className="hidden pl-1 text-sm font-semibold uppercase text-black lg:flex">
             Confirmation
           </div>
-          {/* <div className="flex w-full flex-col justify-center px-48 text-center"> */}
           <div className="flex w-full flex-col justify-center  text-center md:px-32 xl:px-48">
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-black">Review your Transaction.</h2>
               <p className="text-sm">
                 You will send {transaction.sendAmount} {transaction.sendCurrency?.symbol} to us
-                & recieve {toIntNumberFormat(transaction.recieveAmount)} NGN
+                & recieve {toIntNumberFormat(transaction.recieveAmount)}{' '}
+                {transaction.recieveCurrency?.symbol}
               </p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
@@ -104,6 +93,15 @@ const Page = () => {
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full justify-between">
+                  <div className="flex"> Wallet</div>
+
+                  <div className="flex w-full flex-row justify-end gap-2 text-right">
+                    <div className="w-[120px] whitespace-normal break-words md:w-[200px]">
+                      {transaction?.recievingWalletAddress}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex w-full justify-between">
                   <p>Fee</p>
                   <p className="text-red-500">- ${toIntNumberFormat(details?.fee)}</p>
                 </div>
@@ -111,13 +109,16 @@ const Page = () => {
                   <p> Rate</p>
                   <p>$1 ~ N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)}</p>
                 </div>
+              </div>
+
+              <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full justify-between">
-                  <p>Bank</p>
-                  <p className="text-right"> Zenith Bank plc</p>
+                  <p>Your Bank</p>
+                  <p className="text-right"> {userAcct?.data[0]?.bank_name}</p>
                 </div>
                 <div className="flex w-full justify-between gap-7">
-                  <p>Acct. No.</p>
-                  <p className="text-right">235889485</p>
+                  <p>Your Acct. No.</p>
+                  <p className="text-right">{userAcct?.data[0]?.account_no}</p>
                 </div>
               </div>
               <div className="flex flex-col gap-1">

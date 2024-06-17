@@ -9,6 +9,7 @@ interface TransactionState {
     recieveAmount: number
     sendCurrency: any
     recieveCurrency: any
+    recievingWalletAddress: any
 }
 
 const initialState: TransactionState = {
@@ -17,7 +18,8 @@ const initialState: TransactionState = {
     sendAmount: 0,
     recieveAmount: 0,
     sendCurrency: null,
-    recieveCurrency: null
+    recieveCurrency: null,
+    recievingWalletAddress: ''
 };
 
 export const transactionSlice = createSlice({
@@ -32,7 +34,7 @@ export const transactionSlice = createSlice({
 });
 
 // selector - allows app to update slice
-export const { setTransaction,resetTransaction } = transactionSlice.actions;
+export const { setTransaction, resetTransaction } = transactionSlice.actions;
 
 // selector - allows app to get slice
 export const selectTransaction = (state: RootState) => state.transaction;

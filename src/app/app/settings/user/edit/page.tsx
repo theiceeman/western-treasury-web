@@ -5,13 +5,18 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
 import CountryCode from '@/src/utils/iso-country-code';
-import { updateUser } from '@/src/requests/account/account.requests';
+import { getLoggedInUser, updateUser } from '@/src/requests/account/account.requests';
 
 const Page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { mutate, isLoading } = useMutation(updateUser);
+  const { mutate, isLoading } = useMutation(updateUser, {
+    onSuccess: () => {
+      dispatch(getLoggedInUser());
+      router.push('/app/settings/user');
+    }
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -21,7 +26,6 @@ const Page = () => {
     },
     onSubmit: values => {
       mutate({ ...values, first_name: values.firstName, last_name: values.lastName });
-      router.push('/app/settings/user');
     }
   });
 

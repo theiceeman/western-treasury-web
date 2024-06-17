@@ -1,11 +1,13 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import transactionReducer from "./slices/transactionSlice";
 import globalConfigReducer from "./slices/globalConfigSlice";
 import appSettingsReducer from "./slices/appSettingsSlice";
+import userReducer from "./slices/userSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
+      user: userReducer,
       transaction: transactionReducer,
       globalConfig: globalConfigReducer,
       appSettings: appSettingsReducer,

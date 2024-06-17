@@ -1,3 +1,4 @@
+import { setUser } from "@/src/stores/slices/userSlice";
 import { Request } from "../../utils/https";
 import { showToast } from "../../utils/toaster";
 import { ILoginUser, ISignupUser, IUpdateUser } from "./account.types";
@@ -37,4 +38,18 @@ export const viewLoggedInUser = () => {
         // .then((res: any) => showToast(res?.data, 'success'))
         .catch((error) => showToast(error.data, 'failed'));
     return response;
+};
+
+export const getLoggedInUser = () => {
+    return (dispatch: any) => {
+        const response = Request.get('user/account/view');
+        response
+            .then((res: any) => {
+                console.log({ response: res.data })
+                showToast(res?.message, 'success', false);
+                dispatch(setUser(res.data));
+            })
+            .catch((error) => showToast(error.message, 'failed'));
+        return response;
+    };
 };
