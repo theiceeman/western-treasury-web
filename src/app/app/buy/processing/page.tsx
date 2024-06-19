@@ -1,15 +1,11 @@
 'use client';
-import Button from '@/src/components/Button';
 import { convertToUsd } from '@/src/lib/utils';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import { validateOfframpRate, viewSingleTransaction } from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { toIntNumberFormat } from '@/src/utils/helper';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Success from '../../components/alerts/Success';
 import Processing from '../../components/alerts/Processing';
-import Failed from '../../components/alerts/Failed';
 import { useMutation } from 'react-query';
 
 const Page = () => {
@@ -17,7 +13,6 @@ const Page = () => {
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
   const [details, setDetails] = useState<any>(null);
-  console.log({ transaction });
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
 
