@@ -7,9 +7,9 @@ import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { toIntNumberFormat } from '@/src/utils/helper';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Success from '../components/alerts/Success';
-import Processing from '../components/alerts/Processing';
-import Failed from '../components/alerts/Failed';
+import Success from '../../components/alerts/Success';
+import Processing from '../../components/alerts/Processing';
+import Failed from '../../components/alerts/Failed';
 
 const Page = () => {
   const dispatch = useAppDispatch();
@@ -54,15 +54,13 @@ const Page = () => {
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
               {/* <Success/> */}
-              <Processing message="Always confirm you're sending to the correct network" />
+              <Processing message="Confirm you're sending to the correct Bank Account" />
               {/* <Failed/> */}
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">
-                  <div className="flex">Wallet</div>
+                  <div className="flex">Account No </div>
                   <div className="flex w-full flex-row justify-end gap-2 text-right">
-                    <div className="w-[120px] whitespace-normal break-words md:w-[200px]">
-                      0x377123Ed74fBE8ddb47E30aEbCf267c55EFa7b33
-                    </div>
+                    <div className="w-[120px] whitespace-normal break-words md:w-[200px]"></div>
                     <div className="flex">
                       <img
                         src={'/icons/copy-icon.svg'}
@@ -75,8 +73,8 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="flex w-full justify-between">
-                  <p>Network</p>
-                  <p> BSC (Bep 20)</p>
+                  <p> Bank</p>
+                  <p> </p>
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
@@ -91,8 +89,7 @@ const Page = () => {
                   <p>Amount to recieve</p>
                   <p className="text-right">
                     {' '}
-                    {toIntNumberFormat(transaction.recieveAmount)}{' '}
-                    {transaction.recieveCurrency?.symbol}
+                    {transaction.recieveAmount} {transaction.recieveCurrency?.symbol}
                   </p>
                 </div>
                 <div className="flex w-full justify-between">

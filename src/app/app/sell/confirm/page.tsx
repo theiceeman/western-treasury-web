@@ -1,7 +1,6 @@
 'use client';
 import Button from '@/src/components/Button';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
-import Link from 'next/link';
 import CurrencyDropdown from '../../components/CurrencyDropdown';
 import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
@@ -26,7 +25,7 @@ const Page = () => {
     onSuccess: () => {
       // mutateCurrencies();
       // formik.resetForm();
-      router.push('/app/processing');
+      router.push('/app/sell/processing');
     }
   });
 
@@ -91,7 +90,7 @@ const Page = () => {
                 <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
                   <input
                     type="text"
-                    value={toIntNumberFormat(transaction.sendAmount)}
+                    value={transaction.sendAmount}
                     disabled={true}
                     className="h-full w-full rounded-lg bg-white bg-opacity-30  text-sm text-black outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
                   />
@@ -113,11 +112,11 @@ const Page = () => {
                   <p>$1 ~ N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)}</p>
                 </div>
                 <div className="flex w-full justify-between">
-                  <p>Bank</p>
+                  <p>Your Bank</p>
                   <p className="text-right"> Zenith Bank plc</p>
                 </div>
                 <div className="flex w-full justify-between gap-7">
-                  <p>Acct. No.</p>
+                  <p>Your Acct. No.</p>
                   <p className="text-right">235889485</p>
                 </div>
               </div>
@@ -126,7 +125,7 @@ const Page = () => {
                 <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
                   <input
                     type="text"
-                    value={toIntNumberFormat(transaction.recieveAmount)}
+                    value={transaction.recieveAmount}
                     disabled={true}
                     className="h-full w-full rounded-lg bg-white bg-opacity-30  text-sm text-black outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
                   />
@@ -134,13 +133,13 @@ const Page = () => {
                 </div>
               </div>
               <div className="mt-7 flex">
-                  <Button
-                    onClick={() => formik.handleSubmit()}
-                    variant="primary"
-                    className=" w-full text-[#5860A4]"
-                  >
-                    confirm
-                  </Button>
+                <Button
+                  onClick={() => formik.handleSubmit()}
+                  variant="primary"
+                  className=" w-full text-[#5860A4]"
+                >
+                  confirm
+                </Button>
               </div>
             </div>
           </div>

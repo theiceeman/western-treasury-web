@@ -20,7 +20,7 @@ const Page = () => {
   console.log({ transaction });
   const { mutate, isLoading } = useMutation(createBuy, {
     onSuccess: () => {
-      router.push('/app/processing');
+      router.push('/app/buy/processing');
     }
   });
 
@@ -126,7 +126,7 @@ const Page = () => {
                 <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
                   <input
                     type="text"
-                    value={toIntNumberFormat(transaction.recieveAmount)}
+                    value={transaction.recieveAmount}
                     disabled={true}
                     className="h-full w-full rounded-lg bg-white bg-opacity-30  text-sm text-black outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
                   />
