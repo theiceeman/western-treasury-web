@@ -9,7 +9,8 @@ interface TransactionState {
     recieveAmount: number
     sendCurrency: any
     recieveCurrency: any
-    recievingWalletAddress: any
+    transactionId?: string
+    recievingWalletAddress?: any
 }
 
 const initialState: TransactionState = {
@@ -19,6 +20,7 @@ const initialState: TransactionState = {
     recieveAmount: 0,
     sendCurrency: null,
     recieveCurrency: null,
+    transactionId: '',
     recievingWalletAddress: ''
 };
 

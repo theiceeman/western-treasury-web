@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
 import { viewUserAcct } from '@/src/requests/fiat-account/fiat-account.requests';
+import { setTransaction } from '@/src/stores/slices/transactionSlice';
 
 const Page = () => {
   const router = useRouter();
@@ -17,9 +18,11 @@ const Page = () => {
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
   const [details, setDetails] = useState<any>(null);
-  console.log({ transaction });
-  const { mutate, isLoading } = useMutation(createBuy, {
-    onSuccess: () => {
+  
+  const { mutate, isLoading, data } = useMutation(createBuy, {
+    onSuccess: res => {
+      // @ts-ignore
+      dispatch(setTransaction({ ...transaction, transactionId: res?.result?.unique_id }));
       router.push('/app/buy/processing');
     }
   });

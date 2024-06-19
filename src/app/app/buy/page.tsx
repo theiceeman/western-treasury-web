@@ -41,7 +41,7 @@ const Page = () => {
       recievingWalletAddress: ''
     },
     onSubmit: values => {
-      dispatch(setTransaction({ ...values }));
+      dispatch(setTransaction({ ...values}));
       router.push('/app/buy/confirm');
     }
   });

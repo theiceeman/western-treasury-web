@@ -13,6 +13,7 @@ import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import { useFormik } from 'formik';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
+import { setTransaction } from '@/src/stores/slices/transactionSlice';
 
 const Page = () => {
   const router = useRouter();
@@ -22,9 +23,9 @@ const Page = () => {
   const [details, setDetails] = useState<any>(null);
 
   const { mutate: mutateSell, isLoading: isLoadingSell } = useMutation(createSell, {
-    onSuccess: () => {
-      // mutateCurrencies();
-      // formik.resetForm();
+    onSuccess: (res) => {
+      // @ts-ignore
+      dispatch(setTransaction({ ...transaction, transactionId: res?.result?.unique_id }));
       router.push('/app/sell/processing');
     }
   });

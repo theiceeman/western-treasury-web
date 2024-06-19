@@ -2,7 +2,10 @@
 import Button from '@/src/components/Button';
 import { convertToUsd } from '@/src/lib/utils';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
-import { validateOfframpRate } from '@/src/requests/transaction/transaction.request';
+import {
+  validateOfframpRate,
+  viewSingleTransaction
+} from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { toIntNumberFormat } from '@/src/utils/helper';
 import Link from 'next/link';
@@ -10,12 +13,16 @@ import { useEffect, useState } from 'react';
 import Success from '../../components/alerts/Success';
 import Processing from '../../components/alerts/Processing';
 import Failed from '../../components/alerts/Failed';
+import { useMutation } from 'react-query';
 
 const Page = () => {
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
   const [details, setDetails] = useState<any>(null);
+
+  const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
+  console.log({ data });
 
   const fetchSendRate = async () => {
     if (!transaction?.sendCurrency || !transaction?.recieveCurrency) return;
@@ -35,7 +42,10 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(getGlobalConfig());
-    if (transaction) fetchSendRate();
+    if (transaction && transaction?.transactionId) {
+      fetchSendRate();
+      mutate(transaction?.transactionId);
+    }
   }, []);
   return (
     <>
@@ -61,7 +71,7 @@ const Page = () => {
                   <div className="flex">Wallet</div>
                   <div className="flex w-full flex-row justify-end gap-2 text-right">
                     <div className="w-[120px] whitespace-normal break-words md:w-[200px]">
-                      0x377123Ed74fBE8ddb47E30aEbCf267c55EFa7b33
+                      {data?.data?.wallet_address}
                     </div>
                     <div className="flex">
                       <img
@@ -83,15 +93,13 @@ const Page = () => {
                 <div className="flex w-full justify-between">
                   <p>Amount to send</p>
                   <p className="text-right">
-                    {' '}
                     {transaction.sendAmount} {transaction.sendCurrency?.symbol}
                   </p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Amount to recieve</p>
                   <p className="text-right">
-                    {' '}
-                    {toIntNumberFormat(transaction.recieveAmount)}{' '}
+                    {toIntNumberFormat(transaction.recieveAmount)}
                     {transaction.recieveCurrency?.symbol}
                   </p>
                 </div>
