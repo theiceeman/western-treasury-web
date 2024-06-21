@@ -1,8 +1,3 @@
-// import LoadingIcon from "../../base-components/LoadingIcon";
-// import Lucide from "../../base-components/Lucide";
-// import Table from "../../base-components/Table";
-
-import { LucideFlaskConicalOff, LucideFrame } from 'lucide-react';
 import { Bars } from 'react-loading-icons';
 import NotFound from '../NotFound';
 

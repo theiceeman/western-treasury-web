@@ -1,6 +1,5 @@
 import { LucideFlaskConicalOff } from 'lucide-react';
 
-// NotFound.tsx
 const NotFound = () => {
   return (
     <div className="flex w-full justify-center">
