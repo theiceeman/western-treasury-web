@@ -4,6 +4,7 @@ import { viewUserTransactions } from '@/src/requests/transaction/transaction.req
 import { formatDateTime } from '@/src/utils/helper';
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
+import BaseTable from '../components/tables/BaseTable';
 
 const Page = () => {
   const {
@@ -21,7 +22,31 @@ const Page = () => {
         <div className="flex flex-col gap-5 rounded-sm bg-white px-5 py-5">
           <div className="flex pl-1 font-bold"> Transaction History</div>
           <div className="flex  h-full w-full overflow-y-auto border sm:rounded-lg">
-            <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+            <BaseTable
+              table={{
+                isLoading: isLoadingTransactions,
+                header: ['Txn ID', 'Type', 'status', 'amount', 'type'],
+                column: transactions?.data?.map((item: any, key: any) => [
+                  <div className={'font-medium'}>{item.unique_id}</div>,
+                  <div className={'font-medium'}>
+                    {item.type === 'CRYPTO_OFFRAMP' ? 'Sell' : 'Buy'}
+                  </div>,
+                  <div className={'font-medium'}>
+                    <StatusIndicator
+                      type={
+                        item.status === ('TRANSACTION_CREATED' || 'TRANSFER_CONFIRMED')
+                          ? 'PROCESSING'
+                          : item.status
+                      }
+                    />
+                  </div>,
+                  <div className={'font-medium'}>{item.amount_in_usd}</div>,
+                  <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
+                ])
+              }}
+            />
+
+            {/* <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
               <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
@@ -30,7 +55,7 @@ const Page = () => {
                   <th scope="col" className="px-6 py-3">
                     type
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-6 py-3 text-center">
                     status
                   </th>
                   <th scope="col" className="px-6 py-3">
@@ -71,7 +96,8 @@ const Page = () => {
                     </tr>
                   ))}
               </tbody>
-            </table>
+            </table> */}
+
           </div>
         </div>
       </div>

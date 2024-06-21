@@ -5,6 +5,7 @@ import SettingsNavbar from '../../components/settings/SettingsNavbar';
 import { useMutation } from 'react-query';
 import { viewUserAcct } from '@/src/requests/fiat-account/fiat-account.requests';
 import { useEffect } from 'react';
+import NotFound from '../../components/NotFound';
 
 const BankSettings = () => {
   const {
@@ -21,16 +22,20 @@ const BankSettings = () => {
       <SettingsNavbar />
       <div className="flex w-full flex-col gap-3">
         <div className="flex flex-row justify-between gap-5 rounded-md bg-white px-8 py-3">
-          <div className="flex flex-row gap-3 px-3 py-3">
-            <div className="my-auto flex rounded-full bg-violet-100 px-3 py-3 text-sm font-bold text-violet-500">
-              <BsBank2 />
+          {userAcct?.data?.length > 0 ? (
+            <div className="flex flex-row gap-3 px-3 py-3">
+              <div className="my-auto flex rounded-full bg-violet-100 px-3 py-3 text-sm font-bold text-violet-500">
+                <BsBank2 />
+              </div>
+              <div className="flex flex-col gap-1 text-sm">
+                <p className="font-bold capitalize">{userAcct?.data[0]?.account_name}</p>
+                <p className=" text-violet-500">{userAcct?.data[0]?.account_no}</p>
+                <p className="">{userAcct?.data[0]?.bank_name}</p>
+              </div>
             </div>
-            <div className="flex flex-col gap-1 text-sm">
-              <p className="font-bold capitalize">{userAcct?.data[0]?.account_name}</p>
-              <p className=" text-violet-500">{userAcct?.data[0]?.account_no}</p>
-              <p className="">{userAcct?.data[0]?.bank_name}</p>
-            </div>
-          </div>
+          ) : (
+            <NotFound />
+          )}
         </div>
         <div className="flex justify-end gap-2">
           <Link

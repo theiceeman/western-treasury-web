@@ -9,6 +9,8 @@ import { viewCurrencies } from '@/src/requests/currency/currency.requests';
 import { formatDateTime, toIntNumberFormat } from '@/src/utils/helper';
 import { viewUserTransactions } from '@/src/requests/transaction/transaction.request';
 import SkeletonCurrencyCard from '../components/skeletons/SkeletonCurrencyCard';
+import BaseTable from '../components/tables/BaseTable';
+import StatusIndicator from '@/src/components/StatusIndicator';
 
 const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -132,47 +134,29 @@ const Page = () => {
         <div className="flex flex-col gap-5 rounded-sm bg-white px-5 py-5">
           <div className="flex pl-1 font-bold">Recent Transactions</div>
           <div className="flex  h-full w-full overflow-y-auto border sm:rounded-lg">
-            <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
-              <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Txn ID
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    type
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    status
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    amount&nbsp;($)
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    time
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions?.data?.length > 0 &&
-                  transactions?.data?.map((e: any, key: any) => (
-                    <tr
-                      key={key}
-                      className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800"
-                    >
-                      <th
-                        scope="row"
-                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                      >
-                        {e.unique_id}
-                      </th>
-                      <td className="px-6 py-4">{e.type}</td>
-                      <td className="px-6 py-4">{e.status}</td>
-                      <td className="px-6 py-4">{e.amount_in_usd}</td>
-                      <td className="text-nowrap px-6 py-4">{formatDateTime(e.created_at)}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+            <BaseTable
+              table={{
+                isLoading: isLoadingTransactions,
+                header: ['Txn ID', 'Type', 'status', 'amount', 'type'],
+                column: transactions?.data?.map((item: any, key: any) => [
+                  <div className={'font-medium'}>{item.unique_id}</div>,
+                  <div className={'font-medium'}>
+                    {item.type === 'CRYPTO_OFFRAMP' ? 'Sell' : 'Buy'}
+                  </div>,
+                  <div className={'font-medium'}>
+                    <StatusIndicator
+                      type={
+                        item.status === ('TRANSACTION_CREATED' || 'TRANSFER_CONFIRMED')
+                          ? 'PROCESSING'
+                          : item.status
+                      }
+                    />
+                  </div>,
+                  <div className={'font-medium'}>{item.amount_in_usd}</div>,
+                  <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
+                ])
+              }}
+              />
           </div>
         </div>
       </div>
