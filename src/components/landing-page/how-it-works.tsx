@@ -3,7 +3,7 @@ import Image from 'next/image';
 export function HowItWorks() {
   return (
     <>
-      <div className="_card-1 relative flex py-5 h-[400px] w-full rounded-[25px] shadow-xl">
+      <div className="_card-1 relative flex py-5 h-[400px] w-full rounded-[25px] shadow-xl transition ease-in">
         <div className=" absolute right-0 top-0 hidden h-full w-3/4 pb-5 lg:block">
           <Image
             src={'/get-finance.svg'}
@@ -87,11 +87,13 @@ export function HowItWorks() {
 
 
       <div className="_card-3 relative flex py-5 h-[400px] w-full rounded-[25px] shadow-xl">
-        <div className=" absolute right-0 top-0 hidden h-full w-1/3 pb-5 lg:block">
+        <div className=" absolute right-0 top-7 hidden h-full justify-center w-1/3 pb-5 lg:block">
           <Image
             src={'/features/globe.svg'}
             alt=""
-            fill={true}
+            width={350}
+            height={350}
+            // fill={true}
             className=""
             priority
           />

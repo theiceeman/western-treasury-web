@@ -27,7 +27,7 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        `gap-5 text-nowrap rounded-[10px]  px-[35px] py-3 text-[16px]/[20px] capitalize ${classes} ${className} `
+        `gap-5 text-nowrap rounded-[10px]  px-[35px] py-3 text-[16px]/[20px] capitalize transition ease-in ${classes} ${className} `
       )}
     >
       {isLoading ? 'Loading...' : children}

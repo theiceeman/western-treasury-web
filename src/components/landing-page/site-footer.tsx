@@ -5,7 +5,7 @@ export function SiteFooter() {
     <footer className="w-full bg-[#C8CCF7] px-[40px] py-[50px] pb-5 lg:px-[110px] lg:py-[70px]">
       <div className="flex flex-col md:flex-row gap-5 md:gap-0 items-start justify-between max-w-[70rem] mx-auto">
         <div className="space-y-3">
-          <Image src={'/offramp-logo.svg'} alt="logo" width={200} height={86} priority />
+          <Image src={'/wt-logo.svg'} alt="logo" width={200} height={86} priority />
           <p>Global exchange platform made easy</p>
         </div>
         <div className=" space-y-4">
