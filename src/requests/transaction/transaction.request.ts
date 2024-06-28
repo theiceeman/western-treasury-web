@@ -22,14 +22,14 @@ export const createSell = async (payload: ICreateTransaction) => {
     const response = Request.post({ url: 'user/transaction/offramp-crypto/create', payload });
     response
         .then((res: any) => showToast(res?.data, 'success'))
-        .catch((error) => showToast(error.details ?? error.data, 'failed'));
+        .catch((error) => showToast(error.data ?? error.details, 'failed'));
     return response;
 };
 export const createBuy = async (payload: ICreateBuyTransaction) => {
     const response = Request.post({ url: 'user/transaction/buy-crypto/create', payload });
     response
         .then((res: any) => showToast(res?.data, 'success'))
-        .catch((error) => showToast(error.details ?? error.data, 'failed'));
+        .catch((error) => showToast(error.data ?? error.details, 'failed'));
     return response;
 };
 
