@@ -1,7 +1,10 @@
 'use client';
 import { convertToUsd } from '@/src/lib/utils';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
-import { validateOfframpRate, viewSingleTransaction } from '@/src/requests/transaction/transaction.request';
+import {
+  validateBuyRate,
+  viewSingleTransaction
+} from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
@@ -12,29 +15,24 @@ const Page = () => {
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
-  const [details, setDetails] = useState<any>(null);
+  const [bank, setBank] = useState<any>(null);
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
 
-  const fetchSendRate = async () => {
-    if (!transaction?.sendCurrency || !transaction?.recieveCurrency) return;
-    let sendAmountInUsd = convertToUsd(
-      transaction?.sendAmount,
-      transaction?.sendCurrency?.market_usd_rate
-    );
-
-    let result = await validateOfframpRate({
-      amountInUsd: sendAmountInUsd,
-      senderCurrencyId: transaction?.sendCurrency.unique_id,
-      recieverCurrencyId: transaction?.recieveCurrency?.unique_id
-    });
-
-    setDetails(result?.data[0]);
-  };
+  useEffect(() => {
+    if (data) {
+      // console.log(data?.data?.fiat_provider_result);
+      setBank(JSON.parse(data?.data?.fiat_provider_result));
+    }
+  }, [data]);
 
   useEffect(() => {
     dispatch(getGlobalConfig());
-    if (transaction) fetchSendRate();
+    console.log({ vv: transaction });
+    if (transaction && transaction?.transactionId) {
+      // fetchSendRate();
+      mutate(transaction?.transactionId);
+    }
   }, []);
   return (
     <>
@@ -53,13 +51,15 @@ const Page = () => {
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
               {/* <Success/> */}
-              <Processing message="Confirm you're sending to the correct Bank Account" />
+              <Processing message="Confirm you're sending to the correct bank account" />
               {/* <Failed/> */}
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">
-                  <div className="flex">Account No </div>
+                  <div className="flex text-nowrap">Account No </div>
                   <div className="flex w-full flex-row justify-end gap-2 text-right">
-                    <div className="w-[120px] whitespace-normal break-words md:w-[200px]"></div>
+                    <div className="w-[120px] whitespace-normal break-words md:w-[200px]">
+                      {bank?.defaultAccountNo}
+                    </div>
                     <div className="flex">
                       <img
                         src={'/icons/copy-icon.svg'}
@@ -73,7 +73,7 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Bank</p>
-                  <p> </p>
+                  <p> {bank?.defaultAccountBank}</p>
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
@@ -93,7 +93,9 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Fee</p>
-                  <p className="text-red-500">- ${toIntNumberFormat(details?.fee)}</p>
+                  <p className="text-red-500">
+                    - ${toIntNumberFormat(transaction?.transactionFee)}
+                  </p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>

@@ -17,7 +17,7 @@ const Page = () => {
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
-  const [details, setDetails] = useState<any>(null);
+  // const [details, setDetails] = useState<any>(null);
   
   const { mutate, isLoading, data } = useMutation(createBuy, {
     onSuccess: res => {
@@ -35,6 +35,7 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
+      paymentType:'',
       amountInUsd: 0,
       senderCurrencyId: '',
       recievingCurrencyId: '',
@@ -44,6 +45,7 @@ const Page = () => {
       mutate({ ...values });
     }
   });
+  // console.log({transaction})
 
   useEffect(() => {
     mutateUserAcct();
@@ -52,12 +54,14 @@ const Page = () => {
   useEffect(() => {
     dispatch(getGlobalConfig());
 
-    if (transaction) {
+    if (transaction && transaction?.paymentType !=='') {
+      formik.setFieldValue('amountInUsd', transaction.amountInUsd);
       formik.setFieldValue('senderCurrencyId', transaction.sendCurrency?.unique_id);
       formik.setFieldValue('recievingCurrencyId', transaction.recieveCurrency?.unique_id);
       formik.setFieldValue('recievingWalletAddress', transaction.recievingWalletAddress);
+      formik.setFieldValue('paymentType', transaction.paymentType);
     } else {
-      router.push('/app/buy');
+      router.push('/app/overview');
     }
   }, []);
   return (
@@ -106,7 +110,7 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Fee</p>
-                  <p className="text-red-500">- ${toIntNumberFormat(details?.fee)}</p>
+                  <p className="text-red-500">- ${toIntNumberFormat(transaction?.transactionFee)}</p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>

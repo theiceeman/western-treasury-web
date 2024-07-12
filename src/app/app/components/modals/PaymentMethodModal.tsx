@@ -7,6 +7,9 @@ import Link from 'next/link';
 import { LucideTabletSmartphone } from 'lucide-react';
 import CreditCardIcon from '../icons/CreditCardIcon';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/src/stores/hooks';
+import { resetTransaction, setTransaction } from '@/src/stores/slices/transactionSlice';
+import { useFormik } from 'formik';
 
 export default function PaymentMethodModal({
   isOpen,
@@ -19,21 +22,39 @@ export default function PaymentMethodModal({
   closeModal: any;
   transactionType: string | null;
 }) {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   // const [transactionType, setTransactionType] = useState(null);
 
-  function handleTransactionPage(type: string | null) {
-    switch (type) {
-      case 'buy':
-        router.push('/app/buy');
-        break;
-      case 'sell':
-        router.push('/app/sell');
-        break;
-      default:
-        break;
+  const formik = useFormik({
+    initialValues: {
+      type: 'buy',
+      paymentType: '',
+      amountInUsd: 0,
+      inProgress: true,
+      sendAmount: 0,
+      recieveAmount: 0,
+      sendCurrency: '',
+      recieveCurrency: '',
+      recievingWalletAddress: ''
+    },
+    onSubmit: values => {
+      dispatch(resetTransaction());
+      dispatch(setTransaction({ ...values }));
+
+      switch (transactionType) {
+        case 'buy':
+          router.push('/app/buy');
+          break;
+        case 'sell':
+          router.push('/app/sell');
+          break;
+        default:
+          break;
+      }
     }
-  }
+  });
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -81,7 +102,10 @@ export default function PaymentMethodModal({
                 </Dialog.Title>
                 <div className="my-7 flex w-full flex-col">
                   <div
-                    onClick={() => handleTransactionPage(transactionType)}
+                    onClick={() => {
+                      formik.setFieldValue('paymentType', 'DEBIT_CARD');
+                      formik.handleSubmit();
+                    }}
                     className="flex w-full cursor-pointer flex-row gap-5 rounded-sm border-b px-[10px] py-[15px] hover:bg-white"
                   >
                     <div className="flex rounded-full bg-red-100 px-2 py-2 text-red-500">
@@ -90,7 +114,10 @@ export default function PaymentMethodModal({
                     <p className="my-auto text-sm">Debit Card</p>
                   </div>
                   <div
-                    onClick={() => handleTransactionPage(transactionType)}
+                    onClick={() => {
+                      formik.setFieldValue('paymentType', 'BANK_TRANSFER');
+                      formik.handleSubmit();
+                    }}
                     className="flex w-full cursor-pointer flex-row gap-5 rounded-sm border-b px-[10px] py-[15px] hover:bg-white"
                   >
                     <div className="flex rounded-full bg-blue-100 px-2 py-2">
@@ -101,7 +128,7 @@ export default function PaymentMethodModal({
                 </div>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Dear User, we are currently integrating more payment options.
+                    We are currently integrating more payment options.
                   </p>
                 </div>
               </Dialog.Panel>

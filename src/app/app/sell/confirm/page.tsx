@@ -6,21 +6,21 @@ import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
 import { convertToUsd } from '@/src/lib/utils';
 import {
-  createSell,
-  validateOfframpRate
+  createSell, validateSellRate
 } from '@/src/requests/transaction/transaction.request';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import { useFormik } from 'formik';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
 import { setTransaction } from '@/src/stores/slices/transactionSlice';
+import { viewUserAcct } from '@/src/requests/fiat-account/fiat-account.requests';
 
 const Page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
-  const [details, setDetails] = useState<any>(null);
+  // const [details, setDetails] = useState<any>(null);
 
   const { mutate: mutateSell, isLoading: isLoadingSell } = useMutation(createSell, {
     onSuccess: (res) => {
@@ -29,6 +29,12 @@ const Page = () => {
       router.push('/app/sell/processing');
     }
   });
+
+  const {
+    data: userAcct,
+    mutate: mutateUserAcct,
+    isLoading: isLoadingUserAcct
+  } = useMutation(viewUserAcct);
 
   const formik = useFormik({
     initialValues: {
@@ -48,13 +54,13 @@ const Page = () => {
       transaction?.sendCurrency?.market_usd_rate
     );
 
-    let result = await validateOfframpRate({
+    let result = await validateSellRate({
       amountInUsd: sendAmountInUsd,
       senderCurrencyId: transaction?.sendCurrency.unique_id,
       recieverCurrencyId: transaction?.recieveCurrency?.unique_id
     });
 
-    setDetails(result?.data[0]);
+    // setDetails(result?.data[0]);
     formik.setFieldValue('amountInUsd', result?.data[0].amountInUsd);
   };
 
@@ -63,6 +69,7 @@ const Page = () => {
 
     if (transaction) {
       fetchSendRate();
+      mutateUserAcct();
       formik.setFieldValue('senderCurrencyId', transaction.sendCurrency?.unique_id);
       formik.setFieldValue('recieverCurrencyId', transaction.recieveCurrency?.unique_id);
     } else {
@@ -106,19 +113,19 @@ const Page = () => {
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full justify-between">
                   <p>Fee</p>
-                  <p className="text-red-500">- ${toIntNumberFormat(details?.fee)}</p>
+                  <p className="text-red-500">- ${toIntNumberFormat(transaction?.transactionFee)}</p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>
-                  <p>$1 ~ N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)}</p>
+                  <p>N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)} / $</p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Your Bank</p>
-                  <p className="text-right"> Zenith Bank plc</p>
+                  <p className="text-right"> {userAcct?.data[0]?.bank_name}</p>
                 </div>
                 <div className="flex w-full justify-between gap-7">
                   <p>Your Acct. No.</p>
-                  <p className="text-right">235889485</p>
+                  <p className="text-right">{userAcct?.data[0]?.account_no}</p>
                 </div>
               </div>
               <div className="flex flex-col gap-1">
@@ -135,6 +142,7 @@ const Page = () => {
               </div>
               <div className="mt-7 flex">
                 <Button
+                isLoading={isLoadingSell}
                   onClick={() => formik.handleSubmit()}
                   variant="primary"
                   className=" w-full text-[#5860A4]"

@@ -2,7 +2,7 @@
 import { convertToUsd } from '@/src/lib/utils';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import {
-  validateOfframpRate,
+  validateSellRate,
   viewSingleTransaction
 } from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
@@ -26,8 +26,9 @@ const Page = () => {
       transaction?.sendCurrency?.market_usd_rate
     );
 
-    let result = await validateOfframpRate({
+    let result = await validateSellRate({
       amountInUsd: sendAmountInUsd,
+      amountType:'sending',
       senderCurrencyId: transaction?.sendCurrency.unique_id,
       recieverCurrencyId: transaction?.recieveCurrency?.unique_id
     });

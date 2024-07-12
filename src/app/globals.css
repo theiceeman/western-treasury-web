@@ -97,11 +97,13 @@
   }
   .sidebar-active .sidebar-active-bg {
     color: hsla(234, 33%, 43%, var(--tw-bg-opacity));
+    /* color: #8B5CF6; */
     /* background-color: #f6f6f8; */
     background-color: white;
   }
   .sidebar-active svg path{
     stroke: hsla(234, 33%, 43%, var(--tw-bg-opacity));
+    /* stroke:#8B5CF6; */
   }
   .sidebar-active .sidebar-active-flag {
     display: flex;

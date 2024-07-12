@@ -18,7 +18,9 @@ const Page = () => {
   const [query, setQuery] = useState('');
   const [selectedBank, setSelectedBank] = useState<any>(null);
 
-  const { mutate, isLoading } = useMutation(createAcct);
+  const { mutate, isLoading } = useMutation(createAcct, {
+    onSuccess: res => router.push('/app/settings/bank')
+  });
   const {
     data: supportedBanks,
     mutate: mutateSupportedBanks,
@@ -39,7 +41,7 @@ const Page = () => {
     },
     onSubmit: values => {
       mutate({ ...values, accountNo: String(values?.accountNo) });
-      router.push('/app/settings/bank');
+      // router.push('/app/settings/bank');
     }
   });
 

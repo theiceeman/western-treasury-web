@@ -4,7 +4,7 @@ import { convertToUsd } from '@/src/lib/utils';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import { viewCurrencies } from '@/src/requests/currency/currency.requests';
 import { getAppSettings } from '@/src/requests/setting/setting.requests';
-import { validateOfframpRate } from '@/src/requests/transaction/transaction.request';
+import { validateBuyRate } from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { resetTransaction, setTransaction } from '@/src/stores/slices/transactionSlice';
 import { useFormik } from 'formik';
@@ -20,6 +20,7 @@ const Page = () => {
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  // const [amountInUsd, setAmountInUsd] = useState<any>(null);
   const [sendingCurrency, setSendingCurrency] = useState<any>(null);
   const [recievingCurrency, setRecievingCurrency] = useState<any>(null);
   const [showReceiveWalletInput, setShowReceiveWalletInput] = useState<boolean>(false);
@@ -33,6 +34,8 @@ const Page = () => {
   const formik = useFormik({
     initialValues: {
       type: 'buy',
+      paymentType: '',
+      amountInUsd: 0,
       inProgress: true,
       sendAmount: 0,
       recieveAmount: 0,
@@ -40,8 +43,16 @@ const Page = () => {
       recieveCurrency: '',
       recievingWalletAddress: ''
     },
-    onSubmit: values => {
-      dispatch(setTransaction({ ...values}));
+    onSubmit: async values => {
+      let amountInUsd = convertToUsd(values.sendAmount, sendingCurrency?.market_usd_rate);
+      let { data } = await validateBuyRate({
+        amountInUsd,
+        amountType: 'sending',
+        senderCurrencyId: sendingCurrency.unique_id,
+        recieverCurrencyId: recievingCurrency?.unique_id
+      });
+
+      dispatch(setTransaction({ ...values, amountInUsd, transactionFee: data[0].fee }));
       router.push('/app/buy/confirm');
     }
   });
@@ -50,8 +61,9 @@ const Page = () => {
     if (value === 0) return;
 
     let amountInUsd = convertToUsd(value, sendingCurrency?.market_usd_rate);
-    let result = await validateOfframpRate({
+    let result = await validateBuyRate({
       amountInUsd,
+      amountType: 'sending',
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
@@ -62,8 +74,9 @@ const Page = () => {
     if (value === 0) return;
 
     let amountInUsd = convertToUsd(value, recievingCurrency?.market_usd_rate);
-    let result = await validateOfframpRate({
+    let result = await validateBuyRate({
       amountInUsd,
+      amountType: 'receiving',
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
@@ -102,13 +115,19 @@ const Page = () => {
     convertToSendCurrency(formik.values.recieveAmount);
   }, [recievingCurrency]);
 
+
   // get global data, currrencies and app settings.
   useEffect(() => {
     dispatch(getGlobalConfig());
     dispatch(getAppSettings());
-    dispatch(resetTransaction());
+
     formik.resetForm();
     mutateCurrencies();
+    if (transaction && transaction?.paymentType !== '') {
+      formik.setFieldValue('paymentType', transaction.paymentType);
+    } else {
+      router.push('/app/overview');
+    }
   }, []);
 
   return (
@@ -151,7 +170,7 @@ const Page = () => {
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full justify-between">
                   <p> Rate</p>
-                  <p>$1 = N{toIntNumberFormat(config.USD_NGN_BUY_RATE)} </p>
+                  <p>$1 = N{config.USD_NGN_SELL_RATE} </p>
                 </div>
               </div>
               <div className="flex flex-col gap-1">

@@ -5,6 +5,7 @@ export interface ICreateTransaction {
 }
 export interface IValidateRate {
     amountInUsd: number
+    amountType: 'sending' | 'receiving'
     senderCurrencyId: string
     recieverCurrencyId: string
 }

@@ -52,7 +52,7 @@ const BaseTable = ({ table }: { table?: TableProps }) => {
                 table?.column &&
                 table?.column?.length > 0 &&
                 table?.header?.map((e, key) => (
-                  <th scope="col" className="px-6 py-3">
+                  <th key={key} scope="col" className="px-6 py-3">
                     {e}
                   </th>
                 ))}

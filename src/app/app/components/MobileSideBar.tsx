@@ -16,7 +16,7 @@ const MobileSideBar = () => {
             <div className="flex w-full justify-center ">
               <HomeIcon />
             </div>
-            <div className="font-bold">Home</div>
+            <div className="font-black">Home</div>
           </div>
         </Link>
         <Link
@@ -27,7 +27,7 @@ const MobileSideBar = () => {
             <div className="flex w-full justify-center">
               <LucideDollarSign />
             </div>
-            <p className="font-bold">Transactions</p>
+            <p className="font-black">Transactions</p>
           </div>
         </Link>
         <Link
@@ -38,7 +38,7 @@ const MobileSideBar = () => {
             <div className="flex w-full justify-center">
               <UserIcon />
             </div>
-            <p className="font-bold">Account</p>
+            <p className="font-black">Account</p>
           </div>
         </Link>
         <Link
@@ -49,7 +49,7 @@ const MobileSideBar = () => {
             <div className="flex w-full justify-center">
               <SettingsIcon />
             </div>
-            <p className="font-bold">Settings</p>
+            <p className="font-black">Settings</p>
           </div>
         </Link>
       </div>

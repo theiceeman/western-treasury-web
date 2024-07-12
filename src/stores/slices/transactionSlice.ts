@@ -4,6 +4,9 @@ import { RootState } from '../store';
 
 interface TransactionState {
     type: string
+    amountInUsd: number
+    transactionFee: number
+    paymentType: string
     inProgress: boolean
     sendAmount: number
     recieveAmount: number
@@ -15,6 +18,9 @@ interface TransactionState {
 
 const initialState: TransactionState = {
     type: "",
+    paymentType: "",
+    transactionFee: 0,
+    amountInUsd: 0,
     inProgress: false,
     sendAmount: 0,
     recieveAmount: 0,
