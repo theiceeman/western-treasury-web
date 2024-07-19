@@ -3,7 +3,7 @@ import { getFirstLetters } from '@/src/utils/helper';
 
 const TopBar = () => {
   const user = useAppSelector(state => state.user);
-  console.log({ user });
+  // console.log({ user });
 
   return (
     <div className=" text-md flex w-full   bg-white px-5 py-5 font-bold">

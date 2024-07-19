@@ -1,33 +1,34 @@
 'use client';
+import { convertToUsd } from '@/src/lib/utils';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
-import { viewSingleTransaction } from '@/src/requests/transaction/transaction.request';
+import {
+  validateSellRate,
+  viewSingleTransaction
+} from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
-import Processing from '../../components/alerts/Processing';
+import Processing from '../../../components/alerts/Processing';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
+import Success from '../../../components/alerts/Success';
+import Failed from '../../../components/alerts/Failed';
 
-const Page = () => {
+const Page = ({ params }: { params: { id: string } }) => {
+  const id = params.id;
   const router = useRouter();
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
-  const transaction = useAppSelector(state => state.transaction);
-  const [bank, setBank] = useState<any>(null);
+  const [details, setDetails] = useState<any>(null);
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
 
   useEffect(() => {
-    if (data) {
-      setBank(JSON.parse(data?.data?.fiat_provider_result));
-    }
-  }, [data]);
-
-  useEffect(() => {
     dispatch(getGlobalConfig());
-    if (transaction && transaction?.transactionId) {
-      mutate(transaction?.transactionId);
-    } else {
+    if (id) {
+      mutate(id);
+    }
+    else {
       router.push('/app/overview');
     }
   }, []);
@@ -37,25 +38,34 @@ const Page = () => {
         <div className="flex flex-col gap-5 rounded-sm bg-white px-0 py-5 md:px-5">
           <div className="hidden pl-1 text-sm font-semibold uppercase text-black lg:flex">
             {' '}
-            Transaction details
+            Sell Transaction
           </div>
           <div className="flex w-full flex-col justify-center text-center md:px-32 xl:px-48">
             <div className="flex flex-col gap-1">
               <h2 className="text-xl font-black">
-                {transaction.sendAmount} {transaction.sendCurrency?.symbol}
+                {data?.data?.actual_amount_user_sends} {data?.data?.sendingCurrency?.symbol}
               </h2>
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
-              {/* <Success/> */}
-              <Processing message="Confirm you're sending to the correct bank account" />
-              {/* <Failed/> */}
+              {data?.data?.status === ('TRANSACTION_CREATED' || 'TRANSFER_CONFIRMED' || 'PROCESSING') && (
+                <Processing message="Confirm you're sending to the correct network & address" />
+              )}
+
+              {data?.data?.status === 'COMPLETED' && (
+                <Success message="Transaction completed." />
+              )}
+
+              {data?.data?.status === 'FAILED' && (
+                <Failed message="Confirm you're sending to the correct network & address" />
+              )}
+
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">
-                  <div className="flex text-nowrap">Account No </div>
+                  <div className="flex">Wallet</div>
                   <div className="flex w-full flex-row justify-end gap-2 text-right">
                     <div className="w-[120px] whitespace-normal break-words md:w-[200px]">
-                      {bank?.defaultAccountNo}
+                      {data?.data?.wallet_address}
                     </div>
                     <div className="flex">
                       <img
@@ -68,35 +78,32 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex w-full justify-between">
-                  <p> Bank</p>
-                  <p> {bank?.defaultAccountBank}</p>
+                <div className="flex w-full justify-between capitalize">
+                  <p>Network</p>
+                  <p> {data?.data?.sendingCurrency?.network} (Bep 20)</p>
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full justify-between">
-                  <p>Amount to send</p>
+                  <p>Amount sent</p>
                   <p className="text-right">
-                    {' '}
-                    {transaction.sendAmount} {transaction.sendCurrency?.symbol}
+                    {data?.data?.actual_amount_user_sends} {data?.data?.sendingCurrency?.symbol}
                   </p>
                 </div>
                 <div className="flex w-full justify-between">
-                  <p>Amount to recieve</p>
+                  <p>Amount received</p>
                   <p className="text-right">
-                    {' '}
-                    {transaction.recieveAmount} {transaction.recieveCurrency?.symbol}
+                    {toIntNumberFormat(data?.data?.actual_amount_user_receives)}&nbsp;
+                    {data?.data?.recieverCurrency?.symbol}
                   </p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Fee</p>
-                  <p className="text-red-500">
-                    - ${toIntNumberFormat(transaction?.transactionFee)}
-                  </p>
+                  <p className="text-red-500">- ${toIntNumberFormat(details?.fee)}</p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>
-                  <p>N{toIntNumberFormat(config?.USD_NGN_SELL_RATE)} / $</p>
+                  <p>N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)} / $</p>
                 </div>
               </div>
               <div className="mt-7 flex w-full justify-center font-bold text-slate-500">

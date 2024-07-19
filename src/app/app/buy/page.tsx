@@ -44,7 +44,6 @@ const Page = () => {
       recievingWalletAddress: ''
     },
     onSubmit: async values => {
-
       let amountInUsd = convertToUsd(values.sendAmount, sendingCurrency?.market_usd_rate);
       if (amountInUsd === 0) {
         showToast('Enter a valid amount', 'failed', true);
@@ -192,9 +191,7 @@ const Page = () => {
                   <CurrencyDropdown
                     isDisabled={false}
                     defaultSymbol={
-                      transaction?.inProgress === true
-                        ? transaction?.recieveCurrency?.symbol
-                        : currencies?.data[0]?.symbol
+                      currencies?.data.filter((e: any) => e.symbol == 'USDT')[0]?.symbol
                     }
                     onValueChange={setRecievingCurrency}
                   />

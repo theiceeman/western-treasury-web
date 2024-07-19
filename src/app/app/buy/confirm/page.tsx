@@ -70,7 +70,7 @@ const Page = () => {
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
         <div className="flex flex-col gap-5 rounded-sm bg-white px-0 py-5 md:px-5">
           <div className="hidden pl-1 text-sm font-semibold uppercase text-black lg:flex">
-            Confirmation
+            Buy Confirmation
           </div>
           <div className="flex w-full flex-col justify-center  text-center md:px-32 xl:px-48">
             <div className="flex flex-col gap-2">
