@@ -13,6 +13,7 @@ import { toIntNumberFormat } from '@/src/utils/helper';
 import { validateSellRate } from '@/src/requests/transaction/transaction.request';
 import { useMutation } from 'react-query';
 import { viewCurrencies } from '@/src/requests/currency/currency.requests';
+import { showToast } from '@/src/utils/toaster';
 
 const Page = () => {
   const router = useRouter();
@@ -42,6 +43,11 @@ const Page = () => {
     },
     onSubmit: async values => {
       let amountInUsd = convertToUsd(values.sendAmount, sendingCurrency?.market_usd_rate);
+      if (amountInUsd === 0) {
+        showToast('Enter a valid amount', 'failed', true);
+        return;
+      }
+
       let { data } = await validateSellRate({
         amountInUsd,
         amountType: 'sending',
@@ -64,7 +70,7 @@ const Page = () => {
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
-    formik.setFieldValue('amountInUsd', amountInUsd);
+    // formik.setFieldValue('amountInUsd', amountInUsd);
     formik.setFieldValue('recieveAmount', result?.data[0].actual_amount_user_receives);
   };
 
@@ -117,10 +123,13 @@ const Page = () => {
   useEffect(() => {
     dispatch(getGlobalConfig());
     dispatch(getAppSettings());
-    // dispatch(resetTransaction());
     formik.resetForm();
     mutateCurrencies();
-    formik.setFieldValue('paymentType', transaction.paymentType);
+    if (transaction && transaction?.paymentType !== '') {
+      formik.setFieldValue('paymentType', transaction.paymentType);
+    } else {
+      router.push('/app/overview');
+    }
   }, []);
 
   return (
@@ -152,9 +161,7 @@ const Page = () => {
                   <CurrencyDropdown
                     isDisabled={false}
                     defaultSymbol={
-                      transaction?.inProgress === true
-                        ? transaction?.recieveCurrency?.symbol
-                        : currencies?.data[0]?.symbol
+                      currencies?.data.filter((e: any) => e.symbol == 'USDT')[0]?.symbol
                     }
                     onValueChange={setSendingCurrency}
                   />
@@ -182,9 +189,7 @@ const Page = () => {
                   <CurrencyDropdown
                     isDisabled={true}
                     defaultSymbol={
-                      transaction?.inProgress === true
-                        ? transaction?.recieveCurrency?.symbol
-                        : currencies?.data.filter((e: any) => e.symbol == 'NGN')[0]?.symbol
+                      currencies?.data.filter((e: any) => e.symbol == 'NGN')[0]?.symbol
                     }
                     onValueChange={setRecievingCurrency}
                   />

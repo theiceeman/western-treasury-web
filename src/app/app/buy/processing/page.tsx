@@ -10,8 +10,10 @@ import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
 import Processing from '../../components/alerts/Processing';
 import { useMutation } from 'react-query';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
@@ -30,8 +32,9 @@ const Page = () => {
     dispatch(getGlobalConfig());
     console.log({ vv: transaction });
     if (transaction && transaction?.transactionId) {
-      // fetchSendRate();
       mutate(transaction?.transactionId);
+    } else {
+      router.push('/app/overview');
     }
   }, []);
   return (
@@ -99,7 +102,7 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>
-                  <p>$1 ~ N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)}</p>
+                  <p>N{toIntNumberFormat(config?.USD_NGN_SELL_RATE)} / $</p>
                 </div>
               </div>
               <div className="mt-7 flex w-full justify-center font-bold text-slate-500">

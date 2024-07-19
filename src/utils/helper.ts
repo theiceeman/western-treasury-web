@@ -57,8 +57,8 @@ const formatCurrency = (number: number) => {
 
 function toIntNumberFormat(value: number) {
   let roundedNumber = Math.round(((value ?? 0) + Number.EPSILON) * 100) / 100;
-  let formattedNumber = roundedNumber.toFixed(3);
-  return new Intl.NumberFormat('en-US', { minimumFractionDigits: 3 }).format(Number(formattedNumber));
+  let formattedNumber = roundedNumber.toFixed(2);
+  return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(Number(formattedNumber));
 }
 
 const timeAgo = (time: string) => {

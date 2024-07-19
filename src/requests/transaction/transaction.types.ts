@@ -9,10 +9,9 @@ export interface IValidateRate {
     senderCurrencyId: string
     recieverCurrencyId: string
 }
-// recievingCurrencyId
 export interface ICreateBuyTransaction {
     amountInUsd: number
     senderCurrencyId: string
-    recievingCurrencyId: string
+    recieverCurrencyId: string
     recievingWalletAddress: string
 }

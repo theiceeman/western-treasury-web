@@ -6,13 +6,13 @@ import { viewCurrencies } from '@/src/requests/currency/currency.requests';
 import { getAppSettings } from '@/src/requests/setting/setting.requests';
 import { validateBuyRate } from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
-import { resetTransaction, setTransaction } from '@/src/stores/slices/transactionSlice';
+import { setTransaction } from '@/src/stores/slices/transactionSlice';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import CurrencyDropdown from '../components/CurrencyDropdown';
-import { toIntNumberFormat } from '@/src/utils/helper';
+import { showToast } from '@/src/utils/toaster';
 
 const Page = () => {
   const router = useRouter();
@@ -44,7 +44,12 @@ const Page = () => {
       recievingWalletAddress: ''
     },
     onSubmit: async values => {
+
       let amountInUsd = convertToUsd(values.sendAmount, sendingCurrency?.market_usd_rate);
+      if (amountInUsd === 0) {
+        showToast('Enter a valid amount', 'failed', true);
+        return;
+      }
       let { data } = await validateBuyRate({
         amountInUsd,
         amountType: 'sending',
@@ -67,6 +72,7 @@ const Page = () => {
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
+    // console.log({ result });
     formik.setFieldValue('recieveAmount', result?.data[0].actual_amount_user_receives);
   };
 
@@ -115,7 +121,6 @@ const Page = () => {
     convertToSendCurrency(formik.values.recieveAmount);
   }, [recievingCurrency]);
 
-
   // get global data, currrencies and app settings.
   useEffect(() => {
     dispatch(getGlobalConfig());
@@ -159,9 +164,7 @@ const Page = () => {
                   <CurrencyDropdown
                     isDisabled={true}
                     defaultSymbol={
-                      transaction?.inProgress === true
-                        ? transaction?.sendCurrency?.symbol
-                        : currencies?.data.filter((e: any) => e.symbol == 'NGN')[0]?.symbol
+                      currencies?.data.filter((e: any) => e.symbol == 'NGN')[0]?.symbol
                     }
                     onValueChange={setSendingCurrency}
                   />

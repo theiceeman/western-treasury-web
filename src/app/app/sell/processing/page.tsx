@@ -10,8 +10,10 @@ import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
 import Processing from '../../components/alerts/Processing';
 import { useMutation } from 'react-query';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
@@ -41,6 +43,8 @@ const Page = () => {
     if (transaction && transaction?.transactionId) {
       fetchSendRate();
       mutate(transaction?.transactionId);
+    } else {
+      router.push('/app/overview');
     }
   }, []);
   return (
@@ -82,7 +86,7 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Network</p>
-                  <p> BSC (Bep 20)</p>
+                  <p> {transaction.sendCurrency?.network} (Bep 20)</p>
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
@@ -105,7 +109,7 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>
-                  <p>$1 ~ N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)}</p>
+                  <p>N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)} / $</p>
                 </div>
               </div>
               <div className="mt-7 flex w-full justify-center font-bold text-slate-500">

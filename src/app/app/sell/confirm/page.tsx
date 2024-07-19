@@ -47,29 +47,13 @@ const Page = () => {
     }
   });
 
-  const fetchSendRate = async () => {
-    if (!transaction?.sendCurrency || !transaction?.recieveCurrency) return;
-    let sendAmountInUsd = convertToUsd(
-      transaction?.sendAmount,
-      transaction?.sendCurrency?.market_usd_rate
-    );
-
-    let result = await validateSellRate({
-      amountInUsd: sendAmountInUsd,
-      senderCurrencyId: transaction?.sendCurrency.unique_id,
-      recieverCurrencyId: transaction?.recieveCurrency?.unique_id
-    });
-
-    // setDetails(result?.data[0]);
-    formik.setFieldValue('amountInUsd', result?.data[0].amountInUsd);
-  };
-
   useEffect(() => {
     dispatch(getGlobalConfig());
 
-    if (transaction) {
-      fetchSendRate();
+    if (transaction && transaction?.paymentType !== '') {
       mutateUserAcct();
+      formik.setFieldValue('amountInUsd', transaction.amountInUsd);
+      formik.setFieldValue('amountType', 'sending');
       formik.setFieldValue('senderCurrencyId', transaction.sendCurrency?.unique_id);
       formik.setFieldValue('recieverCurrencyId', transaction.recieveCurrency?.unique_id);
     } else {

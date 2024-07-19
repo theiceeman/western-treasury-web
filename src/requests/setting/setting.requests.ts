@@ -9,7 +9,6 @@ export const getAppSettings = () => {
         response
             .then((res: any) => {
                 showToast(res?.message, 'success', false);
-                console.log({res})
                 dispatch(setAppSettings(res?.data));
             })
             .catch((error) => showToast(error.message, 'failed'));

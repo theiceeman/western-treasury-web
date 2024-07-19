@@ -18,7 +18,7 @@ const Page = () => {
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
   // const [details, setDetails] = useState<any>(null);
-  
+
   const { mutate, isLoading, data } = useMutation(createBuy, {
     onSuccess: res => {
       // @ts-ignore
@@ -35,10 +35,10 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
-      paymentType:'',
+      paymentType: '',
       amountInUsd: 0,
       senderCurrencyId: '',
-      recievingCurrencyId: '',
+      recieverCurrencyId: '',
       recievingWalletAddress: ''
     },
     onSubmit: values => {
@@ -54,10 +54,11 @@ const Page = () => {
   useEffect(() => {
     dispatch(getGlobalConfig());
 
-    if (transaction && transaction?.paymentType !=='') {
+    if (transaction && transaction?.paymentType !== '') {
       formik.setFieldValue('amountInUsd', transaction.amountInUsd);
+      formik.setFieldValue('amountType', 'sending');
       formik.setFieldValue('senderCurrencyId', transaction.sendCurrency?.unique_id);
-      formik.setFieldValue('recievingCurrencyId', transaction.recieveCurrency?.unique_id);
+      formik.setFieldValue('recieverCurrencyId', transaction.recieveCurrency?.unique_id);
       formik.setFieldValue('recievingWalletAddress', transaction.recievingWalletAddress);
       formik.setFieldValue('paymentType', transaction.paymentType);
     } else {
@@ -75,8 +76,9 @@ const Page = () => {
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-black">Review your Transaction.</h2>
               <p className="text-sm">
-                You will send {transaction.sendAmount} {transaction.sendCurrency?.symbol} to us
-                & recieve {toIntNumberFormat(transaction.recieveAmount)}{' '}
+                You will send {toIntNumberFormat(transaction.sendAmount)}{' '}
+                {transaction.sendCurrency?.symbol} to us & recieve{' '}
+                {toIntNumberFormat(transaction.recieveAmount)}{' '}
                 {transaction.recieveCurrency?.symbol}
               </p>
             </div>
@@ -110,11 +112,11 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Fee</p>
-                  <p className="text-red-500">- ${toIntNumberFormat(transaction?.transactionFee)}</p>
+                  <p className="text-red-500">- ${transaction?.transactionFee}</p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>
-                  <p>$1 ~ N{toIntNumberFormat(config?.USD_NGN_BUY_RATE)}</p>
+                  <p>$1 ~ N{config?.USD_NGN_SELL_RATE}</p>
                 </div>
               </div>
 
