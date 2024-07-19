@@ -8,6 +8,7 @@ import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
 import Success from '../../../components/alerts/Success';
 import Failed from '../../../components/alerts/Failed';
+import { toIntNumberFormat } from '@/src/utils/helper';
 
 const Page = ({ params }: { params: { id: string } }) => {
   const id = params.id;
@@ -86,14 +87,14 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <div className="flex w-full justify-between">
                   <p>Amount sent</p>
                   <p className="text-right">
-                    {data?.data?.actual_amount_user_sends}{' '}
+                    {toIntNumberFormat(data?.data?.actual_amount_user_sends)}{' '}
                     {data?.data?.sendingCurrency?.symbol}
                   </p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Amount received</p>
                   <p className="text-right">
-                    {data?.data?.actual_amount_user_receives}&nbsp;
+                    {toIntNumberFormat(data?.data?.actual_amount_user_receives)}&nbsp;
                     {data?.data?.recieverCurrency?.symbol}
                   </p>
                 </div>

@@ -1,5 +1,8 @@
+// TransactionTable.tsx
 import { Bars } from 'react-loading-icons';
 import NotFound from '../NotFound';
+import { Link } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 type TableProps = {
   title?: string;
@@ -27,7 +30,8 @@ type TableProps = {
   [key: string]: any;
 };
 
-const BaseTable = ({ table }: { table?: TableProps }) => {
+const TransactionTable = ({ table }: { table?: TableProps }) => {
+  const router = useRouter();
   return (
     // <div className="intro-y box">
     <div className="flex w-full flex-col items-center border-b border-slate-200/60 p-5 sm:flex-row">
@@ -42,11 +46,11 @@ const BaseTable = ({ table }: { table?: TableProps }) => {
         ) : null}
 
         {!table?.isLoading && (!table?.column || table?.column?.length === 0) ? (
-          <NotFound/>
+          <NotFound />
         ) : null}
 
         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
-          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400 text-nowrap">
+          <thead className="text-nowrap bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               {!table?.isLoading &&
                 table?.column &&
@@ -61,9 +65,15 @@ const BaseTable = ({ table }: { table?: TableProps }) => {
           <tbody>
             {!table?.isLoading &&
               table?.column?.map((item, key) => (
+                // <Link to="/man">
                 <tr
                   key={key}
-                  className="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800"
+                  onClick={() =>
+                    router.push(
+                      `/app/transactions/${item[1].props.children === 'Sell' ? 'sell' : 'buy'}/${item[0].props.children}`
+                    )
+                  }
+                  className="cursor-pointer border-b odd:bg-white even:bg-gray-50   hover:bg-gray-200 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800"
                 >
                   {item.map((e, index) => (
                     <td key={index} className="px-6 py-4">
@@ -71,6 +81,7 @@ const BaseTable = ({ table }: { table?: TableProps }) => {
                     </td>
                   ))}
                 </tr>
+                // </Link>
               ))}
           </tbody>
         </table>
@@ -80,4 +91,4 @@ const BaseTable = ({ table }: { table?: TableProps }) => {
   );
 };
 
-export default BaseTable;
+export default TransactionTable;

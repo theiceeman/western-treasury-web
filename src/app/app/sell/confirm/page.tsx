@@ -3,11 +3,8 @@ import Button from '@/src/components/Button';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import CurrencyDropdown from '../../components/CurrencyDropdown';
 import { toIntNumberFormat } from '@/src/utils/helper';
-import { useEffect, useState } from 'react';
-import { convertToUsd } from '@/src/lib/utils';
-import {
-  createSell, validateSellRate
-} from '@/src/requests/transaction/transaction.request';
+import { useEffect } from 'react';
+import { createSell } from '@/src/requests/transaction/transaction.request';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import { useFormik } from 'formik';
 import { useMutation } from 'react-query';
@@ -23,7 +20,7 @@ const Page = () => {
   // const [details, setDetails] = useState<any>(null);
 
   const { mutate: mutateSell, isLoading: isLoadingSell } = useMutation(createSell, {
-    onSuccess: (res) => {
+    onSuccess: res => {
       // @ts-ignore
       dispatch(setTransaction({ ...transaction, transactionId: res?.result?.unique_id }));
       router.push('/app/sell/processing');
@@ -72,8 +69,9 @@ const Page = () => {
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-black">Review your Transaction.</h2>
               <p className="text-sm">
-                You will send {transaction.sendAmount} {transaction.sendCurrency?.symbol} to us
-                & recieve {toIntNumberFormat(transaction.recieveAmount)} NGN
+                You send {transaction.sendAmount} {transaction.sendCurrency?.symbol}& receive{' '}
+                {toIntNumberFormat(transaction.recieveAmount)}{' '}
+                {transaction.recieveCurrency?.symbol}
               </p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
@@ -97,7 +95,9 @@ const Page = () => {
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full justify-between">
                   <p>Fee</p>
-                  <p className="text-red-500">- ${toIntNumberFormat(transaction?.transactionFee)}</p>
+                  <p className="text-red-500">
+                    - ${toIntNumberFormat(transaction?.transactionFee)}
+                  </p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>
@@ -126,7 +126,7 @@ const Page = () => {
               </div>
               <div className="mt-7 flex">
                 <Button
-                isLoading={isLoadingSell}
+                  isLoading={isLoadingSell}
                   onClick={() => formik.handleSubmit()}
                   variant="primary"
                   className=" w-full text-[#5860A4]"

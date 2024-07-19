@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import CurrencyDropdown from '../components/CurrencyDropdown';
 import { showToast } from '@/src/utils/toaster';
+import { capitalize, upperCase } from 'lodash';
 
 const Page = () => {
   const router = useRouter();
@@ -49,6 +50,11 @@ const Page = () => {
         showToast('Enter a valid amount', 'failed', true);
         return;
       }
+      if (values.recievingWalletAddress === '') {
+        showToast('Enter a wallet address', 'failed', true);
+        return;
+      }
+
       let { data } = await validateBuyRate({
         amountInUsd,
         amountType: 'sending',
@@ -71,7 +77,6 @@ const Page = () => {
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
-    // console.log({ result });
     formik.setFieldValue('recieveAmount', result?.data[0].actual_amount_user_receives);
   };
 
@@ -133,6 +138,8 @@ const Page = () => {
       router.push('/app/overview');
     }
   }, []);
+
+  console.log(recievingCurrency);
 
   return (
     <>
@@ -199,7 +206,10 @@ const Page = () => {
               </div>
               {showReceiveWalletInput && (
                 <div className="flex flex-col gap-1">
-                  <p>Your BSC wallet Address</p>
+                  <p>
+                    Your {recievingCurrency.symbol} {capitalize(recievingCurrency.network)}{' '}
+                    wallet Address
+                  </p>
                   <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
                     <input
                       name="recievingWalletAddress"

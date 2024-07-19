@@ -1,13 +1,9 @@
 'use client';
-import { convertToUsd } from '@/src/lib/utils';
 import { getGlobalConfig } from '@/src/requests/config/config.requests';
-import {
-  validateSellRate,
-  viewSingleTransaction
-} from '@/src/requests/transaction/transaction.request';
+import { viewSingleTransaction } from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { toIntNumberFormat } from '@/src/utils/helper';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Processing from '../../../components/alerts/Processing';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
@@ -19,7 +15,6 @@ const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
-  const [details, setDetails] = useState<any>(null);
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
 
@@ -27,8 +22,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     dispatch(getGlobalConfig());
     if (id) {
       mutate(id);
-    }
-    else {
+    } else {
       router.push('/app/overview');
     }
   }, []);
@@ -48,7 +42,8 @@ const Page = ({ params }: { params: { id: string } }) => {
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
-              {data?.data?.status === ('TRANSACTION_CREATED' || 'TRANSFER_CONFIRMED' || 'PROCESSING') && (
+              {data?.data?.status ===
+                ('TRANSACTION_CREATED' || 'TRANSFER_CONFIRMED' || 'PROCESSING') && (
                 <Processing message="Confirm you're sending to the correct network & address" />
               )}
 
@@ -87,7 +82,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <div className="flex w-full justify-between">
                   <p>Amount sent</p>
                   <p className="text-right">
-                    {data?.data?.actual_amount_user_sends} {data?.data?.sendingCurrency?.symbol}
+                    {data?.data?.actual_amount_user_sends}{' '}
+                    {data?.data?.sendingCurrency?.symbol}
                   </p>
                 </div>
                 <div className="flex w-full justify-between">
@@ -99,7 +95,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Fee</p>
-                  <p className="text-red-500">- ${toIntNumberFormat(details?.fee)}</p>
+                  <p className="text-red-500">- ${toIntNumberFormat(data?.data?.fee)}</p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>

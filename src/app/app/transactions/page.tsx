@@ -1,10 +1,10 @@
 'use client';
 import StatusIndicator from '@/src/components/StatusIndicator';
 import { viewUserTransactions } from '@/src/requests/transaction/transaction.request';
-import { formatDateTime } from '@/src/utils/helper';
+import { formatDateTime, toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
-import BaseTable from '../components/tables/BaseTable';
+import TransactionTable from '../components/tables/TransactionTable';
 
 const Page = () => {
   const {
@@ -22,10 +22,10 @@ const Page = () => {
         <div className="flex flex-col gap-5 rounded-sm bg-white px-5 py-5">
           <div className="flex pl-1 font-bold"> Transaction History</div>
           <div className="flex  h-full w-full overflow-y-auto border sm:rounded-lg">
-            <BaseTable
+            <TransactionTable
               table={{
                 isLoading: isLoadingTransactions,
-                header: ['Txn ID', 'Type', 'status', 'amount', 'type'],
+                header: ['Txn ID', 'Type', 'status', 'amount ($)', 'Date'],
                 column: transactions?.data?.map((item: any, key: any) => [
                   <div className={'font-medium'}>{item.unique_id}</div>,
                   <div className={'font-medium'}>
@@ -40,7 +40,7 @@ const Page = () => {
                       }
                     />
                   </div>,
-                  <div className={'font-medium'}>{item.amount_in_usd}</div>,
+                  <div className={'font-medium'}>{toIntNumberFormat(Number(item.amount_in_usd))}</div>,
                   <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
                 ])
               }}

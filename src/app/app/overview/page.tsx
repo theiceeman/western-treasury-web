@@ -9,8 +9,8 @@ import { viewCurrencies } from '@/src/requests/currency/currency.requests';
 import { formatDateTime, toIntNumberFormat } from '@/src/utils/helper';
 import { viewUserTransactions } from '@/src/requests/transaction/transaction.request';
 import SkeletonCurrencyCard from '../components/skeletons/SkeletonCurrencyCard';
-import BaseTable from '../components/tables/BaseTable';
 import StatusIndicator from '@/src/components/StatusIndicator';
+import TransactionTable from '../components/tables/TransactionTable';
 
 const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +82,7 @@ const Page = () => {
                     </p>
                     <p className="font-semibold text-black">
                       <span className="text-[#8592AD]">$&nbsp;</span>
-                      {toIntNumberFormat(1 / e.market_usd_rate)}
+                      { e.market_usd_rate}
                     </p>
                   </div>
                 </div>
@@ -134,10 +134,10 @@ const Page = () => {
         <div className="flex flex-col gap-5 rounded-sm bg-white px-5 py-5">
           <div className="flex pl-1 font-bold">Recent Transactions</div>
           <div className="flex  h-full w-full overflow-y-auto border sm:rounded-lg">
-            <BaseTable
+            <TransactionTable
               table={{
                 isLoading: isLoadingTransactions,
-                header: ['Txn ID', 'Type', 'status', 'amount', 'type'],
+                header: ['Txn ID', 'Type', 'status', 'amount ($)', 'type'],
                 column: transactions?.data?.map((item: any, key: any) => [
                   <div className={'font-medium'}>{item.unique_id}</div>,
                   <div className={'font-medium'}>
@@ -152,11 +152,11 @@ const Page = () => {
                       }
                     />
                   </div>,
-                  <div className={'font-medium'}>{item.amount_in_usd}</div>,
+                  <div className={'font-medium'}>{toIntNumberFormat(Number(item.amount_in_usd))}</div>,
                   <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
                 ])
               }}
-              />
+            />
           </div>
         </div>
       </div>

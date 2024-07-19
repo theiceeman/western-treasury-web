@@ -76,8 +76,8 @@ const Page = () => {
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-black">Review your Transaction.</h2>
               <p className="text-sm">
-                You will send {toIntNumberFormat(transaction.sendAmount)}{' '}
-                {transaction.sendCurrency?.symbol} to us & recieve{' '}
+                You send {toIntNumberFormat(transaction.sendAmount)}{' '}
+                {transaction.sendCurrency?.symbol} & receive{' '}
                 {toIntNumberFormat(transaction.recieveAmount)}{' '}
                 {transaction.recieveCurrency?.symbol}
               </p>
@@ -116,7 +116,7 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p> Rate</p>
-                  <p>$1 ~ N{config?.USD_NGN_SELL_RATE}</p>
+                  <p> N&nbsp;{config?.USD_NGN_SELL_RATE} / $</p>
                 </div>
               </div>
 
