@@ -36,7 +36,8 @@ export default function PaymentMethodModal({
       recieveAmount: 0,
       sendCurrency: '',
       recieveCurrency: '',
-      recievingWalletAddress: ''
+      recievingWalletAddress: '',
+      transactionFee: 0
     },
     onSubmit: values => {
       dispatch(resetTransaction());

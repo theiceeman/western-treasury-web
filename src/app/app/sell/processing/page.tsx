@@ -11,6 +11,9 @@ import { useEffect, useState } from 'react';
 import Processing from '../../components/alerts/Processing';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
+import { socket } from '@/src/lib/socket';
+import TransactionStatus from '../../components/TransactionStatus';
+import { Socket, io } from 'socket.io-client';
 
 const Page = () => {
   const router = useRouter();
@@ -20,6 +23,7 @@ const Page = () => {
   const [details, setDetails] = useState<any>(null);
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
+  const [status, setStatus] = useState(null);
 
   const fetchSendRate = async () => {
     if (!transaction?.sendCurrency || !transaction?.recieveCurrency) return;
@@ -30,7 +34,7 @@ const Page = () => {
 
     let result = await validateSellRate({
       amountInUsd: sendAmountInUsd,
-      amountType:'sending',
+      amountType: 'sending',
       senderCurrencyId: transaction?.sendCurrency.unique_id,
       recieverCurrencyId: transaction?.recieveCurrency?.unique_id
     });
@@ -38,11 +42,33 @@ const Page = () => {
     setDetails(result?.data[0]);
   };
 
+  const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+  const socket: Socket = io(URL, { autoConnect: false });
+
+  useEffect(() => {
+    socket.connect();
+
+    if (transaction && transaction?.transactionId) {
+      socket.emit('register_connection', { txnId: transaction?.transactionId });
+
+      socket.on('transaction_status', (data: any) => {
+        console.log({ data });
+        setStatus(data?.status);
+      });
+    }
+    return () => {
+      socket.emit('close_connection');
+      socket.disconnect();
+    };
+  }, []);
+
+  // component state
   useEffect(() => {
     dispatch(getGlobalConfig());
     if (transaction && transaction?.transactionId) {
       fetchSendRate();
       mutate(transaction?.transactionId);
+      socket.connect();
     } else {
       router.push('/app/overview');
     }
@@ -63,9 +89,8 @@ const Page = () => {
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
-              {/* <Success/> */}
-              <Processing message="Confirm you're sending to the correct network & address" />
-              {/* <Failed/> */}
+              <TransactionStatus status={status ?? 'TRANSACTION_CREATED'} txnType={data?.data?.type} />
+
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">
                   <div className="flex">Wallet</div>

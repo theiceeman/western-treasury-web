@@ -3,12 +3,14 @@ import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import { viewSingleTransaction } from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { toIntNumberFormat } from '@/src/utils/helper';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Processing from '../../../components/alerts/Processing';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
 import Success from '../../../components/alerts/Success';
 import Failed from '../../../components/alerts/Failed';
+import TransactionStatus from '../../../components/TransactionStatus';
+import { Socket, io } from 'socket.io-client';
 
 const Page = ({ params }: { params: { id: string } }) => {
   const id = params.id;
@@ -17,6 +19,30 @@ const Page = ({ params }: { params: { id: string } }) => {
   const config = useAppSelector(state => state.globalConfig);
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
+  const [status, setStatus] = useState(null);
+
+  const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+  const socket: Socket = io(URL, { autoConnect: false });
+
+  useEffect(() => {
+    socket.connect();
+
+    socket.emit('register_connection', { txnId: id });
+
+    socket.on('transaction_status', (data: any) => {
+      console.log({ data });
+      setStatus(data?.status);
+    });
+
+    return () => {
+      socket.emit('close_connection');
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    setStatus(data?.data?.status);
+  }, [data]);
 
   useEffect(() => {
     dispatch(getGlobalConfig());
@@ -42,18 +68,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
-              {data?.data?.status ===
-                ('TRANSACTION_CREATED' || 'TRANSFER_CONFIRMED' || 'PROCESSING') && (
-                <Processing message="Confirm you're sending to the correct network & address" />
-              )}
-
-              {data?.data?.status === 'COMPLETED' && (
-                <Success message="Transaction completed." />
-              )}
-
-              {data?.data?.status === 'FAILED' && (
-                <Failed message="Confirm you're sending to the correct network & address" />
-              )}
+              <TransactionStatus status={status??'PROCESSING'} txnType={data?.data?.type} />
 
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">

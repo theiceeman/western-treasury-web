@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Processing from '../../components/alerts/Processing';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
+import TransactionStatus from '../../components/TransactionStatus';
 
 const Page = () => {
   const router = useRouter();
@@ -47,9 +48,9 @@ const Page = () => {
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
-              {/* <Success/> */}
-              <Processing message="Confirm you're sending to the correct bank account" />
-              {/* <Failed/> */}
+              
+            <TransactionStatus status={data?.data?.status} txnType={data?.data?.type} />
+
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">
                   <div className="flex text-nowrap">Account No </div>

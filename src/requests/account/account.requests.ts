@@ -45,7 +45,6 @@ export const getLoggedInUser = () => {
         const response = Request.get('user/account/view');
         response
             .then((res: any) => {
-                console.log({ response: res.data })
                 showToast(res?.message, 'success', false);
                 dispatch(setUser(res.data));
             })
