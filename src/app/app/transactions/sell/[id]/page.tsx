@@ -68,7 +68,10 @@ const Page = ({ params }: { params: { id: string } }) => {
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
-              <TransactionStatus status={status??'PROCESSING'} txnType={data?.data?.type} />
+              <TransactionStatus
+                status={status ?? 'TRANSACTION_CREATED'}
+                txnType={data?.data?.type}
+              />
 
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">
