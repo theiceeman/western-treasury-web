@@ -10,6 +10,10 @@ import { useRouter } from 'next/navigation';
 import TransactionStatus from '../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
 
+
+const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+const socket: Socket = io(URL, { autoConnect: false });
+
 const Page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -26,9 +30,6 @@ const Page = () => {
     }
   }, [data]);
 
-
-  const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
-  const socket: Socket = io(URL, { autoConnect: false });
 
   useEffect(() => {
     socket.connect();

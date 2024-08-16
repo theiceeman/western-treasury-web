@@ -11,6 +11,11 @@ import Success from '../../../components/alerts/Success';
 import Failed from '../../../components/alerts/Failed';
 import TransactionStatus from '../../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
+// import { socket } from '@/src/lib/socket';
+
+
+const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+const socket: Socket = io(URL, { autoConnect: false });
 
 const Page = ({ params }: { params: { id: string } }) => {
   const id = params.id;
@@ -20,9 +25,6 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
   const [status, setStatus] = useState(null);
-
-  const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
-  const socket: Socket = io(URL, { autoConnect: false });
 
   useEffect(() => {
     socket.connect();

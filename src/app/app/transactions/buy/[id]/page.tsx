@@ -3,15 +3,14 @@ import { getGlobalConfig } from '@/src/requests/config/config.requests';
 import { viewSingleTransaction } from '@/src/requests/transaction/transaction.request';
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { useEffect, useState } from 'react';
-import Processing from '../../../components/alerts/Processing';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
-import Success from '../../../components/alerts/Success';
-import Failed from '../../../components/alerts/Failed';
 import { toIntNumberFormat } from '@/src/utils/helper';
-import { socket } from '@/src/lib/socket';
 import { Socket, io } from 'socket.io-client';
 import TransactionStatus from '../../../components/TransactionStatus';
+
+const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+const socket: Socket = io(URL, { autoConnect: false });
 
 const Page = ({ params }: { params: { id: string } }) => {
   const id = params.id;
@@ -23,8 +22,6 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [bank, setBank] = useState<any>(null);
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
 
-  const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
-  const socket: Socket = io(URL, { autoConnect: false });
 
   useEffect(() => {
     socket.connect();
@@ -32,7 +29,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     socket.emit('register_connection', { txnId: id });
 
     socket.on('transaction_status', (data: any) => {
-      console.log({ data });
       setStatus(data?.status);
     });
 
@@ -57,7 +53,6 @@ const Page = ({ params }: { params: { id: string } }) => {
       router.push('/app/overview');
     }
   }, []);
-  console.log('xx', data?.data?.status);
   return (
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">

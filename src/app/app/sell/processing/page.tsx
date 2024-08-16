@@ -11,9 +11,12 @@ import { useEffect, useState } from 'react';
 import Processing from '../../components/alerts/Processing';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
-import { socket } from '@/src/lib/socket';
 import TransactionStatus from '../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
+
+
+const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+const socket: Socket = io(URL, { autoConnect: false });
 
 const Page = () => {
   const router = useRouter();
@@ -42,8 +45,6 @@ const Page = () => {
     setDetails(result?.data[0]);
   };
 
-  const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
-  const socket: Socket = io(URL, { autoConnect: false });
 
   useEffect(() => {
     socket.connect();
@@ -52,7 +53,6 @@ const Page = () => {
       socket.emit('register_connection', { txnId: transaction?.transactionId });
 
       socket.on('transaction_status', (data: any) => {
-        console.log({ data });
         setStatus(data?.status);
       });
     }
