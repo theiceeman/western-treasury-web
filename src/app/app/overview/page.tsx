@@ -11,8 +11,13 @@ import { viewUserTransactions } from '@/src/requests/transaction/transaction.req
 import SkeletonCurrencyCard from '../components/skeletons/SkeletonCurrencyCard';
 import StatusIndicator from '@/src/components/StatusIndicator';
 import TransactionTable from '../components/tables/TransactionTable';
+import { useRouter } from 'next/navigation';
+import { resetTransaction, setTransaction } from '@/src/stores/slices/transactionSlice';
+import { useAppDispatch } from '@/src/stores/hooks';
 
 const Page = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [transactionType, setTransactionType] = useState<string | null>(null);
   const scrollableDivRef = useRef<HTMLDivElement>(null);
@@ -78,11 +83,11 @@ const Page = () => {
                   </div>
                   <div className="flex w-full flex-col">
                     <p className="text-nowrap text-sm font-semibold capitalize text-[#8592AD]">
-                      {e.name}
+                      {e.name} ({e.network})
                     </p>
                     <p className="font-semibold text-black">
                       <span className="text-[#8592AD]">$&nbsp;</span>
-                      { e.market_usd_rate}
+                      {e.market_usd_rate}
                     </p>
                   </div>
                 </div>
@@ -114,8 +119,24 @@ const Page = () => {
           </div>
           <div
             onClick={() => {
-              setTransactionType('sell');
-              openModal();
+              const values = {
+                type: 'sell',
+                paymentType: 'BANK_TRANSFER',
+                amountInUsd: 0,
+                inProgress: true,
+                sendAmount: 0,
+                recieveAmount: 0,
+                sendCurrency: '',
+                recieveCurrency: '',
+                recievingWalletAddress: '',
+                transactionFee: 0
+              };
+              dispatch(resetTransaction());
+              dispatch(setTransaction({ ...values }));
+
+              // setTransactionType('sell');
+              // openModal();
+              router.push('/app/sell');
             }}
             className="flex w-1/2 cursor-pointer flex-row justify-center gap-2 rounded-sm border px-2 py-2 hover:border-secondary lg:px-5 lg:py-5"
           >
@@ -152,7 +173,9 @@ const Page = () => {
                       }
                     />
                   </div>,
-                  <div className={'font-medium'}>{toIntNumberFormat(Number(item.amount_in_usd))}</div>,
+                  <div className={'font-medium'}>
+                    {toIntNumberFormat(Number(item.amount_in_usd))}
+                  </div>,
                   <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
                 ])
               }}

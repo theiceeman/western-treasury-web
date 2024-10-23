@@ -16,3 +16,21 @@ export function convertToUsd(amount: number, usdRate: number) {
   let amountInUsd = amount / Number(usdRate);
   return amountInUsd;
 }
+export function getCurrentTimeFormatted() {
+  const date = new Date();
+  
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  };
+
+  // Format the date using the options
+  const formattedDate = date.toLocaleDateString('en-US',options);
+  console.log({formattedDate})
+
+  return formattedDate;
+}

@@ -48,7 +48,7 @@ export default function PaymentMethodModal({
           router.push('/app/buy');
           break;
         case 'sell':
-          router.push('/app/sell');
+          // router.push('/app/sell');
           break;
         default:
           break;
