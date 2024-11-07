@@ -15,7 +15,7 @@ import TransactionStatus from '../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
 
 
-const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+const URL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api` ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
 
 const Page = () => {

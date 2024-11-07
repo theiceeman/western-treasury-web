@@ -14,7 +14,7 @@ import { Socket, io } from 'socket.io-client';
 // import { socket } from '@/src/lib/socket';
 
 
-const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+const URL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api` ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
 
 const Page = ({ params }: { params: { id: string } }) => {

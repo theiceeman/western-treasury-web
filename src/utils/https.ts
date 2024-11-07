@@ -50,7 +50,8 @@ interface iService {
 }
 
 const ApiResource = () => {
-  const baseURL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER;
+  // const baseURL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER;
+  const baseURL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api`
   // console.log({baseURL:process.env.NEXT_PUBLIC_OFFRAMP_SERVER});
   // return;
 

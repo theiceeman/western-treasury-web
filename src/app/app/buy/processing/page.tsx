@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+const URL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api` ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
 const FW_PUBLIC_KEY = process.env.NEXT_PUBLIC_FLW_TESTNET_PUBLIC_KEY;
 
