@@ -18,16 +18,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <link rel="icon" href="/wt-favicon.svg" sizes="any" />
+      <head>
+        <link rel="icon" href="/wt-favicon.svg" sizes="any" />
+        <script src="https://checkout.flutterwave.com/v3.js"></script>
+      </head>
       <body className={`min-h-screen bg-background antialiased ${mulish.className}`}>
-          <StoreProvider>
-            <Providers>
-              <Toaster position="top-right" />
-              <div className=" flex min-h-screen w-full flex-col bg-background">
-                {children}
-              </div>
-            </Providers>
-          </StoreProvider>
+        <StoreProvider>
+          <Providers>
+            <Toaster position="top-right" />
+            <div className=" flex min-h-screen w-full flex-col bg-background">{children}</div>
+          </Providers>
+        </StoreProvider>
       </body>
     </html>
   );

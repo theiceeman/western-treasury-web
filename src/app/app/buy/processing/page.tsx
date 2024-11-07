@@ -10,9 +10,45 @@ import { useRouter } from 'next/navigation';
 import TransactionStatus from '../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
 
+declare global {
+  interface Window {
+    FlutterwaveCheckout: (options: any) => void;
+  }
+}
 
 const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
+const FW_PUBLIC_KEY = process.env.NEXT_PUBLIC_FLW_TESTNET_PUBLIC_KEY;
+
+const handlePayment = () => {
+  console.log({ window });
+  if (typeof window !== 'undefined' && window.FlutterwaveCheckout) {
+    window.FlutterwaveCheckout({
+      public_key: FW_PUBLIC_KEY,
+      tx_ref: 'hooli-tx-1920bbtytty',
+      amount: 100,
+      currency: 'USD',
+      payment_options: 'card, mobilemoneyghana, ussd',
+      customer: {
+        email: 'user@example.com',
+        phonenumber: '080****4528',
+        name: 'Yemi Desola'
+      },
+      callback: function (data: any) {
+        console.log(data);
+        // Handle successful payment here
+      },
+      onclose: function () {
+        // Handle payment close event
+      },
+      customizations: {
+        title: 'My store',
+        description: 'Payment for items in cart',
+        logo: 'https://example.com/logo.png'
+      }
+    });
+  }
+};
 
 const Page = () => {
   const router = useRouter();
@@ -30,7 +66,6 @@ const Page = () => {
     }
   }, [data]);
 
-
   useEffect(() => {
     socket.connect();
 
@@ -41,6 +76,8 @@ const Page = () => {
         console.log({ data });
         setStatus(data?.status);
       });
+
+      // handlePayment();
     }
     return () => {
       socket.emit('close_connection');
@@ -72,8 +109,10 @@ const Page = () => {
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
-              
-              <TransactionStatus status={status ?? 'TRANSACTION_CREATED'} txnType={data?.data?.type} />
+              <TransactionStatus
+                status={status ?? 'TRANSACTION_CREATED'}
+                txnType={data?.data?.type}
+              />
 
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">
