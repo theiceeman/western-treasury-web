@@ -30,7 +30,7 @@ export function getCurrentTimeFormatted() {
 
   // Format the date using the options
   const formattedDate = date.toLocaleDateString('en-US',options);
-  console.log({formattedDate})
+  // console.log({formattedDate})
 
   return formattedDate;
 }

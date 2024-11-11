@@ -139,7 +139,7 @@ const Page = () => {
     }
   }, []);
 
-  console.log(recievingCurrency);
+  // console.log(recievingCurrency);
 
   return (
     <>

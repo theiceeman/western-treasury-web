@@ -32,7 +32,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     socket.emit('register_connection', { txnId: id });
 
     socket.on('transaction_status', (data: any) => {
-      console.log({ data });
+      // console.log({ data });
       setStatus(data?.status);
     });
 

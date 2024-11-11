@@ -1,7 +1,7 @@
 import React from 'react';
 
 function StatusIndicator({ type }: { type: string | boolean }) {
-  console.log(type?.toString()?.trim()?.toLowerCase());
+  // console.log(type?.toString()?.trim()?.toLowerCase());
   switch (type?.toString()?.trim()?.toLowerCase()) {
     case 'transaction_created':
       return (
