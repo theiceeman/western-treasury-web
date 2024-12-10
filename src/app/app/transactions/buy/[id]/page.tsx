@@ -9,7 +9,8 @@ import { toIntNumberFormat } from '@/src/utils/helper';
 import { Socket, io } from 'socket.io-client';
 import TransactionStatus from '../../../components/TransactionStatus';
 
-const URL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api` ?? '';
+const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
+// const URL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api` ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -22,13 +23,14 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [bank, setBank] = useState<any>(null);
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
 
-
   useEffect(() => {
     socket.connect();
-
     socket.emit('register_connection', { txnId: id });
 
+    console.log('Successfully connected to the socket.');
+
     socket.on('transaction_status', (data: any) => {
+      console.log('status', data);
       setStatus(data?.status);
     });
 
