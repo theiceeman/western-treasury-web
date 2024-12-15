@@ -78,7 +78,7 @@ const Page = () => {
         setStatus(data?.status);
       });
 
-      // handlePayment();
+      handlePayment();
     }
     return () => {
       socket.emit('close_connection');

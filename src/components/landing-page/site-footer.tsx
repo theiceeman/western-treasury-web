@@ -40,13 +40,13 @@ export function SiteFooter() {
         <div className=" space-y-4">
           <h4 className="text-[24px]/[43px] font-black">Contact us</h4>
           <div className="flex flex-col">
-            <p>hello@offramp.com</p>
+            <p>hello@westerntreasury.com</p>
             <p>+234 8183175686</p>
           </div>
         </div>
       </div>
       <div className="mt-7 flex items-center justify-start md:justify-end max-w-[70rem] mx-auto">
-        <p className="text-sm">©2024 OffRamp.</p>
+        <p className="text-sm">©2024 Western Treasury.</p>
       </div>
     </footer>
   );

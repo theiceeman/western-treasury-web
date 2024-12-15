@@ -6,7 +6,7 @@ import CreditCardIcon from '../components/icons/CreditCardIcon';
 import ArrowRightIcon from '../components/icons/ArrowRightIcon';
 import { useMutation } from 'react-query';
 import { viewCurrencies } from '@/src/requests/currency/currency.requests';
-import { formatDateTime, toIntNumberFormat } from '@/src/utils/helper';
+import { _toIntNumberFormat, formatDateTime, toIntNumberFormat } from '@/src/utils/helper';
 import { viewUserTransactions } from '@/src/requests/transaction/transaction.request';
 import SkeletonCurrencyCard from '../components/skeletons/SkeletonCurrencyCard';
 import StatusIndicator from '@/src/components/StatusIndicator';
@@ -158,7 +158,7 @@ const Page = () => {
             <TransactionTable
               table={{
                 isLoading: isLoadingTransactions,
-                header: ['Txn ID', 'Type', 'status', 'amount ($)', 'type'],
+                header: ['Txn ID', 'Type', 'status', 'amount ($)', 'date'],
                 column: transactions?.data?.map((item: any, key: any) => [
                   <div className={'font-medium'}>{item.unique_id}</div>,
                   <div className={'font-medium'}>
@@ -174,7 +174,7 @@ const Page = () => {
                     />
                   </div>,
                   <div className={'font-medium'}>
-                    {toIntNumberFormat(Number(item.amount_in_usd))}
+                    {_toIntNumberFormat(Number(item.amount_in_usd), 5)}
                   </div>,
                   <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
                 ])

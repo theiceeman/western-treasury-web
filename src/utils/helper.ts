@@ -61,6 +61,12 @@ function toIntNumberFormat(value: number) {
   return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(Number(formattedNumber));
 }
 
+function _toIntNumberFormat(value: number, decimalPlaces: number = 2) {
+  let roundedNumber = Math.round(((value ?? 0) + Number.EPSILON) * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+  let formattedNumber = roundedNumber.toFixed(decimalPlaces);
+  return new Intl.NumberFormat('en-US', { minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces }).format(Number(formattedNumber));
+}
+
 const timeAgo = (time: string) => {
   const date = new Date((time || "").replace(/-/g, "/").replace(/[TZ]/g, " "));
   const diff = (new Date().getTime() - date.getTime()) / 1000;
@@ -309,5 +315,6 @@ export {
   toIntNumberFormat,
   truncateAddress,
   debounce,
-  getFirstLetters
+  getFirstLetters,
+  _toIntNumberFormat
 };

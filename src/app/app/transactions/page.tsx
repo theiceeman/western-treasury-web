@@ -1,7 +1,7 @@
 'use client';
 import StatusIndicator from '@/src/components/StatusIndicator';
 import { viewUserTransactions } from '@/src/requests/transaction/transaction.request';
-import { formatDateTime, toIntNumberFormat } from '@/src/utils/helper';
+import { _toIntNumberFormat, formatDateTime, toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import TransactionTable from '../components/tables/TransactionTable';
@@ -40,7 +40,7 @@ const Page = () => {
                       }
                     />
                   </div>,
-                  <div className={'font-medium'}>{toIntNumberFormat(Number(item.amount_in_usd))}</div>,
+                  <div className={'font-medium'}>{_toIntNumberFormat(Number(item.amount_in_usd),5)}</div>,
                   <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
                 ])
               }}
