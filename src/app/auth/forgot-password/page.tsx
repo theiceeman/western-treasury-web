@@ -23,10 +23,10 @@ const Page = () => {
                 <input
                   type="text"
                   placeholder="Email"
-                  className="h-[45px] rounded-sm px-[10px] py-[3px] text-sm outline-none focus:outline outline-offset-0 outline-1 focus:outline-[#495192] focus:border"
+                  className="h-[45px] rounded-sm px-[10px] py-[3px] text-sm outline-none outline-1 outline-offset-0 focus:border focus:outline focus:outline-[#495192]"
                 />
               </div>
-              <Button variant='primary'>Submit</Button>
+              <Button variant="primary">Submit</Button>
               {/* <div className="flex flex-col gap-3 font-semibold">
                 <a href="">
                   <p className="text-primary">I forgot my password</p>
@@ -40,10 +40,10 @@ const Page = () => {
               </div> */}
               <div className="flex h-full flex-col justify-end gap-2 text-sm text-slate-600">
                 <p>
-                  OffRamp is registered with the Corporate Affairs Commission, RC Number:
-                  1623222
+                  Western Treasury is registered with the Corporate Affairs Commission as a
+                  subsidiary of Imperionix Technologies, <br /> RC Number: 7712869
                 </p>
-                <p>OffRamp. All rights reserved © 2024</p>
+                <p>Western Treasury. All rights reserved © 2024</p>
               </div>
             </div>
           </div>

@@ -90,10 +90,10 @@ const Page = () => {
               </div>
               <div className="flex h-full flex-col justify-end gap-2 text-sm text-slate-600">
                 <p>
-                  OffRamp is registered with the Corporate Affairs Commission, RC Number:
-                  1623222
+                Western Treasury is registered with the Corporate Affairs Commission as a
+                  subsidiary of Imperionix Technologies, <br /> RC Number: 7712869
                 </p>
-                <p>OffRamp. All rights reserved © 2024</p>
+                <p>Western Treasury. All rights reserved © 2024</p>
               </div>
             </div>
           </div>
