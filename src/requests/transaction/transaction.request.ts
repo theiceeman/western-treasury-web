@@ -35,16 +35,22 @@ export const createBuy = async (payload: ICreateBuyTransaction) => {
 
 export const validateSellRate = async (payload: IValidateRate) => {
     const response = Request.post({ url: 'user/transaction/offramp-crypto/validate', payload });
-    // response
-    // .then((res: any) => showToast(res?.data, 'success'))
-    // .catch((error) => showToast(error.data, 'failed'));
+    response
+        .then((res: any) => {
+            return res
+            // showToast(res?.data, 'success')
+        })
+        .catch((error) => showToast(error.data, 'failed'));
     return response;
 };
 
 export const validateBuyRate = async (payload: IValidateRate) => {
     const response = Request.post({ url: 'user/transaction/buy-crypto/validate', payload });
-    // response
-    // .then((res: any) => showToast(res?.data, 'success'))
-    // .catch((error) => showToast(error.data, 'failed'));
+    response
+        .then((res: any) => {
+            return res
+            // showToast(res?.data, 'success')
+        })
+        .catch((error) => showToast(error.data, 'failed'));
     return response;
 };

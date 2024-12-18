@@ -16,7 +16,7 @@ export default function Page() {
       </div>
       <div className="mx-auto mb-[100px] flex w-full max-w-[80rem] flex-col items-center justify-center gap-[100px] px-3 md:px-[95px] md:pb-[80x]">
         <div className="flex  justify-center text-center">
-          <h3 className="text-3xl lg:text-4xl font-bold capitalize mt-5">
+          <h3 className="text-3xl lg:text-4xl font-black capitalize mt-5">
             Exchange your crypto,   <span className="text-primary"> for fiat</span>.
           </h3>
         </div>

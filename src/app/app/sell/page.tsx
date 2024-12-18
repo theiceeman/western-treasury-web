@@ -54,6 +54,11 @@ const Page = () => {
         senderCurrencyId: sendingCurrency.unique_id,
         recieverCurrencyId: recievingCurrency?.unique_id
       });
+      
+      if (data?.error) {
+        showToast(data?.data, 'failed', true);
+        return;
+      }
 
       dispatch(setTransaction({ ...values, amountInUsd, transactionFee: data[0].fee }));
       router.push('/app/sell/confirm');
@@ -70,7 +75,10 @@ const Page = () => {
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
-    // formik.setFieldValue('amountInUsd', amountInUsd);
+    if (result?.data?.error) {
+      showToast(result?.data?.data, 'failed', true);
+      return;
+    }
     formik.setFieldValue('recieveAmount', result?.data[0].actual_amount_user_receives);
   };
 
@@ -84,6 +92,10 @@ const Page = () => {
       senderCurrencyId: sendingCurrency.unique_id,
       recieverCurrencyId: recievingCurrency?.unique_id
     });
+    if (result?.data?.error) {
+      showToast(result?.data?.data, 'failed', true);
+      return;
+    }
     formik.setFieldValue('sendAmount', result?.data[0].actual_amount_user_sends);
   };
 
