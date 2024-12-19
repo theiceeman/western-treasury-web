@@ -5,6 +5,7 @@ import { useMutation } from 'react-query';
 import { viewLoggedInUser } from '@/src/requests/account/account.requests';
 import { useEffect } from 'react';
 import { getFirstLetters } from '@/src/utils/helper';
+import { logout } from '@/src/utils/auth-tokens';
 
 const UserSettings = () => {
   const {
@@ -69,12 +70,21 @@ const UserSettings = () => {
               </div>
             </div>
           </div>
-          <Link
-            href="/app/settings/user/edit"
-            className="ml-auto flex cursor-pointer rounded-sm bg-blue-100 px-3 py-1 text-xs text-primary hover:bg-blue-200"
-          >
-            Edit Profile
-          </Link>
+          <div className="flex w-full justify-end">
+            <Link
+              href="/app/settings/user/edit"
+              onClick={logout}
+              className="flex cursor-pointer rounded-sm bg-red-300 px-3 py-1 text-xs text-red-700 hover:bg-red-200"
+            >
+              Sign out
+            </Link>
+            <Link
+              href="/app/settings/user/edit"
+              className="ml-auto flex cursor-pointer rounded-sm bg-blue-100 px-3 py-1 text-xs text-primary hover:bg-blue-200"
+            >
+              Edit Profile
+            </Link>
+          </div>
         </div>
       </div>
     </>

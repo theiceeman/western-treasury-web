@@ -6,6 +6,7 @@ import Button from '@/src/components/Button';
 import { SettingsIcon } from './icons/SettingsIcon';
 import { LucideDollarSign, LucideLogOut, UserIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { logout } from '@/src/utils/auth-tokens';
 
 const SideBar = () => {
   const pathname = usePathname();
@@ -80,6 +81,7 @@ const SideBar = () => {
           </Link>
           <Link
             href="/"
+            onClick={logout}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             className={`${pathname === '/' ? 'sidebar-active' : ''} flex cursor-pointer  flex-row justify-between pl-1`}

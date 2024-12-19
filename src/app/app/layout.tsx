@@ -8,11 +8,15 @@ import TopBar from './components/TopBar';
 import { setUser } from '@/src/stores/slices/userSlice';
 import { getLoggedInUser } from '@/src/requests/account/account.requests';
 import { useEffect } from 'react';
+import { isAppAuthenticated } from '@/src/utils/auth-tokens';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (!isAppAuthenticated()) {
+      window.location.href = '/';
+    }
     dispatch(getLoggedInUser());
   }, []);
 

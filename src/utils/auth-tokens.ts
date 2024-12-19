@@ -21,3 +21,9 @@ export const deleteToken = () => {
 export const isAppAuthenticated = () => {
 	return retrieveToken() ? true : false;
 };
+
+
+export const logout = (): void => {
+	deleteToken();
+	window.location.href = '/';
+};
