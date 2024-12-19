@@ -15,19 +15,19 @@ export function SiteHeader() {
         <div className="hidden w-full  lg:flex">
           <div className="flex w-full items-center justify-center gap-11 text-sm">
             <Link
-              href={'#'}
+              href={'#how-it-works'}
               className=" font-medium text-foreground underline-offset-4 hover:underline"
             >
               Features
             </Link>
             <Link
-              href={'#'}
+              href={'#rates'}
               className=" font-medium text-foreground underline-offset-4 hover:underline"
             >
               Rates
             </Link>
             <Link
-              href={'#'}
+              href={'#contact-us'}
               className=" font-medium text-foreground underline-offset-4 hover:underline"
             >
               Contact

@@ -30,7 +30,7 @@ export async function MarketRate() {
   const todayDate = getCurrentTimeFormatted();
 
   return (
-    <section className="flex  flex-col items-center justify-center bg-[#DFE2FF] px-3 py-10 text-center md:px-[60px] md:py-[88px] lg:px-[170px] lg:py-[88px]">
+    <section id="rates" className="flex  flex-col items-center justify-center bg-[#DFE2FF] px-3 py-10 text-center md:px-[60px] md:py-[88px] lg:px-[170px] lg:py-[88px]">
       <h3 className="text-3xl font-black md:text-4xl">Today’s Market Rates</h3>
 
       <div className="w-full max-w-[70rem] rounded-[25px] shadow-xl">
