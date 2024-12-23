@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
-import { toIntNumberFormat } from '@/src/utils/helper';
+import { _toIntNumberFormat, toIntNumberFormat } from '@/src/utils/helper';
 import { Socket, io } from 'socket.io-client';
 import TransactionStatus from '../../../components/TransactionStatus';
 
@@ -66,7 +66,8 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div className="flex w-full flex-col justify-center text-center md:px-32 xl:px-48">
             <div className="flex flex-col gap-1">
               <h2 className="text-xl font-black">
-                {data?.data?.actual_amount_user_sends} {data?.data?.sendingCurrency?.symbol}
+                {toIntNumberFormat(data?.data?.actual_amount_user_sends)}{' '}
+                {data?.data?.sendingCurrency?.symbol}
               </h2>
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
@@ -110,7 +111,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <div className="flex w-full justify-between">
                   <p>Amount received</p>
                   <p className="text-right">
-                    {toIntNumberFormat(data?.data?.actual_amount_user_receives)}&nbsp;
+                    {_toIntNumberFormat(data?.data?.actual_amount_user_receives, 5)}&nbsp;
                     {data?.data?.recieverCurrency?.symbol}
                   </p>
                 </div>
@@ -127,7 +128,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <p className="text-center">
                   Need help or have questions? <br />{' '}
                   <span className="text-blue-500">
-                    <a href="">Contact us</a>
+                    <a href="https://wa.me/2348183175686">Contact us</a>
                   </span>
                   &nbsp;or&nbsp;
                   <span className="text-blue-500">

@@ -109,9 +109,11 @@ const SideBar = () => {
               We're always here to <br /> help you.
             </p>
             <div className="mb-8 flex justify-center">
-              <Button variant="secondary" className="bg-slate-200 text-[#5860A4]">
-                contact us
-              </Button>
+              <a href="https://wa.me/2348183175686">
+                <Button variant="secondary" className="bg-slate-200 text-[#5860A4]">
+                  contact us
+                </Button>
+              </a>
             </div>
           </div>
         </div>

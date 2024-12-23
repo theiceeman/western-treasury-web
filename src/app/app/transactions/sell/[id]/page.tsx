@@ -126,7 +126,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <p className="text-center">
                   Need help or have questions? <br />{' '}
                   <span className="text-blue-500">
-                    <a href="">Contact us</a>
+                    <a href="https://wa.me/2348183175686">
+                      Contact us</a>
                   </span>
                   &nbsp;or&nbsp;
                   <span className="text-blue-500">

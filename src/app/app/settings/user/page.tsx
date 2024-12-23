@@ -71,13 +71,12 @@ const UserSettings = () => {
             </div>
           </div>
           <div className="flex w-full justify-end">
-            <Link
-              href="/app/settings/user/edit"
+            <button
               onClick={logout}
               className="flex cursor-pointer rounded-sm bg-red-300 px-3 py-1 text-xs text-red-700 hover:bg-red-200"
             >
               Sign out
-            </Link>
+            </button>
             <Link
               href="/app/settings/user/edit"
               className="ml-auto flex cursor-pointer rounded-sm bg-blue-100 px-3 py-1 text-xs text-primary hover:bg-blue-200"

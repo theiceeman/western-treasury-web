@@ -81,7 +81,18 @@ const Page = () => {
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
               <div className="flex flex-col gap-1">
                 <p>Bank Name</p>
-                <div className="relative">
+                <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
+                  <input
+                    name="bankName"
+                    value={formik.values.bankName}
+                    onChange={(e: any) => {
+                      formik.handleChange(e);
+                    }}
+                    type="text"
+                    className="h-full w-full rounded-lg bg-white bg-opacity-30 py-2  text-sm text-slate-600 outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
+                  />
+                </div>
+                {/* <div className="relative">
                   <Combobox
                     value={selectedBank}
                     onChange={value => {
@@ -111,7 +122,7 @@ const Page = () => {
                       </Combobox.Options>
                     </div>
                   </Combobox>
-                </div>
+                </div> */}
               </div>
               <div className="flex flex-col gap-1">
                 <p>Account Name</p>
