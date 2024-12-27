@@ -35,7 +35,7 @@ const Page = () => {
 
   // console.log({ user });
 
-  const handlePayment = () => {
+  const handleDebitCardPayment = () => {
     console.log({ window });
     if (typeof window !== 'undefined' && window.FlutterwaveCheckout) {
       window.FlutterwaveCheckout({
@@ -56,6 +56,7 @@ const Page = () => {
         },
         onclose: function () {
           // Handle payment close event
+          router.push('/app/overview');
         },
         customizations: {
           title: 'Western Treasury',
@@ -83,7 +84,9 @@ const Page = () => {
         setStatus(data?.status);
       });
 
-      // handlePayment();
+      if (transaction.paymentType === 'DEBIT_CARD') {
+        handleDebitCardPayment();
+      }
     }
     return () => {
       socket.emit('close_connection');
