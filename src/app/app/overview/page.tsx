@@ -174,7 +174,7 @@ const Page = () => {
                     />
                   </div>,
                   <div className={'font-medium'}>
-                    {_toIntNumberFormat(Number(item.amount_in_usd), 5)}
+                    {_toIntNumberFormat(Number(item.amount_in_usd), 2)}
                   </div>,
                   <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
                 ])

@@ -104,14 +104,14 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <div className="flex w-full justify-between">
                   <p>Amount sent</p>
                   <p className="text-right">
-                    {toIntNumberFormat(data?.data?.actual_amount_user_sends)}{' '}
+                    {_toIntNumberFormat(data?.data?.actual_amount_user_sends, 2)}{' '}
                     {data?.data?.sendingCurrency?.symbol}
                   </p>
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Amount received</p>
                   <p className="text-right">
-                    {_toIntNumberFormat(data?.data?.actual_amount_user_receives, 5)}&nbsp;
+                    {_toIntNumberFormat(data?.data?.actual_amount_user_receives, 2)}&nbsp;
                     {data?.data?.recieverCurrency?.symbol}
                   </p>
                 </div>
