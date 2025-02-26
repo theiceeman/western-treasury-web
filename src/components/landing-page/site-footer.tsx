@@ -2,15 +2,18 @@ import Image from 'next/image';
 
 export function SiteFooter() {
   return (
-    <footer id="contact-us" className="w-full bg-[#C8CCF7] px-[40px] py-[50px] pb-5 lg:px-[110px] lg:py-[70px]">
-      <div className="flex flex-col md:flex-row gap-5 md:gap-0 items-start justify-between max-w-[70rem] mx-auto">
+    <footer
+      id="contact-us"
+      className="w-full bg-[#C8CCF7] px-[40px] py-[50px] pb-5 lg:px-[110px] lg:py-[70px]"
+    >
+      <div className="mx-auto flex max-w-[70rem] flex-col items-start justify-between gap-5 md:flex-row md:gap-0">
         <div className="space-y-3">
           <Image src={'/wt-logo.svg'} alt="logo" width={200} height={86} priority />
           <p>Global exchange platform made easy</p>
         </div>
         <div className=" space-y-4">
           <h4 className="text-[24px]/[43px] font-black">Socials</h4>
-          <div className="flex flex-col  lg:gap-4  lg:flex-row">
+          <div className="flex flex-col  lg:flex-row  lg:gap-4">
             <div className="flex flex-row gap-2">
               <Image
                 src={'/social/linkedin-logo.svg'}
@@ -45,9 +48,16 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
-      <div className="mt-7 flex items-center justify-start md:justify-end max-w-[70rem] mx-auto">
+      <div className="mx-auto mt-7 flex max-w-[70rem] items-center justify-start md:justify-end">
         <p className="text-sm">©2024 Western Treasury.</p>
       </div>
+      <iframe
+        allow="microphone"
+        id="iframeai"
+        className=" iframeai"
+        src="https://proagents.io/embed?id=47b17f12-5982-4e2c-b47f-c264e681677e"
+        frameBorder="0"
+      ></iframe>
     </footer>
   );
 }
