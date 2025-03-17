@@ -118,19 +118,3 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
-@media (min-width: 1024px) {
-  .iframeai {
-    width: 24vw;
-    }
-  }
-  .iframeai {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 0;
-  border: none;
-  background-color: transparent;
-  }
