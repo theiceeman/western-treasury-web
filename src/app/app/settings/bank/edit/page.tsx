@@ -37,7 +37,7 @@ const Page = () => {
     initialValues: {
       accountName: '',
       accountNo: '',
-      bankName: ''
+      bankId: ''
     },
     onSubmit: values => {
       mutate({ ...values, accountNo: String(values?.accountNo) });
@@ -49,19 +49,32 @@ const Page = () => {
     query === ''
       ? supportedBanks?.data
       : supportedBanks?.data.filter((bank: any) => {
-          return bank.name.toLowerCase().includes(query.toLowerCase());
+          return bank.bank_name.toLowerCase().includes(query.toLowerCase());
         });
 
   useEffect(() => {
     if (userAcct !== undefined && userAcct?.data.length > 0) {
       formik.setFieldValue('accountName', userAcct?.data[0]?.account_name);
       formik.setFieldValue('accountNo', userAcct?.data[0]?.account_no);
-      formik.setFieldValue('bankName', userAcct?.data[0]?.bank_name);
+      formik.setFieldValue('bankId', userAcct?.data[0]?.bankId);
+    }
+
+    if (userAcct?.data?.length > 0 && supportedBanks?.data) {
+      // Find the bank in supportedBanks that matches the user's bank ID
+      const userBank = supportedBanks.data.find(
+        (bank: any) => bank.unique_id === userAcct?.data[0].bank_id
+      );
+
+      if (userBank) {
+        setSelectedBank(userBank);
+      }
     }
   }, [userAcct]);
 
   useEffect(() => {
-    formik.setFieldValue('bankName', selectedBank?.name);
+    if (selectedBank) {
+      formik.setFieldValue('bankId', selectedBank.unique_id);
+    }
   }, [selectedBank]);
 
   useEffect(() => {
@@ -81,18 +94,7 @@ const Page = () => {
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
               <div className="flex flex-col gap-1">
                 <p>Bank Name</p>
-                <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
-                  <input
-                    name="bankName"
-                    value={formik.values.bankName}
-                    onChange={(e: any) => {
-                      formik.handleChange(e);
-                    }}
-                    type="text"
-                    className="h-full w-full rounded-lg bg-white bg-opacity-30 py-2  text-sm text-slate-600 outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
-                  />
-                </div>
-                {/* <div className="relative">
+                <div className="relative">
                   <Combobox
                     value={selectedBank}
                     onChange={value => {
@@ -101,10 +103,12 @@ const Page = () => {
                   >
                     <div className="flex w-full flex-col gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
                       <Combobox.Input
-                        name="bankName"
+                        name="bankId"
                         className="h-full w-full rounded-lg bg-white bg-opacity-30 py-2  text-sm text-slate-600 outline-none outline-1 outline-offset-2 focus:border-none focus:outline-none"
-                        displayValue={(bank: any) => bank?.name}
-                        onChange={event => setQuery(event.target.value)}
+                        displayValue={(bank: any) => bank?.bank_name}
+                        onChange={event => {
+                          setQuery(event.target.value);
+                        }}
                       />
                       <Combobox.Options>
                         <div className="absolute z-10 ml-[-11px] mt-3 flex max-h-52 w-full flex-col justify-center gap-2 overflow-y-auto rounded-lg border bg-[#f6f6f8]  py-2 text-center">
@@ -113,7 +117,7 @@ const Page = () => {
                               <Combobox.Option key={key} value={e}>
                                 {({ active }) => (
                                   <div className="flex w-full cursor-pointer flex-row justify-between gap-2 px-4 py-1 hover:bg-white ">
-                                    <p className="whitespace-nowrap">{e.name}</p>
+                                    <p className="whitespace-nowrap">{e.bank_name}</p>
                                   </div>
                                 )}
                               </Combobox.Option>
@@ -122,7 +126,7 @@ const Page = () => {
                       </Combobox.Options>
                     </div>
                   </Combobox>
-                </div> */}
+                </div>
               </div>
               <div className="flex flex-col gap-1">
                 <p>Account Name</p>

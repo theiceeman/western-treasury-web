@@ -30,7 +30,7 @@ const BankSettings = () => {
               <div className="flex flex-col gap-1 text-sm">
                 <p className="font-bold capitalize">{userAcct?.data[0]?.account_name}</p>
                 <p className=" text-violet-500">{userAcct?.data[0]?.account_no}</p>
-                <p className="">{userAcct?.data[0]?.bank_name}</p>
+                <p className="">{userAcct?.data[0]?.bank?.bank_name}</p>
               </div>
             </div>
           ) : (
