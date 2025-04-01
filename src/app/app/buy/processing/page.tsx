@@ -17,10 +17,9 @@ declare global {
 }
 
 const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
-// const URL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api` ?? '';
-const socket: Socket = io(URL, { autoConnect: false });
+// Create the socket outside the component to avoid recreating it on renders
+let socket: Socket | null = null;
 const FW_PUBLIC_KEY = process.env.NEXT_PUBLIC_FLW_TESTNET_PUBLIC_KEY;
-// console.log({ FW_PUBLIC_KEY });
 
 const Page = () => {
   const router = useRouter();
@@ -33,10 +32,7 @@ const Page = () => {
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
   const [status, setStatus] = useState(null);
 
-  // console.log({ user });
-
   const handleDebitCardPayment = () => {
-    console.log({ window });
     if (typeof window !== 'undefined' && window.FlutterwaveCheckout) {
       window.FlutterwaveCheckout({
         public_key: FW_PUBLIC_KEY,
@@ -44,11 +40,8 @@ const Page = () => {
         amount: transaction?.sendAmount,
         currency: 'NGN',
         payment_options: 'card',
-        // payment_options: 'card, mobilemoneyghana, ussd',
         customer: {
           email: user?.email
-          // phonenumber: '080****4528',
-          // name: 'Yemi Desola'
         },
         callback: function (data: any) {
           console.log(data);
@@ -67,41 +60,60 @@ const Page = () => {
     }
   };
 
+  // Effect for handling bank data
   useEffect(() => {
     if (data) {
       setBank(JSON.parse(data?.data?.fiat_provider_result));
     }
   }, [data]);
 
+  // Effect for socket connection and Flutterwave setup
   useEffect(() => {
-    socket.connect();
-
-    if (transaction && transaction?.transactionId) {
-      socket.emit('register_connection', { txnId: transaction?.transactionId });
-
-      socket.on('transaction_status', (data: any) => {
+    // Only initialize socket once
+    if (!socket) {
+      socket = io(URL, { autoConnect: false });
+    }
+    
+    // Only connect if we have a transaction
+    if (transaction?.transactionId) {
+      socket.connect();
+      socket.emit('register_connection', { txnId: transaction.transactionId });
+      console.log('registered co')
+      
+      // Set up event listener
+      const handleStatusUpdate = (data: any) => {
         console.log({ data });
         setStatus(data?.status);
-      });
-
+      };
+      
+      socket.on('transaction_status', handleStatusUpdate);
+      
+      // Handle debit card payment if needed
       if (transaction.paymentType === 'DEBIT_CARD') {
         handleDebitCardPayment();
       }
+      
+      // Cleanup function
+      return () => {
+        if (socket) {
+          socket.off('transaction_status', handleStatusUpdate);
+          socket.emit('close_connection', transaction.transactionId);
+          socket.disconnect();
+        }
+      };
     }
-    return () => {
-      socket.emit('close_connection');
-      socket.disconnect();
-    };
-  }, []);
+  }, [transaction?.transactionId, transaction?.paymentType, user?.email]);
 
+  // Initial data loading
   useEffect(() => {
     dispatch(getGlobalConfig());
-    if (transaction && transaction?.transactionId) {
-      mutate(transaction?.transactionId);
+    if (transaction?.transactionId) {
+      mutate(transaction.transactionId);
     } else {
       router.push('/app/overview');
     }
-  }, []);
+  }, [dispatch, mutate, router, transaction?.transactionId]);
+
   return (
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
