@@ -73,26 +73,25 @@ const Page = () => {
     if (!socket) {
       socket = io(URL, { autoConnect: false });
     }
-    
+
     // Only connect if we have a transaction
     if (transaction?.transactionId) {
       socket.connect();
-      socket.emit('register_connection', { txnId: transaction.transactionId });
-      console.log('registered co')
-      
+      socket.emit('register_connection', transaction.transactionId);
+
       // Set up event listener
       const handleStatusUpdate = (data: any) => {
         console.log({ data });
         setStatus(data?.status);
       };
-      
+
       socket.on('transaction_status', handleStatusUpdate);
-      
+
       // Handle debit card payment if needed
       if (transaction.paymentType === 'DEBIT_CARD') {
         handleDebitCardPayment();
       }
-      
+
       // Cleanup function
       return () => {
         if (socket) {
