@@ -81,7 +81,7 @@ const Page = () => {
 
       // Set up event listener
       const handleStatusUpdate = (data: any) => {
-        console.log({ data });
+        // console.log({ data });
         setStatus(data?.status);
       };
 

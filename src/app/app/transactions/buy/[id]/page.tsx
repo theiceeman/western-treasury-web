@@ -25,12 +25,11 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     socket.connect();
-    socket.emit('register_connection', { txnId: id });
+    socket.emit('register_connection', id);
 
-    console.log('Successfully connected to the socket.');
 
     socket.on('transaction_status', (data: any) => {
-      console.log('status', data);
+      // console.log('status', data);
       setStatus(data?.status);
     });
 

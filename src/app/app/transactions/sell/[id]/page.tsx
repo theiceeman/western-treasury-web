@@ -14,7 +14,7 @@ import { Socket, io } from 'socket.io-client';
 // import { socket } from '@/src/lib/socket';
 
 
-const URL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api` ?? '';
+const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -29,7 +29,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     socket.connect();
 
-    socket.emit('register_connection', { txnId: id });
+    socket.emit('register_connection', id);
 
     socket.on('transaction_status', (data: any) => {
       // console.log({ data });

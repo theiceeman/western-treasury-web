@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import TransactionStatus from '../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
 
-
 const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
 
@@ -45,12 +44,11 @@ const Page = () => {
     setDetails(result?.data[0]);
   };
 
-
   useEffect(() => {
     socket.connect();
 
     if (transaction && transaction?.transactionId) {
-      socket.emit('register_connection', { txnId: transaction?.transactionId });
+      socket.emit('register_connection', transaction?.transactionId);
 
       socket.on('transaction_status', (data: any) => {
         setStatus(data?.status);
@@ -89,7 +87,10 @@ const Page = () => {
               <p className="text-sm font-semibold text-slate-500">Amount</p>
             </div>
             <div className="mt-5 flex flex-col justify-start gap-4 rounded-lg p-5 text-left text-sm">
-              <TransactionStatus status={status ?? 'TRANSACTION_CREATED'} txnType={data?.data?.type} />
+              <TransactionStatus
+                status={status ?? 'TRANSACTION_CREATED'}
+                txnType={data?.data?.type}
+              />
 
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
                 <div className="flex w-full flex-row justify-between gap-2">
@@ -141,8 +142,7 @@ const Page = () => {
                 <p className="text-center">
                   Need help or have questions? <br />{' '}
                   <span className="text-blue-500">
-                    <a href="https://wa.me/2348183175686">
-                      Contact us</a>
+                    <a href="https://wa.me/2348183175686">Contact us</a>
                   </span>
                   &nbsp;or&nbsp;
                   <span className="text-blue-500">
