@@ -69,7 +69,7 @@ const Page = () => {
             <div className="flex flex-col gap-2">
               <h2 className="text-xl font-black">Review your Transaction.</h2>
               <p className="text-sm">
-                You send {transaction.sendAmount} {transaction.sendCurrency?.symbol}& receive{' '}
+                You send {transaction.sendAmount} {transaction.sendCurrency?.symbol} &nbsp;& receive{' '}
                 {toIntNumberFormat(transaction.recieveAmount)}{' '}
                 {transaction.recieveCurrency?.symbol}
               </p>
