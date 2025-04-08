@@ -102,7 +102,7 @@ export default function PaymentMethodModal({
                   select a payment method
                 </Dialog.Title>
                 <div className="my-7 flex w-full flex-col">
-                  <div
+                  {/* <div
                     onClick={() => {
                       formik.setFieldValue('paymentType', 'DEBIT_CARD');
                       formik.handleSubmit();
@@ -113,7 +113,7 @@ export default function PaymentMethodModal({
                       <CreditCardIcon />
                     </div>
                     <p className="my-auto text-sm">Debit Card</p>
-                  </div>
+                  </div> */}
                   <div
                     onClick={() => {
                       formik.setFieldValue('paymentType', 'BANK_TRANSFER');
