@@ -123,9 +123,9 @@ const Page = () => {
                   </p>
                 </div>
                 <div className="flex w-full justify-between">
-                  <p>Amount to recieve</p>
+                  <p>Amount to receive</p>
                   <p className="text-right">
-                    {toIntNumberFormat(transaction.recieveAmount)}
+                    {toIntNumberFormat(transaction.recieveAmount)}&nbsp;
                     {transaction.recieveCurrency?.symbol}
                   </p>
                 </div>

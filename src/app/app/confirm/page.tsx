@@ -69,7 +69,7 @@ const Page = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-1">
-                <p>Amount you recieve</p>
+                <p>Amount you receive</p>
                 <div className="flex w-full flex-row gap-3 rounded-lg  border  bg-white px-[10px] py-[6px] ">
                   <input
                     type="text"
