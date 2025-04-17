@@ -40,7 +40,7 @@ const Page = () => {
       recieverCurrencyId: ''
     },
     onSubmit: values => {
-      console.log({values});return;
+      // console.log({values});return;
       mutateSell({ ...values });
     }
   });
