@@ -13,10 +13,9 @@ const Testimonials = () => {
               Making a difference together
             </p>
             <p className="w-full">
-              Using WT was very easy; I usually send crypto to my partner. <br /> He has a web3
-              charity so sending crypto was very easy using Western Treasury.
+            “I love how quick and transparent Western Treasury is. I accept crypto from my clients all the time now.”
             </p>
-            <p className="text-3xl font-semibold text-[#8B8989]">Kai and Ling</p>
+            <p className="text-3xl font-semibold text-[#8B8989]">- Anita, Lagos</p>
             <div className="flex flex-row justify-center gap-7 md:justify-start">
               <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#DFE0E0]">
                 <Image
