@@ -5,6 +5,7 @@ import { mulish } from './fonts';
 import Providers from '../lib/query-provider';
 import { Toaster } from 'react-hot-toast';
 import StoreProvider from '../lib/store-provider';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: 'Western Treasury',
@@ -20,9 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/wt-favicon.svg" sizes="any" />
-        <script src="https://checkout.flutterwave.com/v3.js"></script>
+        {/* <script src="https://checkout.flutterwave.com/v3.js"></script> */}
       </head>
       <body className={`min-h-screen bg-background antialiased ${mulish.className}`}>
+        <Analytics />
         <StoreProvider>
           <Providers>
             <Toaster position="top-right" />
