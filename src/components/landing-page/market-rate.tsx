@@ -11,7 +11,6 @@ async function fetchPrice(symbol: string) {
     }
   );
   const data = await response.json();
-  console.log({ data });
   return data.USD;
 }
 
@@ -28,7 +27,6 @@ export async function MarketRate() {
   const solPrice = await fetchPrice('SOL');
   const ethPrice = await fetchPrice('ETH');
   const btcPrice = await fetchPrice('BTC');
-  console.log({solPrice,ethPrice,btcPrice})
 
   const todayDate = getCurrentTimeFormatted();
 

@@ -93,7 +93,7 @@ const Page = () => {
                 Western Treasury is registered with the Corporate Affairs Commission as a
                   subsidiary of Imperionix Technologies, <br /> RC Number: 7712869
                 </p>
-                <p>Western Treasury. All rights reserved © 2024</p>
+                <p>Western Treasury. All rights reserved © {new Date().getFullYear()}</p>
               </div>
             </div>
           </div>
