@@ -94,15 +94,15 @@ const SideBar = () => {
           </Link>
         </div>
         <div className="flex w-full justify-start">
-          <div className="ml-2 mr-7 flex flex-col justify-center gap-4 rounded-md bg-[#5860A4] px-3 py-3 text-center text-white">
+          <div className="ml-2 mr-7 flex flex-col my-auto justify-center gap-4 rounded-md bg-[#5860A4] px-3 py-3 text-center text-white">
             <div className="flex w-full justify-end">
-              <Image
+              {/* <Image
                 src={'/icons/close-icon.svg'}
                 alt="logo"
                 width={10}
                 height={10}
                 priority
-              />
+              /> */}
             </div>
             <p className="text-lg font-bold">Having troubles?</p>
             <p className="text-sm">
