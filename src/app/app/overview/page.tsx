@@ -159,25 +159,28 @@ const Page = () => {
               table={{
                 isLoading: isLoadingTransactions,
                 header: ['Txn ID', 'Type', 'status', 'amount ($)', 'date'],
-                column: transactions?.data?.map((item: any, key: any) => [
-                  <div className={'font-medium'}>{item.unique_id}</div>,
-                  <div className={'font-medium'}>
-                    {item.type === 'CRYPTO_OFFRAMP' ? 'Sell' : 'Buy'}
-                  </div>,
-                  <div className={'font-medium'}>
-                    <StatusIndicator
-                      type={
-                        item.status === ('TRANSACTION_CREATED' || 'TRANSFER_CONFIRMED')
-                          ? 'PROCESSING'
-                          : item.status
-                      }
-                    />
-                  </div>,
-                  <div className={'font-medium'}>
-                    {_toIntNumberFormat(Number(item.amount_in_usd), 2)}
-                  </div>,
-                  <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
-                ])
+                column: transactions?.data
+                  ?.sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+                  .slice(0, 5)
+                  .map((item: any, key: any) => [
+                    <div className={'font-medium'}>{item.unique_id}</div>,
+                    <div className={'font-medium'}>
+                      {item.type === 'CRYPTO_OFFRAMP' ? 'Sell' : 'Buy'}
+                    </div>,
+                    <div className={'font-medium'}>
+                      <StatusIndicator
+                        type={
+                          item.status === 'TRANSACTION_CREATED' || item.status === 'TRANSFER_CONFIRMED'
+                            ? 'PROCESSING'
+                            : item.status
+                        }
+                      />
+                    </div>,
+                    <div className={'font-medium'}>
+                      {_toIntNumberFormat(Number(item.amount_in_usd), 2)}
+                    </div>,
+                    <div className={'font-medium'}>{formatDateTime(item.created_at)}</div>
+                  ])
               }}
             />
           </div>
