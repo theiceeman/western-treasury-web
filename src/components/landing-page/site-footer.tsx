@@ -46,7 +46,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="mt-7 flex items-center justify-start md:justify-end max-w-[70rem] mx-auto">
-        <p className="text-sm">©2024 Western Treasury.</p>
+        <p className="text-sm">©{new Date().getFullYear()} Western Treasury.</p>
       </div>
     </footer>
   );
