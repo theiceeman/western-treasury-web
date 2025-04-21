@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { _toIntNumberFormat, toIntNumberFormat } from '@/src/utils/helper';
 import { Socket, io } from 'socket.io-client';
 import TransactionStatus from '../../../components/TransactionStatus';
+import { showToast } from '@/src/utils/toaster';
 
 const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
 // const URL = `${process.env.NEXT_PUBLIC_OFFRAMP_CLIENT}/node-api` ?? '';
@@ -26,7 +27,6 @@ const Page = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     socket.connect();
     socket.emit('register_connection', id);
-
 
     socket.on('transaction_status', (data: any) => {
       // console.log('status', data);
@@ -54,6 +54,19 @@ const Page = ({ params }: { params: { id: string } }) => {
       router.push('/app/overview');
     }
   }, []);
+
+  const handleCopy = () => {
+    if (bank?.defaultAccountNo) {
+      navigator.clipboard
+        .writeText(bank?.defaultAccountNo)
+        .then(() => {
+          showToast('Account number copied', 'success');
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    }
+  };
   return (
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
@@ -83,14 +96,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                     <div className="w-[120px] whitespace-normal break-words md:w-[200px]">
                       {bank?.defaultAccountNo}
                     </div>
-                    <div className="flex">
-                      <img
-                        src={'/icons/copy-icon.svg'}
-                        className="cursor-pointer"
-                        alt="logo"
-                        width={13}
-                        height={13}
-                      />
+                    <div className="flex cursor-pointer" onClick={handleCopy}>
+                      <img src={'/icons/copy-icon.svg'} alt="logo" width={13} height={13} />
                     </div>
                   </div>
                 </div>

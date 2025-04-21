@@ -9,6 +9,7 @@ import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
 import TransactionStatus from '../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
+import { showToast } from '@/src/utils/toaster';
 
 declare global {
   interface Window {
@@ -113,6 +114,20 @@ const Page = () => {
     }
   }, [dispatch, mutate, router, transaction?.transactionId]);
 
+
+  const handleCopy = () => {
+    if (bank?.defaultAccountNo) {
+      navigator.clipboard
+        .writeText(bank?.defaultAccountNo)
+        .then(() => {
+          showToast('Account number copied', 'success');
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    }
+  };
+
   return (
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
@@ -141,14 +156,8 @@ const Page = () => {
                     <div className="w-[120px] whitespace-normal break-words md:w-[200px]">
                       {bank?.defaultAccountNo}
                     </div>
-                    <div className="flex">
-                      <img
-                        src={'/icons/copy-icon.svg'}
-                        className="cursor-pointer"
-                        alt="logo"
-                        width={13}
-                        height={13}
-                      />
+                    <div className="flex cursor-pointer" onClick={handleCopy}>
+                      <img src={'/icons/copy-icon.svg'} alt="logo" width={13} height={13} />
                     </div>
                   </div>
                 </div>

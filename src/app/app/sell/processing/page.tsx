@@ -13,6 +13,7 @@ import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
 import TransactionStatus from '../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
+import { showToast } from '@/src/utils/toaster';
 
 const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
@@ -71,6 +72,21 @@ const Page = () => {
       router.push('/app/overview');
     }
   }, []);
+
+
+  const handleCopy = () => {
+    if (data?.data?.wallet_address) {
+      navigator.clipboard
+        .writeText(data?.data?.wallet_address)
+        .then(() => {
+          showToast('Wallet address copied', 'success');
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    }
+  };
+
   return (
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
@@ -99,14 +115,8 @@ const Page = () => {
                     <div className="w-[120px] whitespace-normal break-words md:w-[200px]">
                       {data?.data?.wallet_address}
                     </div>
-                    <div className="flex">
-                      <img
-                        src={'/icons/copy-icon.svg'}
-                        className="cursor-pointer"
-                        alt="logo"
-                        width={13}
-                        height={13}
-                      />
+                    <div className="flex cursor-pointer" onClick={handleCopy}>
+                      <img src={'/icons/copy-icon.svg'} alt="logo" width={13} height={13} />
                     </div>
                   </div>
                 </div>
