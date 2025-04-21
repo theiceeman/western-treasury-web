@@ -4,10 +4,14 @@ import { Request } from '@/src/utils/https';
 
 async function fetchPrice(symbol: string) {
   const response = await fetch(
-    `https://min-api.cryptocompare.com/data/price?fsym=${symbol}&tsyms=USD&api_key=9f84f53a067dd8d02d95feb9fef27ba64208ef313e0c7367a8e7f2d49f5866e7`
+    `https://min-api.cryptocompare.com/data/price?fsym=${symbol}&tsyms=USD&api_key=9f84f53a067dd8d02d95feb9fef27ba64208ef313e0c7367a8e7f2d49f5866e7`,{
+
+      cache: 'no-store',
+      next: { revalidate: 0 }
+    }
   );
   const data = await response.json();
-  // console.log({ data });
+  console.log({ data });
   return data.USD;
 }
 
@@ -16,17 +20,15 @@ async function fetchRates() {
     `${process.env.NEXT_PUBLIC_OFFRAMP_SERVER}/app/user/global-configuration`
   );
   const data = await response.json();
-  // console.log({ data });
   return data;
 }
 
 export async function MarketRate() {
-  // const response = await Request.get('/app/user/global-configuration');
-  // console.log({ response });
   const systemRates = await fetchRates();
   const solPrice = await fetchPrice('SOL');
   const ethPrice = await fetchPrice('ETH');
   const btcPrice = await fetchPrice('BTC');
+  console.log({solPrice,ethPrice,btcPrice})
 
   const todayDate = getCurrentTimeFormatted();
 
