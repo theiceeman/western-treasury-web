@@ -7,7 +7,7 @@ async function fetchPrice(symbol: string) {
     `https://min-api.cryptocompare.com/data/price?fsym=${symbol}&tsyms=USD&api_key=9f84f53a067dd8d02d95feb9fef27ba64208ef313e0c7367a8e7f2d49f5866e7`,{
 
       cache: 'no-store',
-      next: { revalidate: 0 }
+      // next: { revalidate: 0 }
     }
   );
   const data = await response.json();
