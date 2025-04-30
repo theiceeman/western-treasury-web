@@ -4,15 +4,11 @@ import { viewSingleTransaction } from '@/src/requests/transaction/transaction.re
 import { useAppDispatch, useAppSelector } from '@/src/stores/hooks';
 import { toIntNumberFormat } from '@/src/utils/helper';
 import { useEffect, useState } from 'react';
-import Processing from '../../../components/alerts/Processing';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/navigation';
-import Success from '../../../components/alerts/Success';
-import Failed from '../../../components/alerts/Failed';
 import TransactionStatus from '../../../components/TransactionStatus';
 import { Socket, io } from 'socket.io-client';
 import { showToast } from '@/src/utils/toaster';
-// import { socket } from '@/src/lib/socket';
 
 const URL = process.env.NEXT_PUBLIC_OFFRAMP_SERVER ?? '';
 const socket: Socket = io(URL, { autoConnect: false });
@@ -22,6 +18,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const config = useAppSelector(state => state.globalConfig);
+  const [tokenStandard, setTokenStandard] = useState<any>(null);
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
   const [status, setStatus] = useState(null);
@@ -50,8 +47,13 @@ const Page = ({ params }: { params: { id: string } }) => {
     dispatch(getGlobalConfig());
     if (id) {
       mutate(id);
+      // console.log({config})
     } else {
       router.push('/app/overview');
+    }
+
+    if (config){
+      setTokenStandard(config?.TOKEN_STANDARD)
     }
   }, []);
 
@@ -103,7 +105,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </div>
                 <div className="flex w-full justify-between capitalize">
                   <p>Network</p>
-                  <p> {data?.data?.sendingCurrency?.network} (Bep 20)</p>
+                  {data?.data?.sendingCurrency?.network && <p> {data?.data?.sendingCurrency?.network} ({tokenStandard[data?.data?.sendingCurrency?.network].toLowerCase()})</p>}
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
@@ -136,10 +138,10 @@ const Page = ({ params }: { params: { id: string } }) => {
                   <span className="text-blue-500">
                     <a href="https://wa.me/2348183175686">Contact us</a>
                   </span>
-                  &nbsp;or&nbsp;
+                  {/* &nbsp;or&nbsp;
                   <span className="text-blue-500">
                     <a href="">view FAQs</a>
-                  </span>
+                  </span> */}
                 </p>
               </div>
             </div>

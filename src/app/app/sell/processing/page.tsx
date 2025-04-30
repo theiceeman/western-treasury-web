@@ -24,6 +24,7 @@ const Page = () => {
   const config = useAppSelector(state => state.globalConfig);
   const transaction = useAppSelector(state => state.transaction);
   const [details, setDetails] = useState<any>(null);
+  const [tokenStandard, setTokenStandard] = useState<any>(null);
 
   const { data, mutate, isLoading } = useMutation(viewSingleTransaction);
   const [status, setStatus] = useState(null);
@@ -71,8 +72,10 @@ const Page = () => {
     } else {
       router.push('/app/overview');
     }
+    if (config) {
+      setTokenStandard(config?.TOKEN_STANDARD);
+    }
   }, []);
-
 
   const handleCopy = () => {
     if (data?.data?.wallet_address) {
@@ -120,9 +123,16 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex w-full justify-between">
+                <div className="flex w-full justify-between capitalize">
                   <p>Network</p>
-                  <p> {transaction.sendCurrency?.network} (Bep 20)</p>
+                  {transaction?.sendCurrency?.network && tokenStandard && (
+                    <p>
+                      {transaction?.sendCurrency?.network}
+                      {data?.data?.sendingCurrency?.network &&
+                        tokenStandard[data?.data?.sendingCurrency?.network] &&
+                        ` (${tokenStandard[data?.data?.sendingCurrency?.network].toString().toLowerCase()})`}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">

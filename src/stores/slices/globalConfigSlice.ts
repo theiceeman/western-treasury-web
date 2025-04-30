@@ -5,12 +5,14 @@ interface GlobalConfigState {
     USD_NGN_MARKET_RATE: number;
     USD_NGN_BUY_RATE: number;
     USD_NGN_SELL_RATE: number;
+    TOKEN_STANDARD: any
 }
 
 const initialState: GlobalConfigState = {
     USD_NGN_MARKET_RATE: 0,
     USD_NGN_BUY_RATE: 0,
     USD_NGN_SELL_RATE: 0,
+    TOKEN_STANDARD: {}
 };
 
 export const globalConfigSlice = createSlice({
