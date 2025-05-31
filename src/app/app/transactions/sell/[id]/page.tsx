@@ -76,7 +76,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   };
 
-  console.log('tokenStandard',tokenStandard);return;
+  // console.log('tokenStandard',tokenStandard);return;
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
