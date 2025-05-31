@@ -117,7 +117,7 @@ const Page = () => {
                 </div>
                 <div className="flex w-full justify-between">
                   <p>Your Bank</p>
-                  <p className="text-right"> {userAcct?.data[0]?.bank_name}</p>
+                  <p className="text-right"> {userAcct?.data[0]?.bank.bank_name}</p>
                 </div>
                 <div className="flex w-full justify-between gap-7">
                   <p>Your Acct. No.</p>
