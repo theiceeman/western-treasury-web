@@ -58,6 +58,17 @@ const Page = () => {
       router.push('/app/sell');
     }
   }, []);
+
+  if (isLoadingUserAcct) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader">
+          Loading...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
