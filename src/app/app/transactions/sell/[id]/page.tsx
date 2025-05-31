@@ -47,15 +47,20 @@ const Page = ({ params }: { params: { id: string } }) => {
     dispatch(getGlobalConfig());
     if (id) {
       mutate(id);
-      // console.log({config})
     } else {
       router.push('/app/overview');
     }
 
-    if (config){
+    if (config?.TOKEN_STANDARD){
       setTokenStandard(config?.TOKEN_STANDARD)
     }
   }, []);
+
+  useEffect(() => {
+    if (config?.TOKEN_STANDARD){
+      setTokenStandard(config?.TOKEN_STANDARD)
+    }
+  }, [config]);
 
   const handleCopy = () => {
     if (data?.data?.wallet_address) {
@@ -68,11 +73,25 @@ const Page = ({ params }: { params: { id: string } }) => {
           console.error('Failed to copy: ', err);
         });
     }
+
   };
+
+  // console.log('tokenStandard',tokenStandard);return;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader">
+          Fetching available data...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
+
+
+ <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
         <div className="flex flex-col gap-5 rounded-sm bg-white px-0 py-5 md:px-5">
           <div className="hidden pl-1 text-sm font-semibold uppercase text-black lg:flex">
             {' '}
@@ -105,7 +124,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </div>
                 <div className="flex w-full justify-between capitalize">
                   <p>Network</p>
-                  {data?.data?.sendingCurrency?.network && <p> {data?.data?.sendingCurrency?.network} ({tokenStandard[data?.data?.sendingCurrency?.network].toLowerCase()})</p>}
+                  {data?.data?.sendingCurrency?.network && tokenStandard && <p> {data?.data?.sendingCurrency?.network} ({tokenStandard[data?.data?.sendingCurrency?.network].toLowerCase()})</p>}
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
@@ -148,6 +167,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
       </div>
+     
     </>
   );
 };
