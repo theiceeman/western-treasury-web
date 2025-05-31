@@ -51,8 +51,8 @@ const Page = ({ params }: { params: { id: string } }) => {
       router.push('/app/overview');
     }
 
-    if (config){
-      // console.log(config?.TOKEN_STANDARD)
+    if (config?.TOKEN_STANDARD){
+      console.log(config)
       setTokenStandard(config?.TOKEN_STANDARD)
     }
   }, []);
@@ -70,8 +70,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
 
   };
-
-  // console.log('xxx',tokenStandard[data?.data?.sendingCurrency?.network]);return;
 
   return (
     <>
@@ -110,7 +108,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </div>
                 <div className="flex w-full justify-between capitalize">
                   <p>Network</p>
-                  {data?.data?.sendingCurrency?.network && <p> {data?.data?.sendingCurrency?.network} ({tokenStandard[data?.data?.sendingCurrency?.network].toLowerCase()})</p>}
+                  {data?.data?.sendingCurrency?.network && tokenStandard && <p> {data?.data?.sendingCurrency?.network} ({tokenStandard[data?.data?.sendingCurrency?.network].toLowerCase()})</p>}
                 </div>
               </div>
               <div className="flex w-full flex-col gap-4 rounded-lg bg-[#f6f6f8] px-5 py-5 text-sm text-slate-500">
