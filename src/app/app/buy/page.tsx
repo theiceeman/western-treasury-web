@@ -152,7 +152,15 @@ const Page = () => {
     }
   }, []);
 
-  // console.log(recievingCurrency);
+  if (isLoadingCurrencies) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader">
+          Loading...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
