@@ -47,12 +47,12 @@ const Page = ({ params }: { params: { id: string } }) => {
     dispatch(getGlobalConfig());
     if (id) {
       mutate(id);
-      // console.log({config})
     } else {
       router.push('/app/overview');
     }
 
     if (config){
+      // console.log(config?.TOKEN_STANDARD)
       setTokenStandard(config?.TOKEN_STANDARD)
     }
   }, []);
@@ -68,11 +68,16 @@ const Page = ({ params }: { params: { id: string } }) => {
           console.error('Failed to copy: ', err);
         });
     }
+
   };
+
+  // console.log('xxx',tokenStandard[data?.data?.sendingCurrency?.network]);return;
 
   return (
     <>
-      <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
+
+
+ <div className="flex w-full flex-col  gap-10 px-5 pb-5 lg:w-[85%] ">
         <div className="flex flex-col gap-5 rounded-sm bg-white px-0 py-5 md:px-5">
           <div className="hidden pl-1 text-sm font-semibold uppercase text-black lg:flex">
             {' '}
@@ -148,6 +153,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
       </div>
+     
     </>
   );
 };
