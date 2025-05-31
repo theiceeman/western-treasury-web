@@ -52,10 +52,15 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
 
     if (config?.TOKEN_STANDARD){
-      console.log(config)
       setTokenStandard(config?.TOKEN_STANDARD)
     }
   }, []);
+
+  useEffect(() => {
+    if (config?.TOKEN_STANDARD){
+      setTokenStandard(config?.TOKEN_STANDARD)
+    }
+  }, [config]);
 
   const handleCopy = () => {
     if (data?.data?.wallet_address) {
@@ -70,6 +75,16 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
 
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader">
+          Fetching available data...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
